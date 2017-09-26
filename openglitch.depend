@@ -2,10 +2,13 @@
 1506348691 source:/home/destrovel/cppwork/openglitch/openglitch/main.cpp
 	"include/game.h"
 
-1506348778 /home/destrovel/cppwork/openglitch/openglitch/include/game.h
+1506387543 /home/destrovel/cppwork/openglitch/openglitch/include/game.h
 	"include.h"
 	"texture_manager.h"
 	"resource_manager.h"
+	"scene_node.h"
+	"entity.h"
+	"monster.h"
 
 1506322374 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
 	"/usr/local/./include/SFML/Window.hpp"
@@ -115,25 +118,26 @@
 	"include.h"
 	"scene_node.h"
 
-1506321660 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
+1506388118 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
 	"include.h"
 	"entity.h"
 	"resource_manager.h"
+	"texture_manager.h"
 
 1506348827 source:/home/destrovel/cppwork/openglitch/openglitch/src/entity.cpp
 	"../include/entity.h"
 
-1506348838 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
+1506390025 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
 	"../include/game.h"
 
-1506348851 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
+1506390271 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
 	"../include/monster.h"
 
 1506321660 source:/home/destrovel/cppwork/openglitch/openglitch/src/resource_manager.cpp
 
-1506348862 source:/home/destrovel/cppwork/openglitch/openglitch/src/scene_node.cpp
+1506385082 source:/home/destrovel/cppwork/openglitch/openglitch/src/scene_node.cpp
 	"../include/scene_node.h"
 
-1506348869 source:/home/destrovel/cppwork/openglitch/openglitch/src/texture_manager.cpp
+1506390064 source:/home/destrovel/cppwork/openglitch/openglitch/src/texture_manager.cpp
 	"../include/texture_manager.h"
 

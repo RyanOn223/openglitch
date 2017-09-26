@@ -5,6 +5,7 @@
 #include "resource_manager.h"
 #include "scene_node.h"
 #include "entity.h"
+#include "monster.h"
 class game
 {
 	public:
@@ -25,17 +26,14 @@ class game
 	private:
 		//the one and only window
 		sf::RenderWindow window;
-		//debug player
-		sf::CircleShape player;
 		//bool values used for input
 		bool move_up, move_down, move_left, move_right;
 		//our global resource managers
-		texture_manager textures;
+		texture_manager global_textures;
 		//resource THEN identifier
-		resource_manager<sf::Sound, sounds::ID> sounds;
-		resource_manager<sf::Font, fonts::ID> fonts;
-		resource_manager<sf::Image, images::ID> images;
-
+		resource_manager<sf::Sound, sounds::ID> global_sounds;
+		resource_manager<sf::Font, fonts::ID> global_fonts;
+		resource_manager<sf::Image, images::ID> global_images;
 		//fps text
 		sf::Text fps_text;
 		//global frame time

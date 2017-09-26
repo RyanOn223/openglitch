@@ -3,6 +3,7 @@
 #include "include.h"
 #include "entity.h"
 #include "resource_manager.h"
+#include "texture_manager.h"
 class monster : public entity
 {
 	public:
@@ -14,7 +15,7 @@ class monster : public entity
 	private:
 		typedef resource_manager<sf::Texture, textures::ID> texture_holder;
 	public:
-		explicit monster(type _type, const texture_holder& textures);
+		explicit monster(type _type, const texture_manager& textures);
 		virtual void draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const;
 	private:

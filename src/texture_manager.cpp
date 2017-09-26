@@ -4,7 +4,7 @@ void texture_manager::load(textures::ID id, const std::string& filename)
 	//create a unique pointer to hold the texture
 	std::unique_ptr<sf::Texture> gen_texture(new sf::Texture);
 	//load it and insert it into the texture map
-	gen_texture->loadFromFile(filename);
+	assert(gen_texture->loadFromFile(filename));
 	texture_map.insert(std::make_pair(id, std::move(gen_texture)));
 }
 sf::Texture& texture_manager::get(textures::ID id)

@@ -1,35 +1,34 @@
 #include "../include/game.h"
-game::game(sf::ContextSettings settings):window(sf::VideoMode(800, 600), "openglitch", sf::Style::Default, settings)
+game::game(sf::ContextSettings settings) :
+                window(sf::VideoMode(800, 600), "openglitch", sf::Style::Default, settings)
+
 {
 	//set some window preferences
 	window.setVerticalSyncEnabled(VSYNC);
 	if (LIMIT_FPS == true) window.setFramerateLimit(60);
-
-	//some debug player settings
-	player.setRadius(12.f);
-	player.setPosition(100.f, 100.f);
-	player.setFillColor(sf::Color::Cyan);
-
-	//debug calls
-	scene_node node();
-	sf::Vector2f v(0.f, 0.f);
-	entity entity(v);
-
 	//set the fps
 	time_per_frame = sf::seconds(1.f/FPS);
 	//load our one font
 	//ps this call wouldn't work without compiling sfml ourselves
-	fonts.load(fonts::pixel, "src/pixel.ttf");
-	//create and adjust our fps text
-	fps_text.setFont(fonts.get(fonts::pixel));
+	global_fonts.load(fonts::pixel, "src/pixel.ttf");
+	//
+	//
+    global_textures.load(textures::small_mutant, "src/gfx/player.png");
+	//adjust our fps text
+	fps_text.setFont(global_fonts.get(fonts::pixel));
 	fps_text.setPosition(0.f, 0.f);
 	fps_text.setColor(sf::Color::Yellow);
+
 	//initialize some values
 	move_down = false;
 	move_left = false;
 	move_right = false;
 	move_up = false;
 	turn_no = 0;
+
+	//debug player stuff
+    monster bill(monster::type::small_mutant, global_textures);
+
 	//print some console information
 	std::cout << "Successfully initialized game\n" << "FPS limited(soft): " <<
 		LIMIT_FPS << std::endl << "FPS limit: " << FPS << std::endl;
@@ -39,23 +38,25 @@ game::game(sf::ContextSettings settings):window(sf::VideoMode(800, 600), "opengl
 void game::run()
 {
 	sf::Clock tick_clock;
-	//sf::Time last_update = sf::Time::Zero;
+	sf::Time delta;
 	while (window.isOpen())
 	{
-		sf::Time delta = tick_clock.restart();
-		if (turn_no % 5 == 0)
-		{
-			fps_text.setString(std::to_string(1000000.f/delta.asMicroseconds()).substr(0, 5));
-		}
+        //main loop
+		delta = tick_clock.restart();
 		process_events();
 		update(delta);
 		render();
 
+        //debug
+        if (turn_no % 5 == 0)
+		{
+			fps_text.setString(std::to_string(1000000.f/delta.asMicroseconds()).substr(0, 5));
+		}
 		turn_no++;
 
 		/*
 		 * this is the other update method the book described but it
-		 * didnt work very well
+		 * didnt work very well. it may be worth revisiting though.
 		 *
 		process_events();
 		last_update += tick_clock.restart();
@@ -96,12 +97,12 @@ void game::update(sf::Time delta)
 	if (move_down) 	movement.y += max_linear_speed;
 	if (move_left) 	movement.x -= max_linear_speed;
 	if (move_right) movement.x += max_linear_speed;
-	player.move(movement * delta.asSeconds());
+	//the_player.move(movement * delta.asSeconds());
 }
 void game::render()
 {
 	window.clear();
-	window.draw(player);
+	//window.draw(the_player);
 	window.draw(fps_text);
 	window.display();
 }

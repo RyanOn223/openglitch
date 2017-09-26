@@ -4,6 +4,7 @@
 //not shown in the class interface
 textures::ID to_texture_ID(monster::type Type)
 {
+    //to do: abstract this to allow loading from a file
 	switch (Type)
 	{
 		case monster::small_mutant:
@@ -16,7 +17,7 @@ textures::ID to_texture_ID(monster::type Type)
 //to pass in to the constructor, while the second 'type' refers to the member variable
 //to initialize, in this case it get initialized to the same type as the
 //monster type passed into the constructor.
-monster::monster(monster::type mtype, const texture_holder& textures) :
+monster::monster(monster::type mtype, const texture_manager& textures) :
 				 monster_type(mtype), sprite(textures.get(to_texture_ID(monster_type)))
 {
 	//a note, we could have avoided that confusing initializer statement
