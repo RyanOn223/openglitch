@@ -1,0 +1,139 @@
+# depslib dependency file v1.0
+1506348691 source:/home/destrovel/cppwork/openglitch/openglitch/main.cpp
+	"include/game.h"
+
+1506348778 /home/destrovel/cppwork/openglitch/openglitch/include/game.h
+	"include.h"
+	"texture_manager.h"
+	"resource_manager.h"
+
+1506322374 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
+	"/usr/local/./include/SFML/Window.hpp"
+	"/usr/local/./include/SFML/Graphics.hpp"
+	"/usr/local/./include/SFML/System.hpp"
+	"/usr/local/./include/SFML/Audio.hpp"
+	<cassert>
+	<iostream>
+	<iomanip>
+	<string>
+	<memory>
+	"scene_node.h"
+	"texture_manager.h"
+	"resource_manager.h"
+	"entity.h"
+	"monster.h"
+
+1486553356 /usr/local/include/SFML/Window.hpp
+	<SFML/System.hpp>
+	<SFML/Window/Context.hpp>
+	<SFML/Window/ContextSettings.hpp>
+	<SFML/Window/Event.hpp>
+	<SFML/Window/Joystick.hpp>
+	<SFML/Window/Keyboard.hpp>
+	<SFML/Window/Mouse.hpp>
+	<SFML/Window/Sensor.hpp>
+	<SFML/Window/Touch.hpp>
+	<SFML/Window/VideoMode.hpp>
+	<SFML/Window/Window.hpp>
+	<SFML/Window/WindowHandle.hpp>
+	<SFML/Window/WindowStyle.hpp>
+
+1486553356 /usr/local/include/SFML/Graphics.hpp
+	<SFML/Window.hpp>
+	<SFML/Graphics/BlendMode.hpp>
+	<SFML/Graphics/CircleShape.hpp>
+	<SFML/Graphics/Color.hpp>
+	<SFML/Graphics/ConvexShape.hpp>
+	<SFML/Graphics/Drawable.hpp>
+	<SFML/Graphics/Font.hpp>
+	<SFML/Graphics/Glyph.hpp>
+	<SFML/Graphics/Image.hpp>
+	<SFML/Graphics/PrimitiveType.hpp>
+	<SFML/Graphics/Rect.hpp>
+	<SFML/Graphics/RectangleShape.hpp>
+	<SFML/Graphics/RenderStates.hpp>
+	<SFML/Graphics/RenderTarget.hpp>
+	<SFML/Graphics/RenderTexture.hpp>
+	<SFML/Graphics/RenderWindow.hpp>
+	<SFML/Graphics/Shader.hpp>
+	<SFML/Graphics/Shape.hpp>
+	<SFML/Graphics/Sprite.hpp>
+	<SFML/Graphics/Text.hpp>
+	<SFML/Graphics/Texture.hpp>
+	<SFML/Graphics/Transform.hpp>
+	<SFML/Graphics/Transformable.hpp>
+	<SFML/Graphics/Vertex.hpp>
+	<SFML/Graphics/VertexArray.hpp>
+	<SFML/Graphics/View.hpp>
+
+1486553356 /usr/local/include/SFML/System.hpp
+	<SFML/Config.hpp>
+	<SFML/System/Clock.hpp>
+	<SFML/System/Err.hpp>
+	<SFML/System/FileInputStream.hpp>
+	<SFML/System/InputStream.hpp>
+	<SFML/System/Lock.hpp>
+	<SFML/System/MemoryInputStream.hpp>
+	<SFML/System/Mutex.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<SFML/System/Sleep.hpp>
+	<SFML/System/String.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/ThreadLocal.hpp>
+	<SFML/System/ThreadLocalPtr.hpp>
+	<SFML/System/Time.hpp>
+	<SFML/System/Utf.hpp>
+	<SFML/System/Vector2.hpp>
+	<SFML/System/Vector3.hpp>
+
+1486553356 /usr/local/include/SFML/Audio.hpp
+	<SFML/System.hpp>
+	<SFML/Audio/InputSoundFile.hpp>
+	<SFML/Audio/Listener.hpp>
+	<SFML/Audio/Music.hpp>
+	<SFML/Audio/OutputSoundFile.hpp>
+	<SFML/Audio/Sound.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+	<SFML/Audio/SoundBufferRecorder.hpp>
+	<SFML/Audio/SoundFileFactory.hpp>
+	<SFML/Audio/SoundFileReader.hpp>
+	<SFML/Audio/SoundFileWriter.hpp>
+	<SFML/Audio/SoundRecorder.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/Audio/SoundStream.hpp>
+
+1506321659 /home/destrovel/cppwork/openglitch/openglitch/include/scene_node.h
+	"include.h"
+
+1506321659 /home/destrovel/cppwork/openglitch/openglitch/include/texture_manager.h
+	"include.h"
+
+1506321659 /home/destrovel/cppwork/openglitch/openglitch/include/resource_manager.h
+	"include.h"
+
+1506321660 /home/destrovel/cppwork/openglitch/openglitch/include/entity.h
+	"include.h"
+	"scene_node.h"
+
+1506321660 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
+	"include.h"
+	"entity.h"
+	"resource_manager.h"
+
+1506348827 source:/home/destrovel/cppwork/openglitch/openglitch/src/entity.cpp
+	"../include/entity.h"
+
+1506348838 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
+	"../include/game.h"
+
+1506348851 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
+	"../include/monster.h"
+
+1506321660 source:/home/destrovel/cppwork/openglitch/openglitch/src/resource_manager.cpp
+
+1506348862 source:/home/destrovel/cppwork/openglitch/openglitch/src/scene_node.cpp
+	"../include/scene_node.h"
+
+1506348869 source:/home/destrovel/cppwork/openglitch/openglitch/src/texture_manager.cpp
+	"../include/texture_manager.h"
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="openglitch" />
+		<Option pch_mode="2" />
+		<Option compiler="clang" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/openglitch" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="clang" />
+				<Compiler>
+					<Add option="-w" />
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="sfml-graphics" />
+					<Add library="sfml-window" />
+					<Add library="sfml-system" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Weverything" />
+		</Compiler>
+		<Unit filename="cb.bmp" />
+		<Unit filename="include/entity.h" />
+		<Unit filename="include/game.h" />
+		<Unit filename="include/include.h" />
+		<Unit filename="include/monster.h" />
+		<Unit filename="include/resource_manager.h" />
+		<Unit filename="include/scene_node.h" />
+		<Unit filename="include/texture_manager.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/entity.cpp" />
+		<Unit filename="src/game.cpp" />
+		<Unit filename="src/monster.cpp" />
+		<Unit filename="src/pixel.ttf" />
+		<Unit filename="src/resource_manager.cpp" />
+		<Unit filename="src/scene_node.cpp" />
+		<Unit filename="src/texture_manager.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
