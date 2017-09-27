@@ -11,6 +11,8 @@ textures::ID to_texture_ID(monster::type Type)
 			return textures::small_mutant;
 		case monster::large_mutant:
 			return textures::large_mutant;
+        case monster::player:
+            return textures::player;
 	}
 }
 //this is a little confusing. the first 'type' refers to the type of variable

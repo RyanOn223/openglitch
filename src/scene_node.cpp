@@ -11,8 +11,7 @@ void scene_node::attach_child(scn_ptr child)
 }
 scn_ptr scene_node::detach_child(const scene_node& node)
 {
-	//right here, right now, I understand this lambda function
-	//I'm sure that will change
+	//
 
 	auto found = std::find_if(	children.begin(), 		//check from beginning
 								children.end(),   		//to end of children
@@ -47,14 +46,47 @@ void scene_node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	//now draw the children
 	draw_children(target, states);
 
-	//note the recursion here
 
 }
 void scene_node::draw_children(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	//use a c++11 for_each statement just for funsies
 	for (const scn_ptr& child : children)
 	{
 		child->draw(target, states);
 	}
+}
+void scene_node::update(sf::Time delta)
+{
+    update_current(delta);
+    update_children(delta);
+}
+void scene_node::update_current(sf::Time delta)
+{
+
+}
+void scene_node::update_children(sf::Time delta)
+{
+    for (scn_ptr& child : children)
+    {
+        child->update(delta);
+    }
+}
+sf::Vector2f scene_node::get_abs_position() const
+{
+    //this will be used with other sfml functions, so it uses uppercase
+    return getWorldTransform() * sf::Vector2f();
+}
+sf::Transform scene_node::getWorldTransform() const
+{
+    //walk up from the parent to the root scene node applying transforms to get the global transform
+    sf::Transform t = sf::Transform::Identity;
+    for (const scene_node* node = this; node != nullptr; node = node->parent)
+    {
+        t = node->getTransform() * t;
+    }
+    return t;
+}
+void scene_node::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
+{
+
 }

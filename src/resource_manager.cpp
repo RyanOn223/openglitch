@@ -1,4 +1,4 @@
-//this file has been omitted and included into it's header for c++ template reasons
+//this file has been omitted and included into its header for c++ template reasons
 
 
 //#include "resource_manager.h"

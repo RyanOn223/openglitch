@@ -11,6 +11,7 @@ class monster : public entity
 	{
 		small_mutant,
 		large_mutant,
+		player,
 	};
 	private:
 		typedef resource_manager<sf::Texture, textures::ID> texture_holder;

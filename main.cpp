@@ -5,12 +5,18 @@ int main(int argc, char **argv)
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = AA_LEVEL;
 
-	game game_1(settings);
-	game_1.run();
-
+	try
+	{
+        game game_1(settings);
+        game_1.run();
+    }
+    catch (std::exception& ex)
+    {
+        std::cout << ex.what() << std::endl;
+    }
 	//keeps the console open after window is closed
-	char pause;
-	std::cin >> pause;
+	//char pause;
+	//std::cin >> pause;
 
 	return 0;
 }

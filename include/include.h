@@ -16,7 +16,7 @@
 
 namespace textures
 {
-	enum ID { player, small_mutant, large_mutant, background, wall };
+	enum ID { player, small_mutant, large_mutant, floor, wall };
 }
 namespace sounds
 {
@@ -37,22 +37,4 @@ const float FPS = 60.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = false;
 const short int AA_LEVEL = 8;
-
-
-/*
-#include "scene_node.h"
-#include "texture_manager.h"
-#include "resource_manager.h"
-#include "entity.h"
-#include "monster.h"*/
-
-
-//#include "game.h"
-
-
-
-
-
-
-
 #endif
