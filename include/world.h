@@ -9,6 +9,7 @@
 #include "monster.h"
 #include "sprite_node.h"
 #include "player.h"
+#include "command_queue.h"
 
 class world : public sf::NonCopyable
 {
@@ -17,6 +18,8 @@ class world : public sf::NonCopyable
         virtual ~world();
         void update(sf::Time delta);
         void draw();
+        command_queue& get_cmd_queue();
+        //player& get_player();
     private:
         void load_textures();
         void build_scene();
@@ -33,13 +36,14 @@ class world : public sf::NonCopyable
          sf::RenderWindow& wwindow;
          sf::View world_view;
          texture_manager textures;
-         scene_node* scene_graph;
+         scene_node scene_graph;
          std::array<scene_node*, layer_count> scene_layers;
          sf::FloatRect world_bounds;
          sf::Vector2f spawn_position;
-         float default_zoom;
-         player* the_player;
-         float player_speed;
+         //float default_zoom;
+         monster* the_player;
+         //float player_speed;
+         command_queue world_cmd_queue;
 };
 
 #endif // WORLD_H

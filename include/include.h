@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <string>
 #include <memory>
+#include <queue>
 
 //I'm not sure if I like this namespace::enum thing the book is using
 //but we're going to do it for practice
@@ -30,9 +31,18 @@ namespace images
 {
 	enum ID {};
 }
-
+namespace cmd_category
+{
+    enum ID
+    {
+        none =          0,
+        scene =         1 << 0,
+        the_player =    1 << 1,
+        enemies =       1 << 2
+    };
+}
 //define some critical game values. later, these should be loaded from a file in game() and main() respectively
-const float max_linear_speed = 300.f;
+//const float max_linear_speed = 300.f;
 const float FPS = 60.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = false;

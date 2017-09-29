@@ -1,6 +1,7 @@
 #ifndef SCENE_NODE_H
 #define SCENE_NODE_H
 #include "include.h"
+#include "command.h"
 //inherit classes for drawing and transforming from SFML, as well as
 //mark non-copyable
 class scene_node : public sf::Drawable, public sf::Transformable,
@@ -15,6 +16,10 @@ class scene_node : public sf::Drawable, public sf::Transformable,
 		scn_ptr detach_child(const scene_node& node);
 		void    update(sf::Time delta);
 		sf::Vector2f get_abs_position() const;
+		//keep this word virtual in mind
+		virtual unsigned int get_category() const;
+        void on_command(const command& cmd, sf::Time delta);
+        void print();
 	private:
 		std::vector<scn_ptr> children;
 		scene_node* parent;

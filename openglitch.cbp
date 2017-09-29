@@ -12,11 +12,20 @@
 				<Option type="1" />
 				<Option compiler="clang" />
 				<Compiler>
-					<Add option="-w" />
-					<Add option="-std=c++11" />
+					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-pedantic" />
+					<Add option="-Wno-c++98-compat -Wno-c++98-compat-pedantic" />
+					<Add option="-Wno-padded" />
+					<Add option="-Weverything" />
+					<Add option="-Wall" />
+					<Add option="-Wno-switch" />
+					<Add option="-std=c++14" />
+					<Add option="-m64" />
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
+					<Add option="-m64" />
 					<Add library="sfml-graphics" />
 					<Add library="sfml-window" />
 					<Add library="sfml-system" />
@@ -24,24 +33,41 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-fsanitize=address" />
+			<Add option="-fno-omit-frame-pointer" />
 			<Add option="-Weverything" />
+			<Add option="-std=c++11" />
+			<Add option="-m64" />
 		</Compiler>
+		<Linker>
+			<Add option="-fsanitize=address" />
+			<Add option="-m64" />
+		</Linker>
 		<Unit filename="cb.bmp" />
 		<Unit filename="include/entity.h" />
 		<Unit filename="include/game.h" />
 		<Unit filename="include/include.h" />
 		<Unit filename="include/monster.h" />
+		<Unit filename="include/player.h" />
 		<Unit filename="include/resource_manager.h" />
 		<Unit filename="include/scene_node.h" />
+		<Unit filename="include/sprite_node.h" />
 		<Unit filename="include/texture_manager.h" />
+		<Unit filename="include/world.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="notes" />
 		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/game.cpp" />
+		<Unit filename="src/gfx/floor.png" />
+		<Unit filename="src/gfx/player.png" />
 		<Unit filename="src/monster.cpp" />
 		<Unit filename="src/pixel.ttf" />
+		<Unit filename="src/player.cpp" />
 		<Unit filename="src/resource_manager.cpp" />
 		<Unit filename="src/scene_node.cpp" />
+		<Unit filename="src/sprite_node.cpp" />
 		<Unit filename="src/texture_manager.cpp" />
+		<Unit filename="src/world.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

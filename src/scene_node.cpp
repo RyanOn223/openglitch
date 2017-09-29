@@ -40,6 +40,7 @@ void scene_node::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	//this applies the absolute transform of the parent to the relative
 	//transform on this node, resulting in "states" being the absolute transform of this node.
 	//note that getTransform() is provided by sf::Transformable
+
 	states.transform *= getTransform();
 	//now draw this node with the now-modified states
 	draw_current(target, states);
@@ -52,11 +53,13 @@ void scene_node::draw_children(sf::RenderTarget& target, sf::RenderStates states
 {
 	for (const scn_ptr& child : children)
 	{
+        //if (this->get_category() == cmd_category::the_player) std::cout << "drawing player\n";
 		child->draw(target, states);
 	}
 }
 void scene_node::update(sf::Time delta)
 {
+    //std::cout << "updating node with category: " << get_category() << std::endl;
     update_current(delta);
     update_children(delta);
 }
@@ -68,6 +71,7 @@ void scene_node::update_children(sf::Time delta)
 {
     for (scn_ptr& child : children)
     {
+        if (this->get_category() == cmd_category::the_player) std::cout << "updating player\n";
         child->update(delta);
     }
 }
@@ -89,4 +93,34 @@ sf::Transform scene_node::getWorldTransform() const
 void scene_node::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {
 
+}
+unsigned int scene_node::get_category() const
+{
+    return cmd_category::scene;
+}
+void scene_node::on_command(const command& cmd, sf::Time delta)
+{
+    std::cout << "on_command called with category: " << cmd.ccategory << " and this category: " << get_category() << std::endl;
+    //check and perform this action upon this node
+    if (cmd.ccategory & get_category())
+    {
+        cmd.action(*this, delta);
+        std::cout << "pushed command to category " << get_category() << std::endl;
+    }
+    //forward command to children
+    for (scn_ptr& child : children)
+    {
+        std::cout << "calling on_command on child with category: " << child->get_category() << std::endl;
+        child->on_command(cmd, delta);
+    }
+}
+void scene_node::print()
+{
+    std::cout << "this node: " << get_category() << "\n";
+    for (scn_ptr& child : children)
+    {
+        std::cout << "child node: " << child->get_category() << "\n";
+        child->print();
+    }
+    std::cout << "\n\n";
 }
