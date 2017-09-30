@@ -1,12 +1,13 @@
 #include "../include/game.h"
 game::game(sf::ContextSettings settings) :
-                gwindow(sf::VideoMode(800, 600), "openglitch", sf::Style::Default, settings),
+                gwindow(sf::VideoMode(1024, 768), "openglitch", sf::Style::Default  , settings),
                 game_world(gwindow),
                 the_player()
 {
     ispaused = false;
     tick_clock.restart();
     dbg_clock.restart();
+    //global_clock.restart();
 	//set some window preferences
 	gwindow.setVerticalSyncEnabled(VSYNC);
 	if (LIMIT_FPS == true) gwindow.setFramerateLimit(static_cast<unsigned int>(FPS));
@@ -31,14 +32,18 @@ game::game(sf::ContextSettings settings) :
 }
 void game::run()
 {
+   //sf::Time t = sf::Time::Zero;
 	sf::Time delta;
+	//sf::Time current_time = global_clock.getElapsedTime();
+	//float accumulator = 0.f;
 	while (gwindow.isOpen())
 	{
+
         //main loop
 		delta = tick_clock.restart();
 
 		//once every half second, and only if it's value makes sense, update FPS text
-		if (turn_no % static_cast<int>(FPS)/2 == 0 && static_cast<int>(delta.asMilliseconds()) > 6)
+		if (turn_no % static_cast<int>(FPS)/2 == 0)
             fps_text->setString(std::to_string(1000000.f/delta.asMicroseconds()).substr(0, 5));
 		sf::Vector2f pos;
 		if (!ispaused) update(delta);
@@ -50,14 +55,16 @@ void game::run()
 		 * this is the other update method the book described but it
 		 * didnt work very well. it may be worth revisiting though.
 		 *
-		process_events();
-		last_update += tick_clock.restart();
-		while (last_update > time_per_frame)
+        sf::Time new_time = global_clock.getElapsedTime();
+		sf::Time frame_time = new_time - current_time;
+		current_time = new_time;
+		accumulator += frame_time.asMilliseconds();
+		while (accumulator >= 1.f/FPS)
 		{
-			printf("%f\n", 1000.f/last_update.asMilliseconds());
-			last_update -= time_per_frame;
+			update(sf::microseconds(1666));
 			process_events();
-			update(time_per_frame);
+			accumulator -= 1.f/FPS;
+
 		}
 		render();*/
 	}
@@ -78,7 +85,7 @@ void game::process_events()
             ispaused = true;
         if (event.type == sf::Event::MouseWheelScrolled)
         {
-            //std::cout << "scrolled, delta: " << event.mouseWheelScroll.delta << std::endl;
+            //scroll in or out
             if (event.mouseWheelScroll.delta > 0.f) game_world.set_zoom(.9f);
             else game_world.set_zoom(1.1f);
         }

@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="clang" />
 				<Compiler>
+					<Add option="-fsanitize=address" />
 					<Add option="-Wnon-virtual-dtor" />
 					<Add option="-pedantic" />
 					<Add option="-Wno-c++98-compat -Wno-c++98-compat-pedantic" />
@@ -25,6 +26,7 @@
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
+					<Add option="-fsanitize=address" />
 					<Add option="-m64" />
 					<Add library="sfml-graphics" />
 					<Add library="sfml-window" />
@@ -44,6 +46,9 @@
 			<Add option="-m64" />
 		</Linker>
 		<Unit filename="cb.bmp" />
+		<Unit filename="include/command.h" />
+		<Unit filename="include/command_queue.h" />
+		<Unit filename="include/cursor.h" />
 		<Unit filename="include/entity.h" />
 		<Unit filename="include/game.h" />
 		<Unit filename="include/include.h" />
@@ -56,8 +61,12 @@
 		<Unit filename="include/world.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="notes" />
+		<Unit filename="src/command.cpp" />
+		<Unit filename="src/command_queue.cpp" />
+		<Unit filename="src/cursor.cpp" />
 		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/game.cpp" />
+		<Unit filename="src/gfx/cursor.png" />
 		<Unit filename="src/gfx/floor.png" />
 		<Unit filename="src/gfx/player.png" />
 		<Unit filename="src/monster.cpp" />

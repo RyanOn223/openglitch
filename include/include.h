@@ -46,10 +46,10 @@ namespace cmd_category
 const float FPS = 60.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = false;
-const short int AA_LEVEL = 2;
-const float decel_speed = 35.f/60.f;
+const short int AA_LEVEL = 4;
+//const float decel_speed = 35.f/60.f;
 const float PSPEED = 30.f;
 const float SENSITIVITY  = 2; //higher numbers are less sensitive
-const float UPPER_ZOOM_LIMIT = 0.5f;
+const float UPPER_ZOOM_LIMIT = 0.4f;
 const float LOWER_ZOOM_LIMIT = 0.1f;
 #endif

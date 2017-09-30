@@ -30,6 +30,7 @@ class game
 		sf::Time time_per_frame;
 		sf::Clock tick_clock;
 		sf::Clock dbg_clock;
+		//sf::Clock global_clock;
 		//global turn count
 		long turn_no;
 		player the_player;
