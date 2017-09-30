@@ -3,7 +3,6 @@
 
 #include "monster.h"
 #include "command_queue.h"
-
 class player
 {
     public:

@@ -29,7 +29,7 @@ monster::monster(monster::type mtype, const texture_manager& textures) :
 	//aka move its reference point from the top left corner to the center of the sprite
 	sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	std::cout << "new monster, type: " << mtype << std::endl;
+	//std::cout << "new monster, type: " << mtype << std::endl;
 }
 void monster::draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const
@@ -40,22 +40,17 @@ void monster::draw_current(sf::RenderTarget& target,
 }
 unsigned int monster::get_category() const
 {
-    std::cout << "get category called with result: ";
+    //std::cout << "get category called with result: ";
     switch(monster_type)
     {
         case small_mutant:
         case large_mutant:
-            std::cout << "enemy\n";
+            //std::cout << "enemy\n";
             return cmd_category::enemies;
             //break;
         case player:
-            std::cout << "player\n";
+            //std::cout << "player\n";
             return cmd_category::the_player;
             //break;
     }
-}
-void monster::accelerate(sf::Vector2f v)
-{
-    set_velocity(get_velocity() + v);
-    std::cout << "accelerate " << v.x << ", " << v.y << std::endl;
 }

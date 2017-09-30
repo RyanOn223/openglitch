@@ -8,16 +8,21 @@ world::world(sf::RenderWindow& mwindow) :
     spawn_position(world_bounds.width / 2.f, world_bounds.height / 2.f),
     the_player(nullptr)
 {
+    zoom_level = 1;
     load_textures();
     build_scene();
-    world_view.zoom(.2f);
+    set_zoom(.2f);
     world_view.setCenter(spawn_position);
+    sf::Vector2i win_center(wwindow.getSize() / 2u);
+    sf::Mouse::setPosition(win_center, wwindow);
+    wwindow.setMouseCursorVisible(false);
     //player_speed = 20;
 }
 void world::load_textures()
 {
     textures.load(textures::player, "src/gfx/player.png");
     textures.load(textures::floor, "src/gfx/floor.png");
+    textures.load(textures::cursor, "src/gfx/cursor.png");
 }
 void world::build_scene()
 {
@@ -42,13 +47,19 @@ void world::build_scene()
     scene_layers[bg_layer]->attach_child(std::move(floor_sprite));
 
 
-    //here we create and attach the player
+    //here we create and attach the player and the cursor
     std::unique_ptr<monster> t(new monster(monster::type::player, textures));
     the_player = t.get();
     the_player->setPosition(spawn_position);
     scene_layers[mon_layer]->attach_child(std::move(t));
-    std::cout << "player type: " << the_player->get_category() << std::endl;
-    scene_graph.print();
+
+    std::unique_ptr<cursor> cur(new cursor(textures));
+    the_cursor = cur.get();
+    the_cursor->setPosition(spawn_position);
+    scene_layers[hud_layer]->attach_child(std::move(cur));
+    //start the cursor moved a little
+    //the_cursor->move(10.f, 10.f);
+
 }
 void world::draw()
 {
@@ -57,14 +68,19 @@ void world::draw()
 }
 void world::update(sf::Time delta)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) scene_graph.print();
+    //before any commands are applied, reset the player speed to 0
+    the_player->set_velocity(0.f, 0.f);
     //all this stuff is pretty needed
     //send all commands to the scene graph
+    rotate_player();
     while (!world_cmd_queue.is_empty())
     {
         scene_graph.on_command(world_cmd_queue.pop(), delta);
     }
-    //std::cout << the_player->get_category();
+
+    adjust_player_v();
+    //fixes circular distances and screen bounds
+    update_cursor();
     world_view.setCenter(the_player->getPosition());
     scene_graph.update(delta);
 }
@@ -76,8 +92,65 @@ command_queue& world::get_cmd_queue()
 //{
     //return *the_player;
 //}
+void world::adjust_player_v()
+{
+    sf::Vector2f v = the_player->get_velocity();
+    //if (v.x != 0) v.x = (2.f/3.f) * (v.x);
+    //if (v.y != 0) v.y = (2.f/3.f) * (v.y);
+    if (v.x != 0.f && v.y != 0.f)
+    {
+        v.x = v.x / std::sqrt(2.f);
+        v.y = v.y / std::sqrt(2.f);
+    }
+    the_player->set_velocity(v);
+}
+void world::update_cursor()
+{
+    //this mess first calulates the new cursor position based on mouse movement for the last frame
+    //then is check for the cursor being out of bounds of the view
+    //then it move the cursor to it's position
+    //then it matches the velocity of the cursor to the velocity of the player
+    //so the cursor moves when we do
+
+    sf::Vector2i win_center(wwindow.getSize() / 2u);
+    sf::Vector2i mouse_pos = sf::Mouse::getPosition(wwindow);
+    sf::Vector2i delta_mouse = win_center - mouse_pos;
+    //printf("center: %d, %d\nmouse: %d, %d\n", win_center.x, win_center.y, mouse_pos.x, mouse_pos.y);
+    //printf("center: %f, %f\nmouse: %f, %f\ncenter - pos: %f, %f\n", f_center.x, f_center.y, f_pos.x, f_pos.y, f_center.x - f_pos.x, f_center.y - f_pos.y);
+    sf::Mouse::setPosition(win_center, wwindow);
+    sf::Vector2f cur_pos = the_cursor->getPosition();
+    sf::Vector2f view_center = world_view.getCenter();
+    sf::Vector2f view_size = world_view.getSize();
+    if (cur_pos.x <= view_center.x - (view_size.x / 2) && delta_mouse.x > 0) delta_mouse.x = 0;
+    if (cur_pos.x >= view_center.x + (view_size.x / 2) && delta_mouse.x < 0) delta_mouse.x = 0;
+    if (cur_pos.y <= view_center.y - (view_size.y / 2) && delta_mouse.y > 0) delta_mouse.y = 0;
+    if (cur_pos.y >= view_center.y + (view_size.y / 2) && delta_mouse.y < 0) delta_mouse.y = 0;
+    the_cursor->move(-delta_mouse.x / (SENSITIVITY/zoom_level), -delta_mouse.y / (SENSITIVITY/zoom_level));
+    the_cursor->set_velocity(the_player->get_velocity());
+}
+void world::rotate_player()
+{
+    sf::Vector2f diff = the_cursor->getPosition() - the_player->getPosition();
+    float angle = atan2(diff.y, diff.x) * 180.f / 3.141519f;
+    command rot;
+    rot.ccategory = cmd_category::the_player;
+    rot.action = monster::monster_rotator(angle);
+    world_cmd_queue.push(rot);
+}
 world::~world()
 {
-    //delete scene_graph;
-    //delete the_player;
+}
+void world::set_zoom(float f)
+{
+    if ((zoom_level <= UPPER_ZOOM_LIMIT && f > 1.f) ||
+        (zoom_level >= LOWER_ZOOM_LIMIT && f < 1.f))
+    {
+        zoom_level *= f;
+        world_view.zoom(f);
+        //std::cout << zoom_level << std::endl;
+    }
+}
+float world::get_zoom()
+{
+    return zoom_level;
 }

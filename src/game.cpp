@@ -1,13 +1,15 @@
 #include "../include/game.h"
 game::game(sf::ContextSettings settings) :
                 gwindow(sf::VideoMode(800, 600), "openglitch", sf::Style::Default, settings),
-                game_world(gwindow)
+                game_world(gwindow),
+                the_player()
 {
+    ispaused = false;
     tick_clock.restart();
     dbg_clock.restart();
 	//set some window preferences
 	gwindow.setVerticalSyncEnabled(VSYNC);
-	if (LIMIT_FPS == true) gwindow.setFramerateLimit(FPS);
+	if (LIMIT_FPS == true) gwindow.setFramerateLimit(static_cast<unsigned int>(FPS));
 
 	//set some values
 	time_per_frame = sf::seconds(1.f/FPS);
@@ -34,14 +36,14 @@ void game::run()
 	{
         //main loop
 		delta = tick_clock.restart();
-		process_events();
+
 		//once every half second, and only if it's value makes sense, update FPS text
 		if (turn_no % static_cast<int>(FPS)/2 == 0 && static_cast<int>(delta.asMilliseconds()) > 6)
             fps_text->setString(std::to_string(1000000.f/delta.asMicroseconds()).substr(0, 5));
 		sf::Vector2f pos;
-		update(delta);
+		if (!ispaused) update(delta);
 		render();
-
+        process_events();
 		turn_no++;
 
 		/*
@@ -70,6 +72,16 @@ void game::process_events()
         the_player.handle_event(event, cmds);
         if (event.type == sf::Event::Closed)
             gwindow.close();
+        if (event.type == sf::Event::GainedFocus)
+            ispaused = false;
+        if (event.type == sf::Event::LostFocus)
+            ispaused = true;
+        if (event.type == sf::Event::MouseWheelScrolled)
+        {
+            //std::cout << "scrolled, delta: " << event.mouseWheelScroll.delta << std::endl;
+            if (event.mouseWheelScroll.delta > 0.f) game_world.set_zoom(.9f);
+            else game_world.set_zoom(1.1f);
+        }
 	}
 	the_player.handle_input(cmds);
 }

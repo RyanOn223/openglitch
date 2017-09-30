@@ -15,4 +15,14 @@ sf::Vector2f entity::get_velocity() const
 void entity::update_current(sf::Time delta)
 {
     move(velocity * delta.asSeconds());
+        //debug and 'physics'
+    //velocity.x = decel_speed * (velocity.x);
+    //velocity.y = decel_speed * (velocity.y);
+    //if (velocity.x < 1.f && velocity.x > -1.f) velocity.x = 0.f;
+    //if (velocity.y < 1.f && velocity.y > -1.f) velocity.y = 0.f;
+
+}
+void entity::accelerate(sf::Vector2f v)
+{
+    velocity += v;
 }

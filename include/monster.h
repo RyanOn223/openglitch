@@ -20,7 +20,6 @@ class monster : public entity
 		virtual void draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const;
         virtual unsigned int get_category() const;
-        void accelerate(sf::Vector2f v);
 
         struct monster_mover
         {
@@ -33,6 +32,16 @@ class monster : public entity
                 mon.accelerate(velocity);
             }
             sf::Vector2f velocity;
+        };
+        struct monster_rotator
+        {
+            monster_rotator(float angle) : theta(angle) {}
+            void operator()(scene_node& node, sf::Time delta) const
+            {
+                monster& mon = static_cast<monster&>(node);
+                mon.setRotation(theta);
+            }
+            float theta;
         };
 	private:
 		type monster_type;

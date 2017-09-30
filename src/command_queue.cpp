@@ -6,12 +6,12 @@ command_queue::command_queue()
 }
 void command_queue::push(const command& cmd)
 {
-    std::cout << "pushed command\n";
+    //std::cout << "pushed command\n";
     cmd_queue.push(cmd);
 }
 command command_queue::pop()
 {
-    std::cout << "popped command\n";
+    //std::cout << "popped command\n";
     //not great but pop() is made all safe or whatever
     command cmd;
     cmd = cmd_queue.front();

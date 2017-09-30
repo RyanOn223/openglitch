@@ -100,27 +100,27 @@ unsigned int scene_node::get_category() const
 }
 void scene_node::on_command(const command& cmd, sf::Time delta)
 {
-    std::cout << "on_command called with category: " << cmd.ccategory << " and this category: " << get_category() << std::endl;
+    //std::cout << "on_command called with category: " << cmd.ccategory << " and this category: " << get_category() << std::endl;
     //check and perform this action upon this node
     if (cmd.ccategory & get_category())
     {
         cmd.action(*this, delta);
-        std::cout << "pushed command to category " << get_category() << std::endl;
+        //std::cout << "pushed command to category " << get_category() << std::endl;
     }
     //forward command to children
     for (scn_ptr& child : children)
     {
-        std::cout << "calling on_command on child with category: " << child->get_category() << std::endl;
+        //std::cout << "calling on_command on child with category: " << child->get_category() << std::endl;
         child->on_command(cmd, delta);
     }
 }
 void scene_node::print()
 {
-    std::cout << "this node: " << get_category() << "\n";
+    std::cout << "this node: " << get_category();
     for (scn_ptr& child : children)
     {
-        std::cout << "child node: " << child->get_category() << "\n";
+        std::cout << "\nchild node: " << child->get_category() << std::endl;
         child->print();
     }
-    std::cout << "\n\n";
+    std::cout << "\n";
 }

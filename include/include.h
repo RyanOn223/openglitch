@@ -11,13 +11,13 @@
 #include <string>
 #include <memory>
 #include <queue>
-
+#include <math.h>
 //I'm not sure if I like this namespace::enum thing the book is using
 //but we're going to do it for practice
 
 namespace textures
 {
-	enum ID { player, small_mutant, large_mutant, floor, wall };
+	enum ID { player, small_mutant, large_mutant, floor, wall, cursor };
 }
 namespace sounds
 {
@@ -46,5 +46,10 @@ namespace cmd_category
 const float FPS = 60.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = false;
-const short int AA_LEVEL = 8;
+const short int AA_LEVEL = 2;
+const float decel_speed = 35.f/60.f;
+const float PSPEED = 30.f;
+const float SENSITIVITY  = 2; //higher numbers are less sensitive
+const float UPPER_ZOOM_LIMIT = 0.5f;
+const float LOWER_ZOOM_LIMIT = 0.1f;
 #endif

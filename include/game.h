@@ -10,6 +10,7 @@ class game
 		game(sf::ContextSettings settings);
         ~game();
 		void run();
+		bool ispaused;
 	private:
 		//processes window events
 		void process_events();
