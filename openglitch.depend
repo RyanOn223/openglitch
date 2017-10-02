@@ -6,7 +6,7 @@
 	"include.h"
 	"world.h"
 
-1506799262 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
+1506912704 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
 	"/usr/local/./include/SFML/Window.hpp"
 	"/usr/local/./include/SFML/Graphics.hpp"
 	"/usr/local/./include/SFML/System.hpp"
@@ -102,37 +102,39 @@
 	"include.h"
 	"command.h"
 
-1506321659 /home/destrovel/cppwork/openglitch/openglitch/include/texture_manager.h
+1506895045 /home/destrovel/cppwork/openglitch/openglitch/include/texture_manager.h
 	"include.h"
 
-1506321659 /home/destrovel/cppwork/openglitch/openglitch/include/resource_manager.h
+1506905783 /home/destrovel/cppwork/openglitch/openglitch/include/resource_manager.h
 	"include.h"
 
-1506775795 /home/destrovel/cppwork/openglitch/openglitch/include/entity.h
+1506805929 /home/destrovel/cppwork/openglitch/openglitch/include/entity.h
 	"include.h"
 	"scene_node.h"
 
-1506785681 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
+1506905586 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
 	"include.h"
 	"entity.h"
 	"resource_manager.h"
 	"texture_manager.h"
+	"datatables.h"
+	"text_node.h"
 
-1506775805 source:/home/destrovel/cppwork/openglitch/openglitch/src/entity.cpp
+1506806319 source:/home/destrovel/cppwork/openglitch/openglitch/src/entity.cpp
 	"../include/entity.h"
 
-1506798129 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
+1506910869 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
 	"../include/game.h"
 
-1506789762 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
+1506905624 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
 	"../include/monster.h"
 
 1506436327 source:/home/destrovel/cppwork/openglitch/openglitch/src/resource_manager.cpp
 
-1506727755 source:/home/destrovel/cppwork/openglitch/openglitch/src/scene_node.cpp
+1506902650 source:/home/destrovel/cppwork/openglitch/openglitch/src/scene_node.cpp
 	"../include/scene_node.h"
 
-1506390064 source:/home/destrovel/cppwork/openglitch/openglitch/src/texture_manager.cpp
+1506821569 source:/home/destrovel/cppwork/openglitch/openglitch/src/texture_manager.cpp
 	"../include/texture_manager.h"
 
 1506400488 /home/destrovel/cppwork/openglitch/openglitch/include/sprite_node.h
@@ -141,7 +143,7 @@
 1506457799 source:/home/destrovel/cppwork/openglitch/openglitch/src/sprite_node.cpp
 	"sprite_node.h"
 
-1506789996 /home/destrovel/cppwork/openglitch/openglitch/include/world.h
+1506908723 /home/destrovel/cppwork/openglitch/openglitch/include/world.h
 	"include.h"
 	"texture_manager.h"
 	"resource_manager.h"
@@ -153,7 +155,7 @@
 	"command_queue.h"
 	"cursor.h"
 
-1506789996 source:/home/destrovel/cppwork/openglitch/openglitch/src/world.cpp
+1506909510 source:/home/destrovel/cppwork/openglitch/openglitch/src/world.cpp
 	"world.h"
 
 1506789942 source:/home/destrovel/cppwork/openglitch/openglitch/src/player.cpp
@@ -163,10 +165,10 @@
 	"monster.h"
 	"command_queue.h"
 
-1506553321 /home/destrovel/cppwork/openglitch/openglitch/include/command.h
+1506821762 /home/destrovel/cppwork/openglitch/openglitch/include/command.h
 	"include.h"
 
-1506547727 source:/home/destrovel/cppwork/openglitch/openglitch/src/command.cpp
+1506821771 source:/home/destrovel/cppwork/openglitch/openglitch/src/command.cpp
 	"command.h"
 
 1506727547 source:/home/destrovel/cppwork/openglitch/openglitch/src/command_queue.cpp
@@ -176,10 +178,24 @@
 	"include.h"
 	"command.h"
 
-1506780397 /home/destrovel/cppwork/openglitch/openglitch/include/cursor.h
+1506902540 /home/destrovel/cppwork/openglitch/openglitch/include/cursor.h
 	"entity.h"
 	"texture_manager.h"
 
-1506789762 source:/home/destrovel/cppwork/openglitch/openglitch/src/cursor.cpp
+1506895735 source:/home/destrovel/cppwork/openglitch/openglitch/src/cursor.cpp
 	"cursor.h"
+
+1506903703 /home/destrovel/cppwork/openglitch/openglitch/include/text_node.h
+	"scene_node.h"
+	"resource_manager.h"
+
+1506893706 /home/destrovel/cppwork/openglitch/openglitch/include/datatables.h
+	"include.h"
+	"monster.h"
+
+1506894882 source:/home/destrovel/cppwork/openglitch/openglitch/src/datatables.cpp
+	"datatables.h"
+
+1506905463 source:/home/destrovel/cppwork/openglitch/openglitch/src/text_node.cpp
+	"text_node.h"
 

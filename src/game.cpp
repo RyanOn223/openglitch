@@ -22,13 +22,12 @@ game::game(sf::ContextSettings settings) :
     fps_text->setCharacterSize(25);
     fps_text->setColor(sf::Color::Yellow);
     fps_text->setPosition(0.f, 0.f);
-    //fps_text->setString("60.00");
 	//print some console information
+	std::cout << "Time spent initializing = " << dbg_clock.restart().asMicroseconds() << " µs\n";
 	std::cout << "Successfully initialized game\n" << "FPS limited(soft): " <<
 		LIMIT_FPS << std::endl << "FPS limit: " << FPS << std::endl;
 	std::cout << "Vsync = " << VSYNC << std::endl;
 	std::cout << "Anti-aliasing level: " << AA_LEVEL << "x" << std::endl;
-	std::cout << "Time spent initializing = " << dbg_clock.restart().asMicroseconds() << " µs\n";
 }
 void game::run()
 {
@@ -38,22 +37,29 @@ void game::run()
 	//float accumulator = 0.f;
 	while (gwindow.isOpen())
 	{
-
+        //int ms = 16666;
         //main loop
 		delta = tick_clock.restart();
-
-		//once every half second, and only if it's value makes sense, update FPS text
+		//once every half second update FPS text
 		if (turn_no % static_cast<int>(FPS)/2 == 0)
             fps_text->setString(std::to_string(1000000.f/delta.asMicroseconds()).substr(0, 5));
 		sf::Vector2f pos;
-		if (!ispaused) update(delta);
+		if (!ispaused)
+		{
+            update(delta);
+            //if (turn_no % static_cast<int>(FPS)/2 == 0)
+            //    fps_text->setString(fps_text->getString() + "\tup: " + std::to_string(dbg_clock.restart().asMicroseconds()).substr(0,4));
+		}
 		render();
+		//if (turn_no % static_cast<int>(FPS)/2 == 0)
+        //    fps_text->setString(fps_text->getString() + "\tdr: " + std::to_string(dbg_clock.restart().asMicroseconds()).substr(0,4));
         process_events();
+        //if (turn_no % static_cast<int>(FPS)/2 == 0)
+        //    fps_text->setString(fps_text->getString() + "\tev: " + std::to_string(dbg_clock.restart().asMicroseconds()).substr(0,4));
 		turn_no++;
 
 		/*
-		 * this is the other update method the book described but it
-		 * didnt work very well. it may be worth revisiting though.
+		 * this is all broken, dont touch it.
 		 *
         sf::Time new_time = global_clock.getElapsedTime();
 		sf::Time frame_time = new_time - current_time;
@@ -86,7 +92,8 @@ void game::process_events()
         if (event.type == sf::Event::MouseWheelScrolled)
         {
             //scroll in or out
-            if (event.mouseWheelScroll.delta > 0.f) game_world.set_zoom(.9f);
+            if (event.mouseWheelScroll.delta > 0.f)
+                game_world.set_zoom(.9f);
             else game_world.set_zoom(1.1f);
         }
 	}

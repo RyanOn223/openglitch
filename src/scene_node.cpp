@@ -71,7 +71,7 @@ void scene_node::update_children(sf::Time delta)
 {
     for (scn_ptr& child : children)
     {
-        if (this->get_category() == cmd_category::the_player) std::cout << "updating player\n";
+        //if (this->get_category() == cmd_category::the_player) std::cout << "updating player\n";
         child->update(delta);
     }
 }

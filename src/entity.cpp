@@ -1,4 +1,8 @@
 #include "../include/entity.h"
+entity::entity(int hp) : hitpoints(hp)
+{
+
+}
 void entity::set_velocity(sf::Vector2f v)
 {
 	velocity = v;
@@ -25,4 +29,25 @@ void entity::update_current(sf::Time delta)
 void entity::accelerate(sf::Vector2f v)
 {
     velocity += v;
+}
+void entity::damage(int hp)
+{
+    if (hitpoints > 0) hitpoints -= hp;
+    if (hitpoints < 0) hitpoints = 0;
+}
+void entity::repair(int hp)
+{
+    hitpoints += hp;
+}
+void entity::destroy()
+{
+    hitpoints = 0;
+}
+bool entity::is_dead() const
+{
+    return hitpoints;
+}
+int entity::get_hp() const
+{
+    return hitpoints;
 }

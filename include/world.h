@@ -22,12 +22,23 @@ class world : public sf::NonCopyable
         //player& get_player();
         void set_zoom(float f);
         float get_zoom();
+        class spawn_point
+        {
+            public:
+                spawn_point(monster::type stype, float x, float y);
+                monster::type stype;
+                float x;
+                float y;
+        };
     private:
         void load_textures();
         void build_scene();
         void adjust_player_v();
         void rotate_player();
         void update_cursor();
+        void spawn_enemies();
+        void add_enemy(monster::type, float x, float y);
+        void add_enemies();
     private:
         enum scn_layer
         {
@@ -41,6 +52,7 @@ class world : public sf::NonCopyable
          sf::RenderWindow& wwindow;
          sf::View world_view;
          texture_manager textures;
+         resource_manager<sf::Font, fonts::ID> fonts;
          scene_node scene_graph;
          std::array<scene_node*, layer_count> scene_layers;
          sf::FloatRect world_bounds;
@@ -50,7 +62,7 @@ class world : public sf::NonCopyable
          cursor* the_cursor;
          //float player_speed;
          command_queue world_cmd_queue;
-
+         std::vector<spawn_point> enemy_spawn_points;
 };
 
 #endif // WORLD_H

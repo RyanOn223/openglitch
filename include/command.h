@@ -7,7 +7,7 @@ class command
 {
     public:
         command();
-        virtual ~command();
+        //virtual ~command();
         std::function<void(scene_node&, sf::Time)> action;
         unsigned int ccategory;
 

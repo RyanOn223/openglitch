@@ -17,7 +17,7 @@
 
 namespace textures
 {
-	enum ID { player, small_mutant, large_mutant, floor, wall, cursor };
+	enum ID { player, small_mutant, large_mutant, floor, wall, cursor, bullet };
 }
 namespace sounds
 {
@@ -38,7 +38,7 @@ namespace cmd_category
         none =          0,
         scene =         1 << 0,
         the_player =    1 << 1,
-        enemies =       1 << 2
+        enemies =       1 << 2,
     };
 }
 //define some critical game values. later, these should be loaded from a file in game() and main() respectively
@@ -47,7 +47,6 @@ const float FPS = 60.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = false;
 const short int AA_LEVEL = 4;
-//const float decel_speed = 35.f/60.f;
 const float PSPEED = 30.f;
 const float SENSITIVITY  = 2; //higher numbers are less sensitive
 const float UPPER_ZOOM_LIMIT = 0.4f;

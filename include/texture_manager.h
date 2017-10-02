@@ -1,6 +1,7 @@
 #ifndef TEXTURE_MANAGER_H
 #define TEXTURE_MANAGER_H
 #include "include.h"
+//#include "resource_manager.h"
 class texture_manager
 {
 	public:

@@ -38,6 +38,7 @@ void resource_manager<resource, identifier>::load(identifier id, const std::stri
 	std::unique_ptr<resource> gen_resource(new resource());
 	//load it and insert it into the resource map
 	gen_resource->loadFromFile(filename);
+	std::cout << "loaded etc: " << filename << std::endl;
 	resource_map.insert(std::make_pair(id, std::move(gen_resource)));
 
 }
