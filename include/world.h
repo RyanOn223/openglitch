@@ -11,6 +11,7 @@
 #include "player.h"
 #include "command_queue.h"
 #include "cursor.h"
+#include "projectile.h"
 class world : public sf::NonCopyable
 {
     public:
@@ -44,6 +45,7 @@ class world : public sf::NonCopyable
         {
             bg_layer,
             mon_layer,
+            air_layer,
             walls_layer,
             hud_layer,
             layer_count,

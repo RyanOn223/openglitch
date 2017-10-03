@@ -39,10 +39,13 @@ namespace cmd_category
         scene =         1 << 0,
         the_player =    1 << 1,
         enemies =       1 << 2,
+        ally_projectiles =   1 << 3,
+        enemy_projectiles =  1 << 4,
+        air_layer = 1 << 5,
     };
 }
 //define some critical game values. later, these should be loaded from a file in game() and main() respectively
-//const float max_linear_speed = 300.f;
+const float PI = 3.141592654f;
 const float FPS = 60.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = false;

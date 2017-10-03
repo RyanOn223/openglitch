@@ -24,6 +24,7 @@ void world::load_textures()
     textures.load(textures::floor,          "src/gfx/floor.png");
     textures.load(textures::cursor,         "src/gfx/cursor.png");
     textures.load(textures::small_mutant,   "src/gfx/small_mutant.png");
+    textures.load(textures::bullet,         "src/gfx/bullet.png");
     fonts.load(fonts::pixel,                "src/pixel.ttf");
 }
 void world::build_scene()
@@ -32,7 +33,8 @@ void world::build_scene()
     {
         //create layers, add a reference to them to the scene_layers, and then
         //move them to the scene graph
-        scn_ptr layer(new scene_node());
+        cmd_category::ID category = (k == air_layer) ? cmd_category::air_layer : cmd_category::scene;
+        scn_ptr layer(new scene_node(category));
         scene_layers[k] = layer.get();
         scene_graph.attach_child(std::move(layer));
     }
@@ -81,10 +83,10 @@ void world::update(sf::Time delta)
 
     //fixes circular distances and world bounds
     adjust_player_v();
-
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {scene_graph.print(); std::cout << "____\n";}
     update_cursor();
     world_view.setCenter(the_player->getPosition());
-    scene_graph.update(delta);
+    scene_graph.update(delta, world_cmd_queue);
 }
 command_queue& world::get_cmd_queue()
 {
@@ -132,7 +134,7 @@ void world::update_cursor()
 void world::rotate_player()
 {
     sf::Vector2f diff = the_cursor->getPosition() - the_player->getPosition();
-    float angle = atan2(diff.y, diff.x) * 180.f / 3.141593f;
+    float angle = atan2(diff.y, diff.x) * 180.f / PI;
     command rot;
     rot.ccategory = cmd_category::the_player;
     rot.action = monster::monster_rotator(angle);

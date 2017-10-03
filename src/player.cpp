@@ -6,6 +6,19 @@ player::player()
 }
 void player::handle_event(const sf::Event& event, command_queue& cmds)
 {
+    if (event.type == sf::Event::MouseButtonPressed)
+    {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            //if we don't hand this as well here, the fire command might not get passed
+            //if the mouse button was down for less than a tick
+            //stupid af
+            command fire;
+            fire.ccategory = cmd_category::the_player;
+            fire.action = monster::weapon_firer();
+            cmds.push(fire);
+        }
+    }
 }
 player::~player()
 {
@@ -13,7 +26,7 @@ player::~player()
 }
 void player::handle_input(command_queue& cmds)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) player_speed = 2 * PSPEED; else player_speed = PSPEED;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) player_speed = 2 * PSPEED ; else player_speed = PSPEED;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         command move_left;
@@ -41,5 +54,13 @@ void player::handle_input(command_queue& cmds)
         move_down.ccategory = (cmd_category::the_player);
         move_down.action = monster::monster_mover(0.f, player_speed);
         cmds.push(move_down);
+    }
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    {
+        //check here too, for automatic weapons
+        command fire;
+        fire.ccategory = cmd_category::the_player;
+        fire.action = monster::weapon_firer();
+        cmds.push(fire);
     }
 }

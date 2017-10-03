@@ -16,7 +16,7 @@ sf::Vector2f entity::get_velocity() const
 {
 	return velocity;
 }
-void entity::update_current(sf::Time delta)
+void entity::update_current(sf::Time delta, command_queue& cmds)
 {
     move(velocity * delta.asSeconds());
         //debug and 'physics'

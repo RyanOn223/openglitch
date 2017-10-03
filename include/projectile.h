@@ -14,7 +14,7 @@ class projectile : public entity
             enemy_bullet,
             type_count,
         };
-        projectile(type ptype, const texture_manager& textures);
+        projectile(type ptype, const texture_manager& textures, float speed, int damage);
         virtual unsigned int get_category() const;
         virtual sf::FloatRect get_bounding_rect() const;
         float get_max_speed() const;
@@ -24,12 +24,15 @@ class projectile : public entity
     protected:
 
     private:
-        virtual void update_current(sf::Time delta);//, command_queue& cmds);
+        virtual void update_current(sf::Time delta, command_queue& cmds);
+        //virtual void update_current(sf::Time delta);
         virtual void draw_current(sf::RenderTarget& target, sf::RenderStates states) const;
     private:
         type ptype;
         sf::Sprite sprite;
         sf::Vector2f target_direction;
+        float speed;
+        int damage;
 };
 
 #endif // PROJECTILE_H

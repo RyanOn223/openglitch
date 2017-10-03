@@ -3,6 +3,12 @@ typedef std::unique_ptr<scene_node> scn_ptr;
 scene_node::scene_node()
 {
 	parent = nullptr;
+	category = 1;
+}
+scene_node::scene_node(unsigned int cat)
+{
+    parent = nullptr;
+    category = cat;
 }
 void scene_node::attach_child(scn_ptr child)
 {
@@ -57,22 +63,22 @@ void scene_node::draw_children(sf::RenderTarget& target, sf::RenderStates states
 		child->draw(target, states);
 	}
 }
-void scene_node::update(sf::Time delta)
+void scene_node::update(sf::Time delta, command_queue& cmds)
 {
     //std::cout << "updating node with category: " << get_category() << std::endl;
-    update_current(delta);
-    update_children(delta);
+    update_current(delta, cmds);
+    update_children(delta, cmds);
 }
-void scene_node::update_current(sf::Time delta)
+void scene_node::update_current(sf::Time delta, command_queue& cmds)
 {
 
 }
-void scene_node::update_children(sf::Time delta)
+void scene_node::update_children(sf::Time delta, command_queue& cmds)
 {
     for (scn_ptr& child : children)
     {
         //if (this->get_category() == cmd_category::the_player) std::cout << "updating player\n";
-        child->update(delta);
+        child->update(delta, cmds);
     }
 }
 sf::Vector2f scene_node::get_abs_position() const
@@ -96,7 +102,7 @@ void scene_node::draw_current(sf::RenderTarget& target, sf::RenderStates states)
 }
 unsigned int scene_node::get_category() const
 {
-    return cmd_category::scene;
+    return category;
 }
 void scene_node::on_command(const command& cmd, sf::Time delta)
 {

@@ -20,6 +20,6 @@ class entity : public scene_node
 	private:
         int hitpoints;
 		sf::Vector2f velocity;
-		virtual void update_current(sf::Time delta);
+		virtual void update_current(sf::Time delta, command_queue& cmds);
 };
 #endif
