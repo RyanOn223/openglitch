@@ -8,9 +8,10 @@ projectile::projectile(type pptype, const texture_manager& textures, float sp, i
 {
     sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	scale(0.5f, 0.5f);
+	scale(.75f, .75f);
 	speed = sp;
 	damage = dmg;
+	//std::cout << "projectile created with dmg:" << damage << std::endl;
 }
 unsigned int projectile::get_category() const
 {
@@ -32,7 +33,8 @@ float projectile::get_max_speed() const
 }
 int projectile::get_damage() const
 {
-    return damage;
+    if (damage > 0) return damage;
+    else return 0;
 }
 void projectile::update_current(sf::Time delta, command_queue& cmds)
 {
@@ -46,4 +48,12 @@ void projectile::draw_current(sf::RenderTarget& target, sf::RenderStates states)
 projectile::~projectile()
 {
 
+}
+sf::FloatRect projectile::getBoundingRect() const
+{
+    return getWorldTransform().transformRect(sprite.getGlobalBounds());
+}
+bool projectile::is_marked_for_removal() const
+{
+    return is_dead();
 }

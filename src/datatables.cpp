@@ -14,3 +14,11 @@ std::vector<bullet_data> init_bullet_data()
     data[projectile::type::ally_bullet].speed = 100.f;
     return data;
 };
+std::vector<pickup_data> init_pickup_data()
+{
+    std::vector<pickup_data> data(pickup::type::type_count);
+    data[pickup::type::sm_ammo].texture = textures::sm_ammo;
+    data[pickup::type::sm_health_pack].texture = textures::sm_health_pack;
+    data[pickup::type::sm_health_pack].action = monster::monster_healer(25);
+    return data;
+}

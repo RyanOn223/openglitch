@@ -4,7 +4,7 @@ text_node::text_node(const resource_manager<sf::Font, fonts::ID>& fonts, const s
 {
     text->setFont(fonts.get(fonts::pixel));
     text->setCharacterSize(30);
-    text->setScale(0.2f, 0.2f);
+    text->setScale(0.15f, 0.15f);
     set_string(ttext);
 }
 void text_node::draw_current(sf::RenderTarget& target, sf::RenderStates states) const

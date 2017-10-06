@@ -20,7 +20,8 @@ class projectile : public entity
         float get_max_speed() const;
         int get_damage() const;
         virtual ~projectile();
-
+        virtual sf::FloatRect getBoundingRect() const;
+        virtual bool is_marked_for_removal() const;
     protected:
 
     private:

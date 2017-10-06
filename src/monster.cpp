@@ -41,13 +41,26 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
 	health_text = tx.get();
 	attach_child(std::move(tx));
 	is_firing = false;
+	removal_mark = false;
+	hit_wall = false;
 }
 void monster::draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const
 {
 	//the result of all this inheritence, oop, recursion, and sfml usage is that this is a super simple call
 	//if (this->get_category() == cmd_category::the_player) std::cout << "drawing player\n";
+	sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
+	std::cout << v.x << ", " << v.y << std::endl;
+	sf::RectangleShape collide_rect(v);
+	sf::FloatRect bounds = 	collide_rect.getLocalBounds();
+	collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	collide_rect.setRotation(sprite.getRotation());
+	collide_rect.setPosition(getPosition());
+	collide_rect.setOutlineColor(sf::Color::Black);
+	collide_rect.setFillColor(sf::Color(0,0,0,0));
+	collide_rect.setOutlineThickness(.5f);
 	target.draw(sprite, states);
+	target.draw(collide_rect);
 }
 unsigned int monster::get_category() const
 {
@@ -67,11 +80,12 @@ unsigned int monster::get_category() const
 }
 void monster::update_current(sf::Time delta, command_queue& cmds)
 {
-    health_text->set_string(std::to_string(get_hp()) + "hp");
-    health_text->setPosition(4.f, 4.f);
+    health_text->set_string(std::to_string(get_hp()) + " hp");
+    health_text->setPosition(-4.f, -7.f);
     health_text->setRotation(-getRotation());
     move(get_velocity() * delta.asSeconds());
     check_launch(delta, cmds);
+    if (get_hp() <= 0) removal_mark = true;
 }
 void monster::fire_weapon()
 {
@@ -91,13 +105,16 @@ void monster::check_launch(sf::Time delta, command_queue& cmds)
     {
         fire_cooldown -= delta;
     }
-    //reset to false, otherwise old firing commands can persist to the next reload
+    //reset to false, otherwise old firing commands can persist to the next reload and you'll fire twice
     is_firing = false;
 }
 void monster::create_bullets(scene_node& node, const texture_manager& textures) const
 {
-    projectile::type btype = is_ally() ? projectile::type::ally_bullet : projectile::type::enemy_bullet;
+    projectile::type btype;
+    if (is_ally()) btype = projectile::type::ally_bullet;
+    else btype = projectile::type::enemy_bullet;
     create_projectile(node, btype, .0f, .0f, textures);
+    if (btype == projectile::type::enemy_bullet) std::cout << "created enemy bullet\n";
 }
 bool monster::is_ally() const
 {
@@ -113,7 +130,7 @@ bool monster::is_ally() const
 void monster::create_projectile(scene_node& node, projectile::type ptype, float xoff, float yoff, const texture_manager& textures) const
 {
     //create the new projectile and calculate its offset
-    std::unique_ptr<projectile> proj(new projectile(ptype, textures, 300.f, 1));
+    std::unique_ptr<projectile> proj(new projectile(ptype, textures, 300.f, 5));
     sf::Vector2f offset(xoff * sprite.getGlobalBounds().width, yoff * sprite.getGlobalBounds().height);
     //determine the velocity vector of the projectile based upon the rotation of this monster. i.e shoot this out the front
     float hyp = proj->get_max_speed();
@@ -123,5 +140,14 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
     proj->setRotation(sprite.getRotation());
     proj->set_velocity(v);
     //std::cout << proj->getPosition().x << ", " << proj->getPosition().y << std::endl;
+    //node needs to be the air scene layer here
     node.attach_child(std::move(proj));
+}
+sf::FloatRect monster::getBoundingRect() const
+{
+    return getWorldTransform().transformRect(sprite.getGlobalBounds());
+}
+bool monster::is_marked_for_removal() const
+{
+    return removal_mark;
 }

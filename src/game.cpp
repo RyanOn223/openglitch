@@ -41,7 +41,7 @@ void game::run()
         //main loop
 		delta = tick_clock.restart();
 		//once every half second update FPS text
-		if (turn_no % static_cast<int>(FPS)/2 == 0)
+		if (turn_no % (static_cast<int>(FPS)/6) == 0)
             fps_text->setString(std::to_string(1000000.f/delta.asMicroseconds()).substr(0, 5));
 		sf::Vector2f pos;
 		if (!ispaused)

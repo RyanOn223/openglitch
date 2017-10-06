@@ -25,6 +25,8 @@ void world::load_textures()
     textures.load(textures::cursor,         "src/gfx/cursor.png");
     textures.load(textures::small_mutant,   "src/gfx/small_mutant.png");
     textures.load(textures::bullet,         "src/gfx/bullet.png");
+    textures.load(textures::sm_ammo,        "src/gfx/sm_ammo.png");
+    textures.load(textures::sm_health_pack, "src/gfx/sm_health_pack.png");
     fonts.load(fonts::pixel,                "src/pixel.ttf");
 }
 void world::build_scene()
@@ -62,6 +64,14 @@ void world::build_scene()
     the_cursor->setPosition(spawn_position);
     scene_layers[hud_layer]->attach_child(std::move(cur));
 
+    std::unique_ptr<pickup> pk(new pickup(pickup::type::sm_ammo, textures));
+    pk->setPosition(spawn_position.x + 20, spawn_position.y + 20);
+    scene_layers[mon_layer]->attach_child(std::move(pk));
+
+    std::unique_ptr<pickup> tk(new pickup(pickup::type::sm_health_pack, textures));
+    tk->setPosition(spawn_position.x - 15, spawn_position.y + 10);
+    scene_layers[mon_layer]->attach_child(std::move(tk));
+
 }
 void world::draw()
 {
@@ -75,6 +85,7 @@ void world::update(sf::Time delta)
     the_player->set_velocity(0.f, 0.f);
     //rotate towards the software cursor aka reticle
     rotate_player();
+
     //push all commands onto the queue
     while (!world_cmd_queue.is_empty())
     {
@@ -86,6 +97,8 @@ void world::update(sf::Time delta)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {scene_graph.print(); std::cout << "____\n";}
     update_cursor();
     world_view.setCenter(the_player->getPosition());
+    handle_collisions();
+    scene_graph.remove_wrecks();
     scene_graph.update(delta, world_cmd_queue);
 }
 command_queue& world::get_cmd_queue()
@@ -149,6 +162,7 @@ void world::set_zoom(float f)
         (zoom_level >= LOWER_ZOOM_LIMIT && f < 1.f))
     {
         zoom_level *= f;
+        the_cursor->setScale(zoom_level * 2.4f, zoom_level * 2.4f);
         world_view.zoom(f);
     }
 }
@@ -161,7 +175,7 @@ void world::spawn_enemies()
     while (!enemy_spawn_points.empty())
     {
         spawn_point spawn = enemy_spawn_points.back();
-        std::unique_ptr<monster> enemy(new monster(spawn.stype, textures, fonts, 100));
+        std::unique_ptr<monster> enemy(new monster(spawn.stype, textures, fonts, 65));
         enemy->setPosition(spawn.x, spawn.y);
         scene_layers[mon_layer]->attach_child(std::move(enemy));
         enemy_spawn_points.pop_back();
@@ -169,6 +183,7 @@ void world::spawn_enemies()
 }
 void world::add_enemies()
 {
+    //coordinates are interpreted relative to the player
     add_enemy(monster::type::small_mutant, 50, 50);
 }
 void world::add_enemy(monster::type mtype, float x, float y)
@@ -181,4 +196,59 @@ world::spawn_point::spawn_point(monster::type fstype, float fx, float fy)
     stype = fstype;
     x = fx;
     y = fy;
+}
+bool world::matches_categories(scene_node::scn_pair& colliders, cmd_category::ID type_1, cmd_category::ID type_2)
+{
+    unsigned int category1 = colliders.first->get_category();
+    unsigned int category2 = colliders.second->get_category();
+
+    if (type_1 & category1 && type_2 & category2)
+    {
+        return true;
+    }
+    else if (type_1 & category2 && type_2 & category1)
+    {
+        //put them into the right order
+        std::swap(colliders.first, colliders.second);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+void world::handle_collisions()
+{
+    std::set<scene_node::scn_pair> collision_pairs;
+    scene_graph.check_scene_collision(scene_graph, collision_pairs);
+
+    for (scene_node::scn_pair colliding_pair : collision_pairs)
+    {
+        if (matches_categories(colliding_pair, cmd_category::the_player, cmd_category::enemies))
+        {
+            std::cout << "player - enemy collision\n";
+            auto& pmonster = static_cast<monster&>(*colliding_pair.first);
+            auto& cmonster = static_cast<monster&>(*colliding_pair.second);
+            pmonster.hit_wall = true;
+            cmonster.hit_wall = true;
+        }
+        if (matches_categories(colliding_pair, cmd_category::the_player, cmd_category::pickups))
+        {
+            std::cout << "player - pickup collision\n";
+            auto& pk = static_cast<pickup&>(*colliding_pair.second);
+            pk.apply(*the_player);
+            pk.destroy();
+        }
+        if (matches_categories(colliding_pair, cmd_category::ally_projectiles, cmd_category::enemies) ||
+            matches_categories(colliding_pair, cmd_category::enemy_projectiles, cmd_category::the_player))
+        {
+            std::cout << "bullet - monster collision\n";
+            auto& cmonster = static_cast<monster&>(*colliding_pair.second);
+            auto& bullet = static_cast<projectile&>(*colliding_pair.first);
+
+            cmonster.damage(bullet.get_damage());
+            bullet.destroy();
+        }
+
+    }
 }

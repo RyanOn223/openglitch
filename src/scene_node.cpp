@@ -4,11 +4,13 @@ scene_node::scene_node()
 {
 	parent = nullptr;
 	category = 1;
+	//dead = false;
 }
 scene_node::scene_node(unsigned int cat)
 {
     parent = nullptr;
     category = cat;
+    //dead = false;
 }
 void scene_node::attach_child(scn_ptr child)
 {
@@ -125,8 +127,61 @@ void scene_node::print()
     std::cout << "this node: " << get_category();
     for (scn_ptr& child : children)
     {
-        std::cout << "\nchild node: " << child->get_category() << std::endl;
+        std::cout << "\n\tchild node: " << child->get_category() << std::endl;
         child->print();
     }
     std::cout << "\n";
+}
+sf::FloatRect scene_node::getBoundingRect() const
+{
+    return sf::FloatRect(0,0,0,0);
+}
+bool scene_node::collision(const scene_node& lhs, const scene_node& rhs)
+{
+    //our very simple collision test using sf::FloatRect::intersects() which probably uses SAT
+    return lhs.getBoundingRect().intersects(rhs.getBoundingRect());
+}
+void scene_node::check_node_collision(scene_node& node, std::set<scn_pair>& collision_pairs)
+{
+    if (this != &node &&
+        collision(*this, node) &&
+        !is_dead() &&
+        !node.is_dead())
+    {
+        //using minmax ensures that a-b and b-a will always be in the same order
+        collision_pairs.insert(std::minmax(this, &node));
+    }
+    for (scn_ptr& child : children)
+    {
+        child->check_node_collision(node, collision_pairs);
+    }
+}
+void scene_node::check_scene_collision(scene_node& scene_graph, std::set<scn_pair>& collision_pairs)
+{
+    check_node_collision(scene_graph, collision_pairs);
+
+    for (scn_ptr& child : scene_graph.children)
+    {
+        check_scene_collision(*child, collision_pairs);
+    }
+}
+bool scene_node::is_dead() const
+{
+    return false;
+}
+//void scene_node::destroy()
+//{
+//    dead = true;
+//}
+bool scene_node::is_marked_for_removal() const
+{
+    return is_dead();
+}
+void scene_node::remove_wrecks()
+{
+    auto wreck_field_begin = std::remove_if(children.begin(), children.end(),
+                                    std::mem_fn(&scene_node::is_marked_for_removal));
+    children.erase(wreck_field_begin, children.end());
+
+    std::for_each(children.begin(), children.end(), std::mem_fn(&scene_node::remove_wrecks));
 }

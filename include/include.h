@@ -17,7 +17,7 @@
 
 namespace textures
 {
-	enum ID { player, small_mutant, large_mutant, floor, wall, cursor, bullet };
+	enum ID { player, small_mutant, large_mutant, floor, wall, cursor, bullet, sm_ammo, sm_health_pack };
 }
 namespace sounds
 {
@@ -35,20 +35,23 @@ namespace cmd_category
 {
     enum ID
     {
-        none =          0,
-        scene =         1 << 0,
-        the_player =    1 << 1,
-        enemies =       1 << 2,
+        none =               0,
+        scene =              1 << 0,
+        the_player =         1 << 1,
+        enemies =            1 << 2,
         ally_projectiles =   1 << 3,
         enemy_projectiles =  1 << 4,
-        air_layer = 1 << 5,
+        //the air scene layer has to take commands itself
+        air_layer =          1 << 5,
+        pickups =            1 << 6,
+
     };
 }
-//define some critical game values. later, these should be loaded from a file in game() and main() respectively
+//define some critical game values. later, these should be loaded from a file
 const float PI = 3.141592654f;
 const float FPS = 60.f;
 const bool VSYNC = true;
-const bool LIMIT_FPS = false;
+const bool LIMIT_FPS = true;
 const short int AA_LEVEL = 4;
 const float PSPEED = 30.f;
 const float SENSITIVITY  = 2; //higher numbers are less sensitive

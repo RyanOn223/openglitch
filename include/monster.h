@@ -33,7 +33,8 @@ class monster : public entity
                 //assume the node we've been passed represents a monster reference
                 //this is safe only here, even then watch out later for this
                 monster& mon = static_cast<monster&>(node);
-                mon.accelerate(velocity);
+                if (!mon.hit_wall) mon.accelerate(velocity);
+                else mon.hit_wall = false;
             }
             sf::Vector2f velocity;
         };
@@ -57,11 +58,26 @@ class monster : public entity
                 mon.fire_weapon();
             }
         };
+        struct monster_healer
+        {
+            monster_healer(int hp) : healthpoints(hp) {}
+            void operator()(scene_node& node) const
+            {
+                monster& mon = static_cast<monster&>(node);
+                mon.repair(healthpoints);
+            }
+            int healthpoints;
+        };
         void fire_weapon();
         void create_bullets(scene_node& node, const texture_manager& textures) const;
         void create_projectile(scene_node& node, projectile::type ptype, float xoff, float yoff, const texture_manager& textures) const;
         bool is_ally() const;
+        virtual sf::FloatRect getBoundingRect() const;
+        virtual bool is_marked_for_removal() const;
+        bool hit_wall;
 	private:
+
+        bool removal_mark;
 		type monster_type;
 		sf::Sprite sprite;
 		text_node* health_text;

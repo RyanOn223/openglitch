@@ -11,8 +11,12 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="clang" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-fsanitize=address" />
+					<Add option="-fno-omit-frame-pointer" />
+					<Add option="-fsanitize=undefined-trap -fsanitize-undefined-trap-on-error" />
 					<Add option="-Wnon-virtual-dtor" />
 					<Add option="-pedantic" />
 					<Add option="-Wno-c++98-compat -Wno-c++98-compat-pedantic" />
@@ -54,6 +58,7 @@
 		<Unit filename="include/game.h" />
 		<Unit filename="include/include.h" />
 		<Unit filename="include/monster.h" />
+		<Unit filename="include/pickup.h" />
 		<Unit filename="include/player.h" />
 		<Unit filename="include/projectile.h" />
 		<Unit filename="include/resource_manager.h" />
@@ -73,8 +78,11 @@
 		<Unit filename="src/gfx/cursor.png" />
 		<Unit filename="src/gfx/floor.png" />
 		<Unit filename="src/gfx/player.png" />
+		<Unit filename="src/gfx/sm_ammo.png" />
+		<Unit filename="src/gfx/sm_health_pack.png" />
 		<Unit filename="src/gfx/small_mutant.png" />
 		<Unit filename="src/monster.cpp" />
+		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pixel.ttf" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/projectile.cpp" />

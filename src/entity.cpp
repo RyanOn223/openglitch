@@ -32,8 +32,8 @@ void entity::accelerate(sf::Vector2f v)
 }
 void entity::damage(int hp)
 {
+    //std::cout << "took damage: " << hp << std::endl;
     if (hitpoints > 0) hitpoints -= hp;
-    if (hitpoints < 0) hitpoints = 0;
 }
 void entity::repair(int hp)
 {
@@ -45,9 +45,13 @@ void entity::destroy()
 }
 bool entity::is_dead() const
 {
-    return hitpoints;
+    return hitpoints <= 0;
 }
 int entity::get_hp() const
 {
     return hitpoints;
+}
+bool entity::is_marked_for_removal() const
+{
+    return (hitpoints <= 0);
 }

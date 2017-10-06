@@ -12,6 +12,7 @@
 #include "command_queue.h"
 #include "cursor.h"
 #include "projectile.h"
+#include "pickup.h"
 class world : public sf::NonCopyable
 {
     public:
@@ -40,6 +41,8 @@ class world : public sf::NonCopyable
         void spawn_enemies();
         void add_enemy(monster::type, float x, float y);
         void add_enemies();
+        bool matches_categories(scene_node::scn_pair& colliders, cmd_category::ID type_1, cmd_category::ID type_2);
+        void handle_collisions();
     private:
         enum scn_layer
         {
