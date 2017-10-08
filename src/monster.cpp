@@ -34,6 +34,7 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
 	//set the sprites origin to the center of the local bounds of its bounding rectangle.
 	//aka move its reference point from the top left corner to the center of the sprite
 	fire_cooldown = sf::Time::Zero;
+	//scale(2.f, 2.f);
 	sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 	//std::cout << "new monster, type: " << mtype << std::endl;
@@ -50,17 +51,17 @@ void monster::draw_current(sf::RenderTarget& target,
 	//the result of all this inheritence, oop, recursion, and sfml usage is that this is a super simple call
 	//if (this->get_category() == cmd_category::the_player) std::cout << "drawing player\n";
 	sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-	std::cout << v.x << ", " << v.y << std::endl;
+	//std::cout << v.x << ", " << v.y << std::endl;
 	sf::RectangleShape collide_rect(v);
 	sf::FloatRect bounds = 	collide_rect.getLocalBounds();
 	collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	collide_rect.setRotation(sprite.getRotation());
+	//collide_rect.setRotation(sprite.getRotation());
 	collide_rect.setPosition(getPosition());
 	collide_rect.setOutlineColor(sf::Color::Black);
 	collide_rect.setFillColor(sf::Color(0,0,0,0));
 	collide_rect.setOutlineThickness(.5f);
 	target.draw(sprite, states);
-	target.draw(collide_rect);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
 }
 unsigned int monster::get_category() const
 {
@@ -83,7 +84,19 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
     health_text->set_string(std::to_string(get_hp()) + " hp");
     health_text->setPosition(-4.f, -7.f);
     health_text->setRotation(-getRotation());
-    move(get_velocity() * delta.asSeconds());
+    if ((get_velocity().x != 0.f && get_velocity().y == 0.f) ||
+        (get_velocity().x == 0.f && get_velocity().y != 0.f) ||
+        (get_velocity().x != 0.f && get_velocity().y != 0.f))
+        {
+            last_velocity = get_velocity();
+        }
+    if (hit_wall)
+    {
+        if (get_velocity().x != 0.f && get_velocity().y != 0.f) move(-get_velocity() * delta.asSeconds() / 2.5f);
+        else move(-last_velocity * delta.asSeconds() / 2.5f);
+        hit_wall = false;
+    }
+    else move(get_velocity() * delta.asSeconds());
     check_launch(delta, cmds);
     if (get_hp() <= 0) removal_mark = true;
 }
@@ -145,7 +158,12 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
 }
 sf::FloatRect monster::getBoundingRect() const
 {
-    return getWorldTransform().transformRect(sprite.getGlobalBounds());
+    sf::FloatRect to_return;//(getWorldTransform().transformRect(sprite.getGlobalBounds()));
+    to_return.left = getPosition().x;
+    to_return.top = getPosition().y;
+    to_return.width = sprite.getTexture()->getSize().x;
+    to_return.height = sprite.getTexture()->getSize().y;
+    return to_return;
 }
 bool monster::is_marked_for_removal() const
 {

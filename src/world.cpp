@@ -66,11 +66,11 @@ void world::build_scene()
 
     std::unique_ptr<pickup> pk(new pickup(pickup::type::sm_ammo, textures));
     pk->setPosition(spawn_position.x + 20, spawn_position.y + 20);
-    scene_layers[mon_layer]->attach_child(std::move(pk));
+    scene_layers[bg_layer]->attach_child(std::move(pk));
 
     std::unique_ptr<pickup> tk(new pickup(pickup::type::sm_health_pack, textures));
     tk->setPosition(spawn_position.x - 15, spawn_position.y + 10);
-    scene_layers[mon_layer]->attach_child(std::move(tk));
+    scene_layers[bg_layer]->attach_child(std::move(tk));
 
 }
 void world::draw()
@@ -80,12 +80,12 @@ void world::draw()
 }
 void world::update(sf::Time delta)
 {
-    spawn_enemies();
+
     //before any commands are applied, reset the player speed to 0
     the_player->set_velocity(0.f, 0.f);
     //rotate towards the software cursor aka reticle
     rotate_player();
-
+    destroy_OOB_entities();
     //push all commands onto the queue
     while (!world_cmd_queue.is_empty())
     {
@@ -94,11 +94,12 @@ void world::update(sf::Time delta)
 
     //fixes circular distances and world bounds
     adjust_player_v();
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {scene_graph.print(); std::cout << "____\n";}
-    update_cursor();
+    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {scene_graph.print(); std::cout << "____\n";}
     world_view.setCenter(the_player->getPosition());
     handle_collisions();
     scene_graph.remove_wrecks();
+    spawn_enemies();
+    update_cursor();
     scene_graph.update(delta, world_cmd_queue);
 }
 command_queue& world::get_cmd_queue()
@@ -226,7 +227,7 @@ void world::handle_collisions()
     {
         if (matches_categories(colliding_pair, cmd_category::the_player, cmd_category::enemies))
         {
-            std::cout << "player - enemy collision\n";
+            //std::cout << "player - enemy collision\n";
             auto& pmonster = static_cast<monster&>(*colliding_pair.first);
             auto& cmonster = static_cast<monster&>(*colliding_pair.second);
             pmonster.hit_wall = true;
@@ -234,7 +235,7 @@ void world::handle_collisions()
         }
         if (matches_categories(colliding_pair, cmd_category::the_player, cmd_category::pickups))
         {
-            std::cout << "player - pickup collision\n";
+            //std::cout << "player - pickup collision\n";
             auto& pk = static_cast<pickup&>(*colliding_pair.second);
             pk.apply(*the_player);
             pk.destroy();
@@ -242,7 +243,7 @@ void world::handle_collisions()
         if (matches_categories(colliding_pair, cmd_category::ally_projectiles, cmd_category::enemies) ||
             matches_categories(colliding_pair, cmd_category::enemy_projectiles, cmd_category::the_player))
         {
-            std::cout << "bullet - monster collision\n";
+            //std::cout << "bullet - monster collision\n";
             auto& cmonster = static_cast<monster&>(*colliding_pair.second);
             auto& bullet = static_cast<projectile&>(*colliding_pair.first);
 
@@ -251,4 +252,18 @@ void world::handle_collisions()
         }
 
     }
+}
+void world::destroy_OOB_entities()
+{
+    command destroy_command;
+    destroy_command.ccategory = cmd_category::ally_projectiles | cmd_category::enemy_projectiles;
+    destroy_command.action = derived_action<entity>([this] (entity& e, sf::Time)
+    {
+        if (!world_bounds.intersects(e.getBoundingRect()))
+        {
+            e.destroy();
+            std::cout << "destroyed entity of type: " << e.get_category() << std::endl;
+        }
+    });
+    world_cmd_queue.push(destroy_command);
 }

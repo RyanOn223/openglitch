@@ -5,6 +5,7 @@
 class game
 {
 	public:
+
 		//antialaising setting is passed here from main.cpp, other settings
 		//should be as well TODO
 		game(sf::ContextSettings settings);

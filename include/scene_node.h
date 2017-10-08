@@ -29,6 +29,7 @@ class scene_node : public sf::Drawable, public sf::Transformable,
         virtual bool is_dead() const;
         //virtual void destroy();
         virtual bool is_marked_for_removal() const;
+        virtual sf::FloatRect getBoundingRect() const;
         void remove_wrecks();
 	private:
 		std::vector<scn_ptr> children;
@@ -45,7 +46,7 @@ class scene_node : public sf::Drawable, public sf::Transformable,
 		void draw_children(sf::RenderTarget& target, sf::RenderStates states) const;
 
         bool collision(const scene_node& lhs, const scene_node& rhs);
-        virtual sf::FloatRect getBoundingRect() const;
+
         /* from the book, usage of draw():
 		 * sf::RenderWindow window(...);
 		 * SceneNode::Ptr node(...);

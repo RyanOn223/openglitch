@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1506456292 source:/home/destrovel/cppwork/openglitch/openglitch/main.cpp
+1507402881 source:/home/destrovel/cppwork/openglitch/openglitch/main.cpp
 	"include/game.h"
 
-1506798114 /home/destrovel/cppwork/openglitch/openglitch/include/game.h
+1507406275 /home/destrovel/cppwork/openglitch/openglitch/include/game.h
 	"include.h"
 	"world.h"
 
-1507257024 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
+1507403936 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
 	"/usr/local/./include/SFML/Window.hpp"
 	"/usr/local/./include/SFML/Graphics.hpp"
 	"/usr/local/./include/SFML/System.hpp"
@@ -98,7 +98,7 @@
 	<SFML/Audio/SoundSource.hpp>
 	<SFML/Audio/SoundStream.hpp>
 
-1507255780 /home/destrovel/cppwork/openglitch/openglitch/include/scene_node.h
+1507406296 /home/destrovel/cppwork/openglitch/openglitch/include/scene_node.h
 	"include.h"
 	"command_queue.h"
 
@@ -108,11 +108,11 @@
 1506905783 /home/destrovel/cppwork/openglitch/openglitch/include/resource_manager.h
 	"include.h"
 
-1507253929 /home/destrovel/cppwork/openglitch/openglitch/include/entity.h
+1507398977 /home/destrovel/cppwork/openglitch/openglitch/include/entity.h
 	"include.h"
 	"scene_node.h"
 
-1507258883 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
+1507398404 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
 	"include.h"
 	"entity.h"
 	"resource_manager.h"
@@ -121,13 +121,13 @@
 	"text_node.h"
 	"projectile.h"
 
-1507256952 source:/home/destrovel/cppwork/openglitch/openglitch/src/entity.cpp
+1507398213 source:/home/destrovel/cppwork/openglitch/openglitch/src/entity.cpp
 	"../include/entity.h"
 
-1507069527 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
+1507402881 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
 	"../include/game.h"
 
-1507259259 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
+1507403646 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
 	"../include/monster.h"
 
 1506436327 source:/home/destrovel/cppwork/openglitch/openglitch/src/resource_manager.cpp
@@ -144,7 +144,7 @@
 1506457799 source:/home/destrovel/cppwork/openglitch/openglitch/src/sprite_node.cpp
 	"sprite_node.h"
 
-1507247172 /home/destrovel/cppwork/openglitch/openglitch/include/world.h
+1507412006 /home/destrovel/cppwork/openglitch/openglitch/include/world.h
 	"include.h"
 	"texture_manager.h"
 	"resource_manager.h"
@@ -158,10 +158,10 @@
 	"projectile.h"
 	"pickup.h"
 
-1507257514 source:/home/destrovel/cppwork/openglitch/openglitch/src/world.cpp
+1507406593 source:/home/destrovel/cppwork/openglitch/openglitch/src/world.cpp
 	"world.h"
 
-1507065596 source:/home/destrovel/cppwork/openglitch/openglitch/src/player.cpp
+1507396622 source:/home/destrovel/cppwork/openglitch/openglitch/src/player.cpp
 	"player.h"
 
 1506788408 /home/destrovel/cppwork/openglitch/openglitch/include/player.h
@@ -204,7 +204,7 @@
 1507068114 source:/home/destrovel/cppwork/openglitch/openglitch/src/text_node.cpp
 	"text_node.h"
 
-1507256952 source:/home/destrovel/cppwork/openglitch/openglitch/src/projectile.cpp
+1507412207 source:/home/destrovel/cppwork/openglitch/openglitch/src/projectile.cpp
 	"projectile.h"
 	"datatables.h"
 
@@ -218,6 +218,42 @@
 	"monster.h"
 	"datatables.h"
 
-1507159108 source:/home/destrovel/cppwork/openglitch/openglitch/src/pickup.cpp
+1507403167 source:/home/destrovel/cppwork/openglitch/openglitch/src/pickup.cpp
 	"pickup.h"
+
+1507398255 /home/destrovel/cppwork/openglitch/openglitch/include/math.h
+	"include.h"
+
+1305426297 source:/home/destrovel/cppwork/openglitch/openglitch/tinyxml/tinystr.cpp
+	"tinystr.h"
+
+1305426297 /home/destrovel/cppwork/openglitch/openglitch/tinyxml/tinystr.h
+	<assert.h>
+	<string.h>
+
+1305426297 source:/home/destrovel/cppwork/openglitch/openglitch/tinyxml/tinyxml.cpp
+	<ctype.h>
+	<sstream>
+	<iostream>
+	"tinyxml.h"
+
+1305426297 /home/destrovel/cppwork/openglitch/openglitch/tinyxml/tinyxml.h
+	<ctype.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<string>
+	<iostream>
+	<sstream>
+	"tinystr.h"
+
+1305426297 source:/home/destrovel/cppwork/openglitch/openglitch/tinyxml/tinyxmlerror.cpp
+	"tinyxml.h"
+
+1305426297 source:/home/destrovel/cppwork/openglitch/openglitch/tinyxml/tinyxmlparser.cpp
+	<ctype.h>
+	<stddef.h>
+	"tinyxml.h"
+	<windows.h>
 

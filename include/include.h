@@ -49,12 +49,18 @@ namespace cmd_category
 }
 //define some critical game values. later, these should be loaded from a file
 const float PI = 3.141592654f;
-const float FPS = 60.f;
+const float FPS = 90.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = true;
 const short int AA_LEVEL = 4;
 const float PSPEED = 30.f;
 const float SENSITIVITY  = 2; //higher numbers are less sensitive
-const float UPPER_ZOOM_LIMIT = 0.4f;
+const float UPPER_ZOOM_LIMIT = 0.3f;
 const float LOWER_ZOOM_LIMIT = 0.1f;
+
+//sf::Vector2f rtheta_to_xy(float R, float theta)
+//{
+//    theta *= PI/180.f;
+//    return sf::Vector2f(R * cos(theta), R * sin(theta));
+//}
 #endif

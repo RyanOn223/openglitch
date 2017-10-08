@@ -18,6 +18,8 @@ class entity : public scene_node
 		sf::Vector2f get_velocity() const;
 		void accelerate(sf::Vector2f v);
 		virtual bool is_marked_for_removal() const;
+		float angle_to(entity& other);
+		sf::Vector2f last_velocity;
 	private:
         int hitpoints;
 		sf::Vector2f velocity;

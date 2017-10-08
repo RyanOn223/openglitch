@@ -27,34 +27,31 @@ player::~player()
 void player::handle_input(command_queue& cmds)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) player_speed = 2 * PSPEED ; else player_speed = PSPEED;
+    command move_command;
+    move_command.ccategory = (cmd_category::the_player);
+    sf::Vector2f move_dir(0.f,0.f);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        command move_left;
-        move_left.ccategory = (cmd_category::the_player);
-        move_left.action = monster::monster_mover(-player_speed, 0.f);
-        cmds.push(move_left);
+        //move_left.action = monster::monster_mover(-player_speed, 0.f);
+        move_dir.x -= player_speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        command move_up;
-        move_up.ccategory = (cmd_category::the_player);
-        move_up.action = monster::monster_mover(0.f, -player_speed);
-        cmds.push(move_up);
+        //move_up.action = monster::monster_mover(0.f, -player_speed);
+        move_dir.y -= player_speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        command move_right;
-        move_right.ccategory = (cmd_category::the_player);
-        move_right.action = monster::monster_mover(player_speed, 0.f);
-        cmds.push(move_right);
+        //move_right.action = monster::monster_mover(player_speed, 0.f);
+        move_dir.x += player_speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        command move_down;
-        move_down.ccategory = (cmd_category::the_player);
-        move_down.action = monster::monster_mover(0.f, player_speed);
-        cmds.push(move_down);
+        //move_down.action = monster::monster_mover(0.f, player_speed);
+        move_dir.y += player_speed;
     }
+    move_command.action = monster::monster_mover(move_dir.x, move_dir.y);
+    cmds.push(move_command);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
     {
         //check here too, for automatic weapons

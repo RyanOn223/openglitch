@@ -55,3 +55,8 @@ bool entity::is_marked_for_removal() const
 {
     return (hitpoints <= 0);
 }
+float entity::angle_to(entity& other)
+{
+    sf::Vector2f diff = other.getPosition() - getPosition();
+    return atan2(diff.y, diff.x) * 180/PI;
+}

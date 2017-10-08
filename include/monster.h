@@ -33,8 +33,7 @@ class monster : public entity
                 //assume the node we've been passed represents a monster reference
                 //this is safe only here, even then watch out later for this
                 monster& mon = static_cast<monster&>(node);
-                if (!mon.hit_wall) mon.accelerate(velocity);
-                else mon.hit_wall = false;
+                mon.accelerate(velocity);
             }
             sf::Vector2f velocity;
         };
