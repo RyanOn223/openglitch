@@ -1,0 +1,9 @@
+v 0.0.1:
+    collisions
+        -SAT collision for rotated entities
+        -smart collision responses
+        -basic collision optimizations
+    entities
+        -wall.h
+    mechanics
+        -ammo and weapons, probably using tables

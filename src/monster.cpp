@@ -49,13 +49,10 @@ void monster::draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const
 {
 	//the result of all this inheritence, oop, recursion, and sfml usage is that this is a super simple call
-	//if (this->get_category() == cmd_category::the_player) std::cout << "drawing player\n";
 	sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-	//std::cout << v.x << ", " << v.y << std::endl;
 	sf::RectangleShape collide_rect(v);
 	sf::FloatRect bounds = 	collide_rect.getLocalBounds();
 	collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	//collide_rect.setRotation(sprite.getRotation());
 	collide_rect.setPosition(getPosition());
 	collide_rect.setOutlineColor(sf::Color::Black);
 	collide_rect.setFillColor(sf::Color(0,0,0,0));
@@ -143,7 +140,7 @@ bool monster::is_ally() const
 void monster::create_projectile(scene_node& node, projectile::type ptype, float xoff, float yoff, const texture_manager& textures) const
 {
     //create the new projectile and calculate its offset
-    std::unique_ptr<projectile> proj(new projectile(ptype, textures, 300.f, 5));
+    std::unique_ptr<projectile> proj(new projectile(ptype, textures, 400.f, 5));
     sf::Vector2f offset(xoff * sprite.getGlobalBounds().width, yoff * sprite.getGlobalBounds().height);
     //determine the velocity vector of the projectile based upon the rotation of this monster. i.e shoot this out the front
     float hyp = proj->get_max_speed();

@@ -163,7 +163,7 @@ void world::set_zoom(float f)
         (zoom_level >= LOWER_ZOOM_LIMIT && f < 1.f))
     {
         zoom_level *= f;
-        the_cursor->setScale(zoom_level * 2.4f, zoom_level * 2.4f);
+        the_cursor->setScale(zoom_level * CURS_SCALE , zoom_level * CURS_SCALE);
         world_view.zoom(f);
     }
 }
@@ -262,7 +262,7 @@ void world::destroy_OOB_entities()
         if (!world_bounds.intersects(e.getBoundingRect()))
         {
             e.destroy();
-            std::cout << "destroyed entity of type: " << e.get_category() << std::endl;
+            //std::cout << "destroyed entity of type: " << e.get_category() << std::endl;
         }
     });
     world_cmd_queue.push(destroy_command);

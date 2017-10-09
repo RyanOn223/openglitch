@@ -71,6 +71,7 @@ class world : public sf::NonCopyable
          sf::View world_view;
          texture_manager textures;
          resource_manager<sf::Font, fonts::ID> fonts;
+         resource_manager<sf::Sound, sounds::ID> sounds;
          scene_node scene_graph;
          std::array<scene_node*, layer_count> scene_layers;
          sf::FloatRect world_bounds;
