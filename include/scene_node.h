@@ -24,15 +24,16 @@ class scene_node : public sf::Drawable, public sf::Transformable,
         void on_command(const command& cmd, sf::Time delta);
         void print();
         sf::Transform getWorldTransform() const;
-        void check_node_collision(scene_node& node, std::set<scn_pair>& collision_pairs);
+        virtual void check_node_collision(scene_node& node, std::set<scn_pair>& collision_pairs);
         void check_scene_collision(scene_node& scene_graph, std::set<scn_pair>& collision_pairs);
         virtual bool is_dead() const;
         //virtual void destroy();
         virtual bool is_marked_for_removal() const;
         virtual sf::FloatRect getBoundingRect() const;
         void remove_wrecks();
+        std::vector<scn_ptr> children;
+
 	private:
-		std::vector<scn_ptr> children;
 		scene_node* parent;
 	private:
         unsigned int category;
@@ -45,7 +46,7 @@ class scene_node : public sf::Drawable, public sf::Transformable,
 
 		void draw_children(sf::RenderTarget& target, sf::RenderStates states) const;
 
-        bool collision(const scene_node& lhs, const scene_node& rhs);
+        virtual bool collision(const scene_node& lhs, const scene_node& rhs);
 
         /* from the book, usage of draw():
 		 * sf::RenderWindow window(...);

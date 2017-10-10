@@ -49,16 +49,19 @@ void monster::draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const
 {
 	//the result of all this inheritence, oop, recursion, and sfml usage is that this is a super simple call
-	sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-	sf::RectangleShape collide_rect(v);
-	sf::FloatRect bounds = 	collide_rect.getLocalBounds();
-	collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	collide_rect.setPosition(getPosition());
-	collide_rect.setOutlineColor(sf::Color::Black);
-	collide_rect.setFillColor(sf::Color(0,0,0,0));
-	collide_rect.setOutlineThickness(.5f);
-	target.draw(sprite, states);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
+    {
+        sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
+        sf::RectangleShape collide_rect(v);
+        sf::FloatRect bounds = 	collide_rect.getLocalBounds();
+        collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+        collide_rect.setPosition(getPosition());
+        collide_rect.setOutlineColor(sf::Color::Black);
+        collide_rect.setFillColor(sf::Color(0,0,0,0));
+        collide_rect.setOutlineThickness(.5f);
+        target.draw(collide_rect);
+    }
+    target.draw(sprite, states);
 }
 unsigned int monster::get_category() const
 {
@@ -140,7 +143,7 @@ bool monster::is_ally() const
 void monster::create_projectile(scene_node& node, projectile::type ptype, float xoff, float yoff, const texture_manager& textures) const
 {
     //create the new projectile and calculate its offset
-    std::unique_ptr<projectile> proj(new projectile(ptype, textures, 400.f, 5));
+    std::unique_ptr<projectile> proj(new projectile(ptype, textures, 250.f, 4));
     sf::Vector2f offset(xoff * sprite.getGlobalBounds().width, yoff * sprite.getGlobalBounds().height);
     //determine the velocity vector of the projectile based upon the rotation of this monster. i.e shoot this out the front
     float hyp = proj->get_max_speed();
@@ -156,10 +159,10 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
 sf::FloatRect monster::getBoundingRect() const
 {
     sf::FloatRect to_return;//(getWorldTransform().transformRect(sprite.getGlobalBounds()));
-    to_return.left = getPosition().x;
-    to_return.top = getPosition().y;
-    to_return.width = sprite.getTexture()->getSize().x;
-    to_return.height = sprite.getTexture()->getSize().y;
+    to_return.left = getPosition().x - 1;
+    to_return.top = getPosition().y - 1;
+    to_return.width = sprite.getTexture()->getSize().x + 2;
+    to_return.height = sprite.getTexture()->getSize().y + 2;
     return to_return;
 }
 bool monster::is_marked_for_removal() const

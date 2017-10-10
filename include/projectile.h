@@ -22,13 +22,16 @@ class projectile : public entity
         virtual ~projectile();
         virtual sf::FloatRect getBoundingRect() const;
         virtual bool is_marked_for_removal() const;
+        virtual void check_node_collision(scene_node& node, std::set<scn_pair>& collision_pairs);
     protected:
 
     private:
         virtual void update_current(sf::Time delta, command_queue& cmds);
         //virtual void update_current(sf::Time delta);
         virtual void draw_current(sf::RenderTarget& target, sf::RenderStates states) const;
+        virtual bool collision(const scene_node& lhs, const scene_node& rhs);
     private:
+        sf::Vector2f last_position;
         type ptype;
         sf::Sprite sprite;
         sf::Vector2f target_direction;

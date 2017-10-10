@@ -16,7 +16,11 @@
 
 namespace textures
 {
-	enum ID { player, small_mutant, large_mutant, floor, wall, cursor, bullet, sm_ammo, sm_health_pack };
+	enum ID { player,       small_mutant,
+              large_mutant, floor,
+              long_wall,    short_wall,
+              cursor,       bullet,
+              sm_ammo,      sm_health_pack, };
 }
 namespace sounds
 {
@@ -43,7 +47,7 @@ namespace cmd_category
         //the air scene layer has to take commands itself
         air_layer =          1 << 5,
         pickups =            1 << 6,
-
+        walls =               1 << 7,
     };
 }
 //define some critical game values. later, these should be loaded from a file

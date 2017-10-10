@@ -44,17 +44,31 @@ void game::run()
 		//once every half second update FPS text
 		if (turn_no % (static_cast<int>(FPS)/6) == 0)
             fps_text->setString(std::to_string(1000000.f/delta.asMicroseconds()).substr(0, 5));
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
+        {
+            fps_text->setString(fps_text->getString() + "\nleft: " + (std::to_string(dbg_clock.restart().asMicroseconds())));
+        }
 		sf::Vector2f pos;
 		if (!ispaused)
 		{
             update(delta);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
+            {
+                fps_text->setString(fps_text->getString() + "\nupdate: " + (std::to_string(dbg_clock.restart().asMicroseconds())));
+            }
             //if (turn_no % static_cast<int>(FPS)/2 == 0)
             //    fps_text->setString(fps_text->getString() + "\tup: " + std::to_string(dbg_clock.restart().asMicroseconds()).substr(0,4));
 		}
 		render();
-		//if (turn_no % static_cast<int>(FPS)/2 == 0)
-        //    fps_text->setString(fps_text->getString() + "\tdr: " + std::to_string(dbg_clock.restart().asMicroseconds()).substr(0,4));
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
+        {
+            fps_text->setString(fps_text->getString() + "\nrender: " + (std::to_string(dbg_clock.restart().asMicroseconds())));
+        }
         process_events();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
+        {
+            fps_text->setString(fps_text->getString() + "\nevent: " + (std::to_string(dbg_clock.restart().asMicroseconds())));
+        }
         //if (turn_no % static_cast<int>(FPS)/2 == 0)
         //    fps_text->setString(fps_text->getString() + "\tev: " + std::to_string(dbg_clock.restart().asMicroseconds()).substr(0,4));
 		turn_no++;
@@ -109,7 +123,7 @@ void game::render()
 	gwindow.clear();
 	game_world.draw();
 	gwindow.setView(gwindow.getDefaultView());
-	gwindow.draw(*fps_text);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) gwindow.draw(*fps_text);
 	gwindow.display();
 }
 game::~game()

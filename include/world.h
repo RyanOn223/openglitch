@@ -13,6 +13,7 @@
 #include "cursor.h"
 #include "projectile.h"
 #include "pickup.h"
+#include "wall.h"
 class world : public sf::NonCopyable
 {
     public:
@@ -60,9 +61,9 @@ class world : public sf::NonCopyable
         enum scn_layer
         {
             bg_layer,
+            walls_layer,
             mon_layer,
             air_layer,
-            walls_layer,
             hud_layer,
             layer_count,
         };

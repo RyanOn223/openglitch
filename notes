@@ -3,7 +3,22 @@ v 0.0.1:
         -SAT collision for rotated entities
         -smart collision responses
         -basic collision optimizations
+        -interpolate bullet collisions
     entities
-        -wall.h
-    mechanics
-        -ammo and weapons, probably using tables
+        -wall.h                                 done!
+        -collision_manager.h
+    mechanics / required
+        -ammo and weapons
+        -implement file loading
+            -data tables
+            -initial entity setup
+            -game settings
+        -texture atlases
+        -particle system
+        -animation
+
+
+        future stuff:
+        -game states
+        -shaders
+

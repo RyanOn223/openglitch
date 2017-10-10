@@ -27,6 +27,8 @@ void world::load_textures()
     textures.load(textures::bullet,         "src/gfx/bullet.png");
     textures.load(textures::sm_ammo,        "src/gfx/sm_ammo.png");
     textures.load(textures::sm_health_pack, "src/gfx/sm_health_pack.png");
+    textures.load(textures::long_wall,      "src/gfx/long_wall.png");
+    textures.load(textures::short_wall,     "src/gfx/short_wall.png");
     fonts.load(fonts::pixel,                "src/pixel.ttf");
 }
 void world::build_scene()
@@ -71,6 +73,10 @@ void world::build_scene()
     std::unique_ptr<pickup> tk(new pickup(pickup::type::sm_health_pack, textures));
     tk->setPosition(spawn_position.x - 15, spawn_position.y + 10);
     scene_layers[bg_layer]->attach_child(std::move(tk));
+
+    std::unique_ptr<wall> w1(new wall(wall::type::long_wall, textures, 0.f));
+    w1->setPosition(spawn_position.x - 25, spawn_position.y - 10);
+    scene_layers[walls_layer]->attach_child(std::move(w1));
 
 }
 void world::draw()
@@ -250,7 +256,16 @@ void world::handle_collisions()
             cmonster.damage(bullet.get_damage());
             bullet.destroy();
         }
-
+        if (matches_categories(colliding_pair, cmd_category::the_player, cmd_category::walls))
+        {
+            the_player->hit_wall = true;
+        };
+        if (matches_categories(colliding_pair, cmd_category::ally_projectiles, cmd_category::walls) ||
+            matches_categories(colliding_pair, cmd_category::enemy_projectiles, cmd_category::walls))
+        {
+            auto& bullet = static_cast<projectile&>(*colliding_pair.first);
+            bullet.destroy();
+        }
     }
 }
 void world::destroy_OOB_entities()
