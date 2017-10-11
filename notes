@@ -1,23 +1,31 @@
 v 0.0.1:
     collisions
         -SAT collision for rotated entities
-        -smart collision responses
-        -basic collision optimizations
-        -interpolate bullet collisions
+        -better monster-wall collision
+            -directional collision detection
+            -for monster-wall and maybe bullets
+                                  in the future
+        -basic collision optimizations          done!
+        -interpolate bullet collisions          not needed?
     entities
         -wall.h                                 done!
-        -collision_manager.h
+        -collision_manager.h                    done!
+        -door.h
     mechanics / required
         -ammo and weapons
-        -implement file loading
+        -ammo and hp display
+        -aiming
+        -file loading
             -data tables
             -initial entity setup
+                -walls                          done!
+                -monsters
+                -pickups
             -game settings
-        -FOV
+        -FOV                                    done(!!)
         -texture atlases
         -particle system
         -animation
-
 
         future stuff:
         -game states

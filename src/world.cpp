@@ -76,21 +76,55 @@ void world::build_scene()
     cmanager.add_entity(static_cast<entity*>(tk.get()), cmd_category::pickups);
     scene_layers[bg_layer]->attach_child(std::move(tk));
 
-    std::unique_ptr<wall> w1(new wall(wall::type::wall1, textures, 0.f));
+    load_walls();
+    /*
+    std::unique_ptr<wall> w1(new wall(wall::type::wall1, textures));
     w1->setPosition(spawn_position.x - 25, spawn_position.y - 10);
     cmanager.add_entity(static_cast<entity*>(w1.get()), cmd_category::walls);
     scene_layers[walls_layer]->attach_child(std::move(w1));
 
-    std::unique_ptr<wall> w2(new wall(wall::type::wall1, textures, 90.f));
+    std::unique_ptr<wall> w2(new wall(wall::type::wall1, textures));
     w2->setPosition(spawn_position.x - 12.5f, spawn_position.y - 17.5f);
     cmanager.add_entity((static_cast<entity*>(w2.get())), cmd_category::walls);
     scene_layers[walls_layer]->attach_child(std::move(w2));
-
+    */
+    //must be called after all walls are added
+    cmanager.init_shadows(2000, 2000);
+}
+void world::load_walls()
+{
+    int twall, wallX, wallY;
+    wall::type wtype;
+    std::ifstream walls_file;
+    walls_file.open("src/dat/walls.bb");
+    if (!walls_file) std::cout << "error\n";
+    while (!walls_file.eof())
+        {
+            walls_file >> twall;
+            walls_file >> wallX;
+            walls_file >> wallY;
+            switch (twall)
+            {
+                case 1:
+                   wtype = wall::type::wall1;
+                   break;
+                default:
+                   //no other types for now
+                   std::cout << "error: attempted to load unknown wall type\n";
+                   break;
+            }
+            std::unique_ptr<wall> w(new wall(wtype, textures));
+            w->setPosition(wallX, wallY);
+            cmanager.add_entity(static_cast<entity*>(w.get()), cmd_category::walls);
+            scene_layers[walls_layer]->attach_child(std::move(w));
+        }
 }
 void world::draw()
 {
     wwindow.setView(world_view);
     wwindow.draw(scene_graph);
+    cmanager.draw_shadows(&wwindow);
+    wwindow.draw(*the_cursor);
 }
 void world::update(sf::Time delta)
 {
@@ -111,6 +145,7 @@ void world::update(sf::Time delta)
     //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {scene_graph.print(); std::cout << "____\n";}
     world_view.setCenter(the_player->getPosition());
     cmanager.check_collisions(world_cmd_queue);
+    cmanager.update_shadows(world_view.getCenter());
     scene_graph.remove_wrecks();
     spawn_enemies();
     update_cursor();

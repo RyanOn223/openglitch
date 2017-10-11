@@ -6,15 +6,13 @@ textures::ID to_texture_ID(wall::type ttype)
         default: return textures::wall_tile;
     }
 }
-wall::wall(type wtype, const texture_manager& textures, float rot) : wall_type(wtype),
+wall::wall(type wtype, const texture_manager& textures) : wall_type(wtype),
             sprite(textures.get(to_texture_ID(wtype))),
-            entity(1),
-            rotation(rot)
+            entity(1)
 {
     sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	sprite.setScale(0.5f, 0.5f);
-	sprite.setRotation(rotation);
+	sprite.setScale(0.5f, 0.5f);;
 }
 void wall::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {

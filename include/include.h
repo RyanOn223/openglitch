@@ -11,6 +11,8 @@
 #include <memory>
 #include <queue>
 #include <math.h>
+#include <fstream>
+#include <sstream>
 //I'm not sure if I like this namespace::enum thing the book is using
 //but we're going to do it for practice
 
@@ -51,7 +53,7 @@ namespace cmd_category
     };
 }
 //define some critical game values. later, these should be loaded from a file
-const float PI = 3.141592654f;
+const float PI = 3.14159265359f;
 const float FPS = 60.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = true;

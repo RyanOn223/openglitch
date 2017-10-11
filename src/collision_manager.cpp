@@ -110,6 +110,7 @@ void collision_manager::check_collisions(command_queue& cmds)
     wall_bullet_collisions(cmds);
     monster_bullet_collisions(cmds);
     monster_pickup_collisions(cmds);
+    monster_monster_collisions(cmds);
 }
 void collision_manager::wall_monster_collisions(command_queue& cmds)
 {
@@ -173,4 +174,49 @@ void collision_manager::monster_pickup_collisions(command_queue& cmds)
             rmv_entity(*each_pickup, cmd_category::pickups);
         }
     }
+}
+void collision_manager::monster_monster_collisions(command_queue& cmds)
+{
+    for (monster* each_lhs : monsters)
+    {
+        if (the_player->getBoundingRect().intersects(each_lhs->getBoundingRect()))
+        {
+            the_player->hit_wall = true;
+            each_lhs->hit_wall = true;
+        }
+        for (monster* each_rhs : monsters)
+        {
+            if (each_lhs != each_rhs)
+            {
+                if (each_lhs->getBoundingRect().intersects(each_rhs->getBoundingRect()))
+                {
+                    each_lhs->hit_wall = true;
+                    each_rhs->hit_wall = true;
+                }
+            }
+        }
+    }
+
+}
+void collision_manager::init_shadows(int screenX, int screenY)
+{
+    shadow_manager.setObstacles(get_obstacles(), 5);
+    shadow_manager.setScreenDiagonal(screenX, screenY);
+}
+std::vector<sf::Vector2f> collision_manager::get_obstacles()
+{
+    std::vector<sf::Vector2f> obstacles;
+    for (wall* each_wall : walls)
+    {
+        obstacles.push_back(sf::Vector2f(each_wall->getBoundingRect().left, each_wall->getBoundingRect().top));
+    }
+    return obstacles;
+}
+void collision_manager::update_shadows(sf::Vector2f view_center)
+{
+    shadow_manager.update(the_player->getPosition(), view_center);
+}
+void collision_manager::draw_shadows(sf::RenderWindow* window)
+{
+    shadow_manager.draw(window);
 }

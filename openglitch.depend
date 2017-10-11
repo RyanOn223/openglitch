@@ -6,7 +6,7 @@
 	"include.h"
 	"world.h"
 
-1507674090 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
+1507759447 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
 	"/usr/local/./include/SFML/Window.hpp"
 	"/usr/local/./include/SFML/Graphics.hpp"
 	"/usr/local/./include/SFML/System.hpp"
@@ -18,6 +18,8 @@
 	<memory>
 	<queue>
 	<math.h>
+	<fstream>
+	<sstream>
 
 1486553356 /usr/local/include/SFML/Window.hpp
 	<SFML/System.hpp>
@@ -112,7 +114,7 @@
 	"include.h"
 	"scene_node.h"
 
-1507700968 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
+1507755663 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
 	"include.h"
 	"entity.h"
 	"resource_manager.h"
@@ -125,10 +127,10 @@
 1507669555 source:/home/destrovel/cppwork/openglitch/openglitch/src/entity.cpp
 	"../include/entity.h"
 
-1507699029 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
+1507757966 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
 	"../include/game.h"
 
-1507701459 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
+1507758100 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
 	"../include/monster.h"
 
 1506436327 source:/home/destrovel/cppwork/openglitch/openglitch/src/resource_manager.cpp
@@ -145,7 +147,7 @@
 1506457799 source:/home/destrovel/cppwork/openglitch/openglitch/src/sprite_node.cpp
 	"sprite_node.h"
 
-1507702392 /home/destrovel/cppwork/openglitch/openglitch/include/world.h
+1507758943 /home/destrovel/cppwork/openglitch/openglitch/include/world.h
 	"include.h"
 	"texture_manager.h"
 	"resource_manager.h"
@@ -161,7 +163,7 @@
 	"wall.h"
 	"collision_manager.h"
 
-1507702175 source:/home/destrovel/cppwork/openglitch/openglitch/src/world.cpp
+1507761491 source:/home/destrovel/cppwork/openglitch/openglitch/src/world.cpp
 	"world.h"
 
 1507646235 source:/home/destrovel/cppwork/openglitch/openglitch/src/player.cpp
@@ -260,14 +262,14 @@
 	"tinyxml.h"
 	<windows.h>
 
-1507674095 /home/destrovel/cppwork/openglitch/openglitch/include/wall.h
+1507758466 /home/destrovel/cppwork/openglitch/openglitch/include/wall.h
 	"entity.h"
 	"texture_manager.h"
 
-1507674144 source:/home/destrovel/cppwork/openglitch/openglitch/src/wall.cpp
+1507758515 source:/home/destrovel/cppwork/openglitch/openglitch/src/wall.cpp
 	"wall.h"
 
-1507700063 /home/destrovel/cppwork/openglitch/openglitch/include/collision_manager.h
+1507756771 /home/destrovel/cppwork/openglitch/openglitch/include/collision_manager.h
 	"include.h"
 	"wall.h"
 	"monster.h"
@@ -279,7 +281,7 @@
 1507698478 /home/destrovel/cppwork/openglitch/openglitch/include/shadow.h
 	"include.h"
 
-1507698478 source:/home/destrovel/cppwork/openglitch/openglitch/src/shadow.cpp
+1507757306 source:/home/destrovel/cppwork/openglitch/openglitch/src/shadow.cpp
 	"shadow.h"
 	<SFML/Graphics.hpp>
 	<vector>
@@ -287,6 +289,6 @@
 	<fstream>
 	<iostream>
 
-1507702318 source:/home/destrovel/cppwork/openglitch/openglitch/src/collision_manager.cpp
+1507757063 source:/home/destrovel/cppwork/openglitch/openglitch/src/collision_manager.cpp
 	"collision_manager.h"
 

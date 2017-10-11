@@ -9,7 +9,7 @@ class wall : public entity
     {
         wall1,
     };
-        wall(type wtype, const texture_manager& textures, float rot);
+        wall(type wtype, const texture_manager& textures);
         virtual void update_current(sf::Time delta, command_queue& cmds);
         virtual void draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const;
@@ -19,7 +19,6 @@ class wall : public entity
     protected:
 
     private:
-    float rotation;
     sf::Sprite sprite;
     type wall_type;
 };

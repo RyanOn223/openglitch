@@ -15,9 +15,11 @@ class collision_manager
         collision_manager();
         virtual ~collision_manager();
         void check_collisions(command_queue& cmds);
+        void update_shadows(sf::Vector2f view_center);
         void add_entity(entity*, cmd_category::ID type);
         void rmv_entity(entity&, cmd_category::ID type);
-        void draw_shadows(sf::RenderTarget& target, sf::RenderStates states);
+        void draw_shadows(sf::RenderWindow* window);
+        void init_shadows(int screenx, int screeny);
     protected:
 
     private:
@@ -26,11 +28,13 @@ class collision_manager
         monster* the_player;
         std::vector<projectile*> bullets;
         std::vector<pickup*> pickups;
+        ShadowHandler shadow_manager;
     private:
         void wall_monster_collisions(command_queue& cmds);
         void wall_bullet_collisions(command_queue& cmds);
         void monster_bullet_collisions(command_queue& cmds);
         void monster_pickup_collisions(command_queue& cmds);
-        ShadowHandler shadow_manager;
+        void monster_monster_collisions(command_queue& cmds);
+        std::vector<sf::Vector2f> get_obstacles();
 };
 #endif // COLLISION_MANAGER_H

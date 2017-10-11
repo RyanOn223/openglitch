@@ -28,7 +28,7 @@ game::game(sf::ContextSettings settings) :
 	std::cout << "Successfully initialized game\n" << "FPS limited(soft): " <<
 		LIMIT_FPS << std::endl << "FPS limit: " << FPS << std::endl;
 	std::cout << "Vsync = " << VSYNC << std::endl;
-	std::cout << "Anti-aliasing level: " << AA_LEVEL << "x" << std::endl;
+	std::cout << "Anti-aliasing level: " << AA_LEVEL << "x\n\nRunning game...\n\n";
 }
 void game::run()
 {

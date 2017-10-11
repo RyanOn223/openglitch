@@ -97,7 +97,7 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
     {
         //if (get_velocity().x != 0.f && get_velocity().y != 0.f) move(-get_velocity() * delta.asSeconds() / 2.5f);
         //else move(-last_velocity * delta.asSeconds() / 2.5f);
-        setPosition(last_position + (-last_velocity * 0.01f));
+        setPosition(last_position - (last_velocity * delta.asSeconds()));
         hit_wall = false;
     }
     else move(get_velocity() * delta.asSeconds());
@@ -164,10 +164,12 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
 sf::FloatRect monster::getBoundingRect() const
 {
     sf::FloatRect to_return;//(getWorldTransform().transformRect(sprite.getGlobalBounds()));
+
+    //TODO figure out why these adjustments are needed here, because they shouldnt be
     to_return.left = getPosition().x - 1;
     to_return.top = getPosition().y - 1;
-    to_return.width = sprite.getTexture()->getSize().x + 2;
-    to_return.height = sprite.getTexture()->getSize().y + 2;
+    to_return.width = sprite.getTexture()->getSize().x - 1;
+    to_return.height = sprite.getTexture()->getSize().y - 1;
     return to_return;
 }
 bool monster::is_marked_for_removal() const
