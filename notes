@@ -13,6 +13,7 @@ v 0.0.1:
             -data tables
             -initial entity setup
             -game settings
+        -FOV
         -texture atlases
         -particle system
         -animation

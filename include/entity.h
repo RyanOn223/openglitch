@@ -20,6 +20,7 @@ class entity : public scene_node
 		virtual bool is_marked_for_removal() const;
 		float angle_to(entity& other);
 		sf::Vector2f last_velocity;
+		sf::Vector2f last_position;
 	private:
         int hitpoints;
 		sf::Vector2f velocity;

@@ -7,8 +7,7 @@ class wall : public entity
     public:
     enum type
     {
-        long_wall,
-        short_wall,
+        wall1,
     };
         wall(type wtype, const texture_manager& textures, float rot);
         virtual void update_current(sf::Time delta, command_queue& cmds);

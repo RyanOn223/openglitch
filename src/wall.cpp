@@ -3,8 +3,7 @@ textures::ID to_texture_ID(wall::type ttype)
 {
     switch (ttype)
     {
-        case (wall::type::long_wall): return textures::long_wall;
-        case (wall::type::short_wall): return textures::short_wall;
+        default: return textures::wall_tile;
     }
 }
 wall::wall(type wtype, const texture_manager& textures, float rot) : wall_type(wtype),
@@ -37,8 +36,7 @@ unsigned int wall::get_category() const
 {
     switch (wall_type)
     {
-        case long_wall:
-        case short_wall:
+        case wall1:
             return cmd_category::walls;
         default:
             //lmao
@@ -56,10 +54,10 @@ sf::FloatRect wall::getBoundingRect() const
     //to_return.top = getPosition().y;
     //to_return.width = sprite.getTexture()->getSize().x;
     //to_return.height = sprite.getTexture()->getSize().y;
-    to_return.left -= 1;
-    to_return.top -= 1;
-    to_return.width += 2;
-    to_return.height += 2;
+    //to_return.left -= 1;
+    //to_return.top -= 1;
+    //to_return.width += 2;
+    //to_return.height += 2;
     return to_return;
 }
 wall::~wall()

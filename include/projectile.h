@@ -23,6 +23,7 @@ class projectile : public entity
         virtual sf::FloatRect getBoundingRect() const;
         virtual bool is_marked_for_removal() const;
         virtual void check_node_collision(scene_node& node, std::set<scn_pair>& collision_pairs);
+        projectile::type get_type();
     protected:
 
     private:

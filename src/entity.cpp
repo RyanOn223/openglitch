@@ -18,6 +18,7 @@ sf::Vector2f entity::get_velocity() const
 }
 void entity::update_current(sf::Time delta, command_queue& cmds)
 {
+    last_position = getPosition();
     move(velocity * delta.asSeconds());
         //debug and 'physics'
     //velocity.x = decel_speed * (velocity.x);

@@ -95,3 +95,7 @@ bool projectile::collision(const scene_node& lhs, const scene_node& rhs)
     //if (last_position.x == getPosition().x
     return lhs.getBoundingRect().intersects(rhs.getBoundingRect());
 }
+projectile::type projectile::get_type()
+{
+    return ptype;
+}

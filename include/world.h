@@ -14,6 +14,7 @@
 #include "projectile.h"
 #include "pickup.h"
 #include "wall.h"
+#include "collision_manager.h"
 class world : public sf::NonCopyable
 {
     public:
@@ -45,6 +46,17 @@ class world : public sf::NonCopyable
                 float x;
                 float y;
         };
+        cursor* get_cursor();
+        private:
+        enum scn_layer
+        {
+            bg_layer,
+            air_layer,
+            walls_layer,
+            mon_layer,
+            hud_layer,
+            layer_count,
+        };
     private:
         void load_textures();
         void build_scene();
@@ -55,19 +67,9 @@ class world : public sf::NonCopyable
         void add_enemy(monster::type, float x, float y);
         void add_enemies();
         bool matches_categories(scene_node::scn_pair& colliders, cmd_category::ID type_1, cmd_category::ID type_2);
-        void handle_collisions();
         void destroy_OOB_entities();
     private:
-        enum scn_layer
-        {
-            bg_layer,
-            walls_layer,
-            mon_layer,
-            air_layer,
-            hud_layer,
-            layer_count,
-        };
-    private:
+         collision_manager cmanager;
          sf::RenderWindow& wwindow;
          sf::View world_view;
          texture_manager textures;

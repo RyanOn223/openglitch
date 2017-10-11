@@ -27,8 +27,7 @@ void world::load_textures()
     textures.load(textures::bullet,         "src/gfx/bullet.png");
     textures.load(textures::sm_ammo,        "src/gfx/sm_ammo.png");
     textures.load(textures::sm_health_pack, "src/gfx/sm_health_pack.png");
-    textures.load(textures::long_wall,      "src/gfx/long_wall.png");
-    textures.load(textures::short_wall,     "src/gfx/short_wall.png");
+    textures.load(textures::wall_tile,      "src/gfx/wall_tile.png");
     fonts.load(fonts::pixel,                "src/pixel.ttf");
 }
 void world::build_scene()
@@ -56,9 +55,10 @@ void world::build_scene()
 
 
     //here we create and attach the player and the cursor
-    std::unique_ptr<monster> t(new monster(monster::type::player, textures, fonts, 100));
+    std::unique_ptr<monster> t(new monster(monster::type::player, textures, fonts, 100, cmanager));
     the_player = t.get();
     the_player->setPosition(spawn_position);
+    cmanager.add_entity(static_cast<entity*>(t.get()), cmd_category::the_player);
     scene_layers[mon_layer]->attach_child(std::move(t));
 
     std::unique_ptr<cursor> cur(new cursor(textures));
@@ -68,15 +68,23 @@ void world::build_scene()
 
     std::unique_ptr<pickup> pk(new pickup(pickup::type::sm_ammo, textures));
     pk->setPosition(spawn_position.x + 20, spawn_position.y + 20);
+    cmanager.add_entity(static_cast<entity*>(pk.get()), cmd_category::pickups);
     scene_layers[bg_layer]->attach_child(std::move(pk));
 
     std::unique_ptr<pickup> tk(new pickup(pickup::type::sm_health_pack, textures));
     tk->setPosition(spawn_position.x - 15, spawn_position.y + 10);
+    cmanager.add_entity(static_cast<entity*>(tk.get()), cmd_category::pickups);
     scene_layers[bg_layer]->attach_child(std::move(tk));
 
-    std::unique_ptr<wall> w1(new wall(wall::type::long_wall, textures, 0.f));
+    std::unique_ptr<wall> w1(new wall(wall::type::wall1, textures, 0.f));
     w1->setPosition(spawn_position.x - 25, spawn_position.y - 10);
+    cmanager.add_entity(static_cast<entity*>(w1.get()), cmd_category::walls);
     scene_layers[walls_layer]->attach_child(std::move(w1));
+
+    std::unique_ptr<wall> w2(new wall(wall::type::wall1, textures, 90.f));
+    w2->setPosition(spawn_position.x - 12.5f, spawn_position.y - 17.5f);
+    cmanager.add_entity((static_cast<entity*>(w2.get())), cmd_category::walls);
+    scene_layers[walls_layer]->attach_child(std::move(w2));
 
 }
 void world::draw()
@@ -102,7 +110,7 @@ void world::update(sf::Time delta)
     adjust_player_v();
     //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {scene_graph.print(); std::cout << "____\n";}
     world_view.setCenter(the_player->getPosition());
-    handle_collisions();
+    cmanager.check_collisions(world_cmd_queue);
     scene_graph.remove_wrecks();
     spawn_enemies();
     update_cursor();
@@ -182,8 +190,9 @@ void world::spawn_enemies()
     while (!enemy_spawn_points.empty())
     {
         spawn_point spawn = enemy_spawn_points.back();
-        std::unique_ptr<monster> enemy(new monster(spawn.stype, textures, fonts, 65));
+        std::unique_ptr<monster> enemy(new monster(spawn.stype, textures, fonts, 65, cmanager));
         enemy->setPosition(spawn.x, spawn.y);
+        cmanager.add_entity(static_cast<entity*>(enemy.get()), cmd_category::enemies);
         scene_layers[mon_layer]->attach_child(std::move(enemy));
         enemy_spawn_points.pop_back();
     }
@@ -224,50 +233,6 @@ bool world::matches_categories(scene_node::scn_pair& colliders, cmd_category::ID
         return false;
     }
 }
-void world::handle_collisions()
-{
-    std::set<scene_node::scn_pair> collision_pairs;
-    scene_graph.check_scene_collision(scene_graph, collision_pairs);
-
-    for (scene_node::scn_pair colliding_pair : collision_pairs)
-    {
-        if (matches_categories(colliding_pair, cmd_category::the_player, cmd_category::enemies))
-        {
-            //std::cout << "player - enemy collision\n";
-            auto& pmonster = static_cast<monster&>(*colliding_pair.first);
-            auto& cmonster = static_cast<monster&>(*colliding_pair.second);
-            pmonster.hit_wall = true;
-            cmonster.hit_wall = true;
-        }
-        if (matches_categories(colliding_pair, cmd_category::the_player, cmd_category::pickups))
-        {
-            //std::cout << "player - pickup collision\n";
-            auto& pk = static_cast<pickup&>(*colliding_pair.second);
-            pk.apply(*the_player);
-            pk.destroy();
-        }
-        if (matches_categories(colliding_pair, cmd_category::ally_projectiles, cmd_category::enemies) ||
-            matches_categories(colliding_pair, cmd_category::enemy_projectiles, cmd_category::the_player))
-        {
-            //std::cout << "bullet - monster collision\n";
-            auto& cmonster = static_cast<monster&>(*colliding_pair.second);
-            auto& bullet = static_cast<projectile&>(*colliding_pair.first);
-
-            cmonster.damage(bullet.get_damage());
-            bullet.destroy();
-        }
-        if (matches_categories(colliding_pair, cmd_category::the_player, cmd_category::walls))
-        {
-            the_player->hit_wall = true;
-        };
-        if (matches_categories(colliding_pair, cmd_category::ally_projectiles, cmd_category::walls) ||
-            matches_categories(colliding_pair, cmd_category::enemy_projectiles, cmd_category::walls))
-        {
-            auto& bullet = static_cast<projectile&>(*colliding_pair.first);
-            bullet.destroy();
-        }
-    }
-}
 void world::destroy_OOB_entities()
 {
     command destroy_command;
@@ -277,8 +242,13 @@ void world::destroy_OOB_entities()
         if (!world_bounds.intersects(e.getBoundingRect()))
         {
             e.destroy();
-            //std::cout << "destroyed entity of type: " << e.get_category() << std::endl;
+            cmanager.rmv_entity(e, cmd_category::ally_projectiles);
+            //std::cout << "OOB destroyed entity of type: " << e.get_category() << std::endl;
         }
     });
     world_cmd_queue.push(destroy_command);
+}
+cursor* world::get_cursor()
+{
+    return the_cursor;
 }

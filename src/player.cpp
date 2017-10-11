@@ -54,10 +54,10 @@ void player::handle_input(command_queue& cmds)
     cmds.push(move_command);
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
     {
-        //check here too, for automatic weapons
+        //automatic weapons get a command push here too
         command fire;
         fire.ccategory = cmd_category::the_player;
         fire.action = monster::weapon_firer();
-        cmds.push(fire);
+        //cmds.push(fire);
     }
 }

@@ -23,8 +23,8 @@ textures::ID to_texture_ID(monster::type Type)
 //to pass in to the constructor, while the second 'type' refers to the member variable
 //to initialize, in this case it get initialized to the same type as the
 //monster type passed into the constructor.
-monster::monster(monster::type mtype, const texture_manager& textures, const resource_manager<sf::Font, fonts::ID>& fonts, int hp) :
-				 monster_type(mtype), sprite(textures.get(to_texture_ID(monster_type))), entity(hp)
+monster::monster(monster::type mtype, const texture_manager& textures, const resource_manager<sf::Font, fonts::ID>& fonts, int hp, collision_manager& manager) :
+				 monster_type(mtype), sprite(textures.get(to_texture_ID(monster_type))), entity(hp), cmanager(manager)
 {
     fire_command.ccategory = cmd_category::air_layer;
     fire_command.action = [this, &textures] (scene_node& node, sf::Time)
@@ -84,6 +84,9 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
     health_text->set_string(std::to_string(get_hp()) + " hp");
     health_text->setPosition(-4.f, -7.f);
     health_text->setRotation(-getRotation());
+
+    last_position = getPosition();
+
     if ((get_velocity().x != 0.f && get_velocity().y == 0.f) ||
         (get_velocity().x == 0.f && get_velocity().y != 0.f) ||
         (get_velocity().x != 0.f && get_velocity().y != 0.f))
@@ -92,8 +95,9 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
         }
     if (hit_wall)
     {
-        if (get_velocity().x != 0.f && get_velocity().y != 0.f) move(-get_velocity() * delta.asSeconds() / 2.5f);
-        else move(-last_velocity * delta.asSeconds() / 2.5f);
+        //if (get_velocity().x != 0.f && get_velocity().y != 0.f) move(-get_velocity() * delta.asSeconds() / 2.5f);
+        //else move(-last_velocity * delta.asSeconds() / 2.5f);
+        setPosition(last_position + (-last_velocity * 0.01f));
         hit_wall = false;
     }
     else move(get_velocity() * delta.asSeconds());
@@ -154,6 +158,7 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
     proj->set_velocity(v);
     //std::cout << proj->getPosition().x << ", " << proj->getPosition().y << std::endl;
     //node needs to be the air scene layer here
+    cmanager.add_entity(proj.get(), static_cast<cmd_category::ID>(proj->get_category()));
     node.attach_child(std::move(proj));
 }
 sf::FloatRect monster::getBoundingRect() const
@@ -168,4 +173,8 @@ sf::FloatRect monster::getBoundingRect() const
 bool monster::is_marked_for_removal() const
 {
     return removal_mark;
+}
+monster::~monster()
+{
+
 }

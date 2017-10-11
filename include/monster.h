@@ -7,6 +7,8 @@
 #include "datatables.h"
 #include "text_node.h"
 #include "projectile.h"
+#include "collision_manager.h"
+class collision_manager;
 class monster : public entity
 {
 	public:
@@ -20,9 +22,15 @@ class monster : public entity
 	private:
 		typedef resource_manager<sf::Texture, textures::ID> texture_holder;
 	public:
-		explicit monster(type _type, const texture_manager& textures, const resource_manager<sf::Font, fonts::ID>& fonts, int hp);
+		explicit monster(type _type,
+                         const texture_manager& textures,
+                         const resource_manager<sf::Font,
+                         fonts::ID>& fonts,
+                         int hp,
+                         collision_manager& cmanager);
 		virtual void draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const;
+        ~monster();
         virtual unsigned int get_category() const;
         virtual void update_current(sf::Time delta, command_queue& cmds);
         struct monster_mover
@@ -75,7 +83,7 @@ class monster : public entity
         virtual bool is_marked_for_removal() const;
         bool hit_wall;
 	private:
-
+        collision_manager& cmanager;
         bool removal_mark;
 		type monster_type;
 		sf::Sprite sprite;

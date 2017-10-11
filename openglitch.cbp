@@ -66,6 +66,7 @@
 		<Unit filename="include/sprite_node.h" />
 		<Unit filename="include/text_node.h" />
 		<Unit filename="include/texture_manager.h" />
+		<Unit filename="include/wall.h" />
 		<Unit filename="include/world.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="notes" />
@@ -91,7 +92,14 @@
 		<Unit filename="src/sprite_node.cpp" />
 		<Unit filename="src/text_node.cpp" />
 		<Unit filename="src/texture_manager.cpp" />
+		<Unit filename="src/wall.cpp" />
 		<Unit filename="src/world.cpp" />
+		<Unit filename="tinyxml/tinystr.cpp" />
+		<Unit filename="tinyxml/tinystr.h" />
+		<Unit filename="tinyxml/tinyxml.cpp" />
+		<Unit filename="tinyxml/tinyxml.h" />
+		<Unit filename="tinyxml/tinyxmlerror.cpp" />
+		<Unit filename="tinyxml/tinyxmlparser.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

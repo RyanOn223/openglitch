@@ -18,7 +18,7 @@ namespace textures
 {
 	enum ID { player,       small_mutant,
               large_mutant, floor,
-              long_wall,    short_wall,
+              wall_tile,
               cursor,       bullet,
               sm_ammo,      sm_health_pack, };
 }
