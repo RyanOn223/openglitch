@@ -85,7 +85,7 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
     health_text->setPosition(-4.f, -7.f);
     health_text->setRotation(-getRotation());
 
-    last_position = getPosition();
+
 
     if ((get_velocity().x != 0.f && get_velocity().y == 0.f) ||
         (get_velocity().x == 0.f && get_velocity().y != 0.f) ||
@@ -97,10 +97,12 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
     {
         //if (get_velocity().x != 0.f && get_velocity().y != 0.f) move(-get_velocity() * delta.asSeconds() / 2.5f);
         //else move(-last_velocity * delta.asSeconds() / 2.5f);
-        setPosition(last_position - (last_velocity * delta.asSeconds()));
-        hit_wall = false;
+        setPosition(last_position);
+
     }
-    else move(get_velocity() * delta.asSeconds());
+    last_position = getPosition();
+    if (!hit_wall) move(get_velocity() * delta.asSeconds());
+    else hit_wall = false;
     check_launch(delta, cmds);
     if (get_hp() <= 0) removal_mark = true;
 }

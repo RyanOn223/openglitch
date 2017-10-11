@@ -1,6 +1,6 @@
 v 0.0.1:
     collisions
-        -SAT collision for rotated entities
+        -SAT collision for rotated entities     scrapped
         -better monster-wall collision
             -directional collision detection
             -for monster-wall and maybe bullets

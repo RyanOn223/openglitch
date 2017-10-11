@@ -1,7 +1,7 @@
 #include "../include/game.h"
 
 game::game(sf::ContextSettings settings) :
-                gwindow(sf::VideoMode(800, 600), "openglitch", sf::Style::Default, settings),
+                gwindow(sf::VideoMode(1366, 768), "openglitch", sf::Style::None, settings),
                 game_world(gwindow),
                 the_player()
 {
