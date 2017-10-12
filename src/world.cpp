@@ -66,16 +66,7 @@ void world::build_scene()
     the_cursor->setPosition(spawn_position);
     scene_layers[hud_layer]->attach_child(std::move(cur));
 
-    std::unique_ptr<pickup> pk(new pickup(pickup::type::sm_ammo, textures));
-    pk->setPosition(spawn_position.x + 20, spawn_position.y + 20);
-    cmanager.add_entity(static_cast<entity*>(pk.get()), cmd_category::pickups);
-    scene_layers[bg_layer]->attach_child(std::move(pk));
-
-    std::unique_ptr<pickup> tk(new pickup(pickup::type::sm_health_pack, textures));
-    tk->setPosition(spawn_position.x - 15, spawn_position.y + 10);
-    cmanager.add_entity(static_cast<entity*>(tk.get()), cmd_category::pickups);
-    scene_layers[bg_layer]->attach_child(std::move(tk));
-
+    load_pickups();
     load_walls();
     /*
     std::unique_ptr<wall> w1(new wall(wall::type::wall1, textures));
@@ -97,7 +88,6 @@ void world::load_walls()
     wall::type wtype;
     std::ifstream walls_file;
     walls_file.open("src/dat/walls.bb");
-    if (!walls_file) std::cout << "error\n";
     while (!walls_file.eof())
         {
             walls_file >> twall;
@@ -118,6 +108,35 @@ void world::load_walls()
             cmanager.add_entity(static_cast<entity*>(w.get()), cmd_category::walls);
             scene_layers[walls_layer]->attach_child(std::move(w));
         }
+}
+void world::load_pickups()
+{
+    int tpick, pickX, pickY;
+    pickup::type ptype;
+    std::ifstream pickups_file;
+    pickups_file.open("src/dat/pickups.bb");
+    while (!pickups_file.eof())
+    {
+        pickups_file >> tpick;
+        pickups_file >> pickX;
+        pickups_file >> pickY;
+        switch (tpick)
+        {
+            case 1:
+                ptype = pickup::type::sm_health_pack;
+                break;
+            case 2:
+                ptype = pickup::type::sm_ammo;
+                break;
+            default:
+                std::cout << "error: attempted to load unknown pickup type: " << tpick << std::endl;
+                break;
+        }
+        std::unique_ptr<pickup> p(new pickup(ptype, textures));
+        p->setPosition(pickX, pickY);
+        cmanager.add_entity(static_cast<entity*>(p.get()), cmd_category::pickups);
+        scene_layers[walls_layer]->attach_child(std::move(p));
+    }
 }
 void world::draw()
 {

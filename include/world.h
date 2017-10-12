@@ -69,6 +69,7 @@ class world : public sf::NonCopyable
         bool matches_categories(scene_node::scn_pair& colliders, cmd_category::ID type_1, cmd_category::ID type_2);
         void destroy_OOB_entities();
         void load_walls();
+        void load_pickups();
     private:
          collision_manager cmanager;
          sf::RenderWindow& wwindow;
