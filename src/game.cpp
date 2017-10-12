@@ -38,54 +38,63 @@ void game::run()
 	ups_clock.restart();
 	while (gwindow.isOpen())
 	{
-        if (turn_no % (static_cast<int>(FPS)/6) == 0)
-            fps_text->setString("fps:\t" + std::to_string(10000000.f/fps_clock.restart().asMicroseconds()).substr(0, 5));
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
-        {
-            fps_text->setString(fps_text->getString() + "\nleft:\t" + (std::to_string(dbg_clock.restart().asMicroseconds())));
-        }
+        sf::Time fps_time = fps_clock.restart();
+        if (turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
+            fps_text->setString("fps:\t" + std::to_string(1000000.f/fps_time.asMicroseconds()).substr(0, 5));
 
+        dbg_clock.restart();
         process_events();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
+        sf::Time ev_time = dbg_clock.restart();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
         {
-            fps_text->setString(fps_text->getString() + "\nevent:\t" + (std::to_string(dbg_clock.restart().asMicroseconds())));
+            fps_text->setString(fps_text->getString() + "\nevent:\t" + (std::to_string(ev_time.asMicroseconds()/1000.f).substr(0,5)));
         }
 
 		sf::Vector2f pos;
-
+        sf::Clock update_clock;
+        sf::Time up_time = sf::Time::Zero;
+        //dont ever take two steps in a row. this leads to visual lag that our render method cant fix
+        //this may have unknown reprecussions down the line
+        if (accumulator > sf::milliseconds(32)) accumulator = sf::milliseconds(32);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
+        {
+            fps_text->setString(fps_text->getString() + "\naccum:\t" + (std::to_string(accumulator.asMicroseconds()/1000.f).substr(0, 5)));
+        }
 		if (!ispaused)
 		{
             while (accumulator > delta)
             {
                 accumulator -= delta;
                 update(delta);
-
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
+                up_time = update_clock.restart();
+                sf::Time ups_time = ups_clock.restart();
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
                 {
-                    fps_text->setString(fps_text->getString() + "\nupdate:\t" + (std::to_string(dbg_clock.restart().asMicroseconds())));
-                    fps_text->setString(fps_text->getString() + "\nups:\t" + (std::to_string(10000000.f/ups_clock.restart().asMicroseconds()).substr(0, 5)));
+                    fps_text->setString(fps_text->getString() + "\nupdate:\t" + (std::to_string(up_time.asMicroseconds()/1000.f).substr(0, 5)));
+                    fps_text->setString(fps_text->getString() + "\nups:\t" + (std::to_string(1000000.f/ups_time.asMicroseconds()).substr(0, 5)));
                 }
             }
         }
-
+        sf::Clock render_clock;
+        render_clock.restart();
 		render();
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
+        sf::Time rnd_time = render_clock.restart();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
         {
-            fps_text->setString(fps_text->getString() + "\nrender:\t" + (std::to_string(dbg_clock.restart().asMicroseconds())));
+            fps_text->setString(fps_text->getString() +
+                                "\nrender:\t" +
+                                (std::to_string(rnd_time.asMicroseconds()/1000.f).substr(0, 5)));
         }
-
 
 
         accumulator += tick_clock.restart();
 
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
         {
             fps_text->setString(fps_text->getString() + "\n(" + std::to_string(game_world.get_cursor()->getPosition().x).substr(0,6)+
-               ", " + std::to_string(game_world.get_cursor()->getPosition().y).substr(0,6) + ")");
+               ", " + std::to_string(game_world.get_cursor()->getPosition().y).substr(0,6) + ")\n");
         }
-
 		turn_no++;
 	}
 }

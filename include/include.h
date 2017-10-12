@@ -53,11 +53,12 @@ namespace cmd_category
 const float PI = 3.14159265359f;
 const float FPS = 60.f;
 const bool VSYNC = true;
-const bool LIMIT_FPS = true;
+const bool LIMIT_FPS = false;
 const short int AA_LEVEL = 4;
 const float PSPEED = 30.f;
 const float SENSITIVITY  = 2; //higher numbers are less sensitive
 const float UPPER_ZOOM_LIMIT = 0.3f;
 const float LOWER_ZOOM_LIMIT = 0.1f;
 const float CURS_SCALE = 2.4f;
+const int DEBUG_DRAW_UPS = 6;
 #endif
