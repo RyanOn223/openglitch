@@ -35,7 +35,6 @@ class world : public sf::NonCopyable
         void update(sf::Time delta);
         void draw();
         command_queue& get_cmd_queue();
-        //player& get_player();
         void set_zoom(float f);
         float get_zoom();
         class spawn_point
@@ -84,7 +83,6 @@ class world : public sf::NonCopyable
          float zoom_level;
          monster* the_player;
          cursor* the_cursor;
-         //float player_speed;
          command_queue world_cmd_queue;
          std::vector<spawn_point> enemy_spawn_points;
 };

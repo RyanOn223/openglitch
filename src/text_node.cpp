@@ -14,7 +14,6 @@ void text_node::draw_current(sf::RenderTarget& target, sf::RenderStates states) 
 void text_node::set_string(const std::string& s)
 {
     text->setString(s);
-    //text->setOrigin(text->getLocalBounds().width / 2, text->getLocalBounds().height / 2);
 }
 text_node::~text_node()
 {

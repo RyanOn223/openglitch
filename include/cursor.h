@@ -5,14 +5,13 @@
 class cursor : public entity
 {
     public:
-        cursor(texture_manager& textures);//, resource_manager<sf::Font, fonts::ID>& fonts);
+        cursor(texture_manager& textures);
         virtual ~cursor();
         void draw_current(sf::RenderTarget& window, sf::RenderStates states) const;
     protected:
 
     private:
         sf::Sprite sprite;
-        //text_node* display;
 };
 
 #endif // CURSOR_H

@@ -28,7 +28,6 @@ class projectile : public entity
 
     private:
         virtual void update_current(sf::Time delta, command_queue& cmds);
-        //virtual void update_current(sf::Time delta);
         virtual void draw_current(sf::RenderTarget& target, sf::RenderStates states) const;
         virtual bool collision(const scene_node& lhs, const scene_node& rhs);
     private:

@@ -13,8 +13,6 @@
 #include <math.h>
 #include <fstream>
 #include <sstream>
-//I'm not sure if I like this namespace::enum thing the book is using
-//but we're going to do it for practice
 
 namespace textures
 {
@@ -46,7 +44,6 @@ namespace cmd_category
         enemies =            1 << 2,
         ally_projectiles =   1 << 3,
         enemy_projectiles =  1 << 4,
-        //the air scene layer has to take commands itself
         air_layer =          1 << 5,
         pickups =            1 << 6,
         walls =               1 << 7,
@@ -63,9 +60,4 @@ const float SENSITIVITY  = 2; //higher numbers are less sensitive
 const float UPPER_ZOOM_LIMIT = 0.3f;
 const float LOWER_ZOOM_LIMIT = 0.1f;
 const float CURS_SCALE = 2.4f;
-//sf::Vector2f rtheta_to_xy(float R, float theta)
-//{
-//    theta *= PI/180.f;
-//    return sf::Vector2f(R * cos(theta), R * sin(theta));
-//}
 #endif

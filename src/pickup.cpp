@@ -25,11 +25,11 @@ unsigned int pickup::get_category() const
 }
 sf::FloatRect pickup::getBoundingRect() const
 {
-    sf::FloatRect to_return;//(getWorldTransform().transformRect(sprite.getGlobalBounds()));
-    to_return.left = getPosition().x;
-    to_return.top = getPosition().y;
-    to_return.width = sprite.getTexture()->getSize().x;
-    to_return.height = sprite.getTexture()->getSize().y;
+    sf::FloatRect to_return;
+    to_return.left = getPosition().x - 1;
+    to_return.top = getPosition().y - 1;
+    to_return.width = sprite.getTexture()->getSize().x - 1;
+    to_return.height = sprite.getTexture()->getSize().y - 1;
     return to_return;
 }
 void pickup::apply(monster& the_player) const
@@ -39,11 +39,9 @@ void pickup::apply(monster& the_player) const
 void pickup::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {
     sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-	//std::cout << v.x << ", " << v.y << std::endl;
 	sf::RectangleShape collide_rect(v);
 	sf::FloatRect bounds = 	collide_rect.getLocalBounds();
 	collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	//collide_rect.setRotation(sprite.getRotation());
 	collide_rect.setPosition(getPosition());
 	collide_rect.setOutlineColor(sf::Color::Black);
 	collide_rect.setFillColor(sf::Color(0,0,0,0));

@@ -14,9 +14,5 @@ int main(int argc, char **argv)
     {
         std::cout << ex.what() << std::endl;
     }
-	//keeps the console open after window is closed
-	//char pause;
-	//std::cin >> pause;
-
 	return 0;
 }

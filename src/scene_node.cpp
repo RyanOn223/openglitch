@@ -4,13 +4,11 @@ scene_node::scene_node()
 {
 	parent = nullptr;
 	category = 1;
-	//dead = false;
 }
 scene_node::scene_node(unsigned int cat)
 {
     parent = nullptr;
     category = cat;
-    //dead = false;
 }
 void scene_node::attach_child(scn_ptr child)
 {
@@ -61,13 +59,11 @@ void scene_node::draw_children(sf::RenderTarget& target, sf::RenderStates states
 {
 	for (const scn_ptr& child : children)
 	{
-        //if (this->get_category() == cmd_category::the_player) std::cout << "drawing player\n";
 		child->draw(target, states);
 	}
 }
 void scene_node::update(sf::Time delta, command_queue& cmds)
 {
-    //std::cout << "updating node with category: " << get_category() << std::endl;
     update_current(delta, cmds);
     update_children(delta, cmds);
 }
@@ -79,7 +75,6 @@ void scene_node::update_children(sf::Time delta, command_queue& cmds)
 {
     for (scn_ptr& child : children)
     {
-        //if (this->get_category() == cmd_category::the_player) std::cout << "updating player\n";
         child->update(delta, cmds);
     }
 }
@@ -108,17 +103,14 @@ unsigned int scene_node::get_category() const
 }
 void scene_node::on_command(const command& cmd, sf::Time delta)
 {
-    //std::cout << "on_command called with category: " << cmd.ccategory << " and this category: " << get_category() << std::endl;
     //check and perform this action upon this node
     if (cmd.ccategory & get_category())
     {
         cmd.action(*this, delta);
-        //std::cout << "pushed command to category " << get_category() << std::endl;
     }
     //forward command to children
     for (scn_ptr& child : children)
     {
-        //std::cout << "calling on_command on child with category: " << child->get_category() << std::endl;
         child->on_command(cmd, delta);
     }
 }
@@ -169,10 +161,6 @@ bool scene_node::is_dead() const
 {
     return false;
 }
-//void scene_node::destroy()
-//{
-//    dead = true;
-//}
 bool scene_node::is_marked_for_removal() const
 {
     return is_dead();

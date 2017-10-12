@@ -6,8 +6,6 @@ class game
 {
 	public:
 
-		//antialaising setting is passed here from main.cpp, other settings
-		//should be as well TODO
 		game(sf::ContextSettings settings);
         ~game();
 		void run();
@@ -19,8 +17,6 @@ class game
 		void update(sf::Time delta);
 		//draws things
 		void render();
-		//handles player input
-		//void handle_input(sf::Keyboard::Key key, bool is_pressed);
 	private:
 		//the one and only window
 		sf::RenderWindow gwindow;
@@ -31,8 +27,8 @@ class game
 		sf::Time time_per_frame;
 		sf::Clock tick_clock;
 		sf::Clock dbg_clock;
-		//sf::Clock global_clock;
-		//global turn count
+		sf::Clock fps_clock;
+		sf::Clock ups_clock;
 		long turn_no;
 		player the_player;
 };

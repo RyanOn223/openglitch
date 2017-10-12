@@ -8,7 +8,6 @@ game::game(sf::ContextSettings settings) :
     ispaused = false;
     tick_clock.restart();
     dbg_clock.restart();
-    //global_clock.restart();
 	//set some window preferences
 	gwindow.setVerticalSyncEnabled(VSYNC);
 	if (LIMIT_FPS == true) gwindow.setFramerateLimit(static_cast<unsigned int>(FPS));
@@ -35,19 +34,21 @@ void game::run()
 	sf::Time delta = sf::seconds(1.f/FPS);
 	sf::Time accumulator = sf::Time::Zero;
 	tick_clock.restart();
+	fps_clock.restart();
+	ups_clock.restart();
 	while (gwindow.isOpen())
 	{
         if (turn_no % (static_cast<int>(FPS)/6) == 0)
-            fps_text->setString(std::to_string(1000000.f/delta.asMicroseconds()).substr(0, 5));
+            fps_text->setString("fps:\t" + std::to_string(10000000.f/fps_clock.restart().asMicroseconds()).substr(0, 5));
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
         {
-            fps_text->setString(fps_text->getString() + "\nleft: " + (std::to_string(dbg_clock.restart().asMicroseconds())));
+            fps_text->setString(fps_text->getString() + "\nleft:\t" + (std::to_string(dbg_clock.restart().asMicroseconds())));
         }
 
         process_events();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
         {
-            fps_text->setString(fps_text->getString() + "\nevent: " + (std::to_string(dbg_clock.restart().asMicroseconds())));
+            fps_text->setString(fps_text->getString() + "\nevent:\t" + (std::to_string(dbg_clock.restart().asMicroseconds())));
         }
 
 		sf::Vector2f pos;
@@ -58,9 +59,11 @@ void game::run()
             {
                 accumulator -= delta;
                 update(delta);
+
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
                 {
-                    fps_text->setString(fps_text->getString() + "\nupdate: " + (std::to_string(dbg_clock.restart().asMicroseconds())));
+                    fps_text->setString(fps_text->getString() + "\nupdate:\t" + (std::to_string(dbg_clock.restart().asMicroseconds())));
+                    fps_text->setString(fps_text->getString() + "\nups:\t" + (std::to_string(10000000.f/ups_clock.restart().asMicroseconds()).substr(0, 5)));
                 }
             }
         }
@@ -69,7 +72,7 @@ void game::run()
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/6) == 0)
         {
-            fps_text->setString(fps_text->getString() + "\nrender: " + (std::to_string(dbg_clock.restart().asMicroseconds())));
+            fps_text->setString(fps_text->getString() + "\nrender:\t" + (std::to_string(dbg_clock.restart().asMicroseconds())));
         }
 
 

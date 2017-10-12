@@ -68,17 +68,7 @@ void world::build_scene()
 
     load_pickups();
     load_walls();
-    /*
-    std::unique_ptr<wall> w1(new wall(wall::type::wall1, textures));
-    w1->setPosition(spawn_position.x - 25, spawn_position.y - 10);
-    cmanager.add_entity(static_cast<entity*>(w1.get()), cmd_category::walls);
-    scene_layers[walls_layer]->attach_child(std::move(w1));
 
-    std::unique_ptr<wall> w2(new wall(wall::type::wall1, textures));
-    w2->setPosition(spawn_position.x - 12.5f, spawn_position.y - 17.5f);
-    cmanager.add_entity((static_cast<entity*>(w2.get())), cmd_category::walls);
-    scene_layers[walls_layer]->attach_child(std::move(w2));
-    */
     //must be called after all walls are added
     cmanager.init_shadows(2000, 2000);
 }
@@ -161,7 +151,6 @@ void world::update(sf::Time delta)
 
     //fixes circular distances and world bounds
     adjust_player_v();
-    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {scene_graph.print(); std::cout << "____\n";}
     world_view.setCenter(the_player->getPosition());
     cmanager.check_collisions(world_cmd_queue);
     cmanager.update_shadows(world_view.getCenter());
@@ -178,8 +167,6 @@ void world::adjust_player_v()
 {
     //currently, this just attempts to account for circular distances
     sf::Vector2f v = the_player->get_velocity();
-    //if (v.x != 0) v.x = (2.f/3.f) * (v.x);
-    //if (v.y != 0) v.y = (2.f/3.f) * (v.y);
     if (v.x != 0.f && v.y != 0.f)
     {
         v.x = v.x / std::sqrt(2.f);
@@ -198,9 +185,7 @@ void world::update_cursor()
 
     sf::Vector2i win_center(wwindow.getSize() / 2u);
     sf::Vector2i mouse_pos = sf::Mouse::getPosition(wwindow);
-    sf::Vector2i delta_mouse = win_center - mouse_pos;
-    //printf("center: %d, %d\nmouse: %d, %d\n", win_center.x, win_center.y, mouse_pos.x, mouse_pos.y);
-    //printf("center: %f, %f\nmouse: %f, %f\ncenter - pos: %f, %f\n", f_center.x, f_center.y, f_pos.x, f_pos.y, f_center.x - f_pos.x, f_center.y - f_pos.y);
+    sf::Vector2i delta_mouse = win_center - mouse_pos;;
     sf::Mouse::setPosition(win_center, wwindow);
     sf::Vector2f cur_pos = the_cursor->getPosition();
     sf::Vector2f view_center = world_view.getCenter();
@@ -297,7 +282,6 @@ void world::destroy_OOB_entities()
         {
             e.destroy();
             cmanager.rmv_entity(e, cmd_category::ally_projectiles);
-            //std::cout << "OOB destroyed entity of type: " << e.get_category() << std::endl;
         }
     });
     world_cmd_queue.push(destroy_command);

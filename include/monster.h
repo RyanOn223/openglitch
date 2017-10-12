@@ -51,7 +51,6 @@ class monster : public entity
             void operator()(scene_node& node, sf::Time delta) const
             {
                 monster& mon = static_cast<monster&>(node);
-                //mon.setRotation(theta);
                 mon.sprite.setRotation(theta);
             }
             float theta;

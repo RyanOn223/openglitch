@@ -19,10 +19,6 @@ textures::ID to_texture_ID(monster::type Type)
             return textures::player;
 	}
 }
-//this is a little confusing. the first 'type' refers to the type of variable
-//to pass in to the constructor, while the second 'type' refers to the member variable
-//to initialize, in this case it get initialized to the same type as the
-//monster type passed into the constructor.
 monster::monster(monster::type mtype, const texture_manager& textures, const resource_manager<sf::Font, fonts::ID>& fonts, int hp, collision_manager& manager) :
 				 monster_type(mtype), sprite(textures.get(to_texture_ID(monster_type))), entity(hp), cmanager(manager)
 {
@@ -33,11 +29,9 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
         };
 	//set the sprites origin to the center of the local bounds of its bounding rectangle.
 	//aka move its reference point from the top left corner to the center of the sprite
-	fire_cooldown = sf::Time::Zero;
-	//scale(2.f, 2.f);
 	sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	//std::cout << "new monster, type: " << mtype << std::endl;
+	fire_cooldown = sf::Time::Zero;
 	std::unique_ptr<text_node> tx(new text_node(fonts, ""));
 	health_text = tx.get();
 	attach_child(std::move(tx));
@@ -48,7 +42,6 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
 void monster::draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const
 {
-	//the result of all this inheritence, oop, recursion, and sfml usage is that this is a super simple call
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
     {
         sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
@@ -65,18 +58,15 @@ void monster::draw_current(sf::RenderTarget& target,
 }
 unsigned int monster::get_category() const
 {
-    //std::cout << "get category called with result: ";
     switch(monster_type)
     {
         case small_mutant:
-        case large_mutant:
-            //std::cout << "enemy\n";
+        case large_mutant:;
             return cmd_category::enemies;
-            //break;
         case player:
-            //std::cout << "player\n";
             return cmd_category::the_player;
-            //break;
+        default:
+            assert(false);
     }
 }
 void monster::update_current(sf::Time delta, command_queue& cmds)
@@ -95,10 +85,7 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
         }
     if (hit_wall)
     {
-        //if (get_velocity().x != 0.f && get_velocity().y != 0.f) move(-get_velocity() * delta.asSeconds() / 2.5f);
-        //else move(-last_velocity * delta.asSeconds() / 2.5f);
         setPosition(last_position);
-
     }
     last_position = getPosition();
     if (!hit_wall) move(get_velocity() * delta.asSeconds());
@@ -108,14 +95,12 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
 }
 void monster::fire_weapon()
 {
-    //if (get_category() == cmd_category::the_player) std::cout << "fire player weapon\n";
     is_firing = true;
 }
 void monster::check_launch(sf::Time delta, command_queue& cmds)
 {
     if (is_firing && (fire_cooldown <= sf::Time::Zero))
     {
-        //std::cout << "pushed fire command\n";
         cmds.push(fire_command);
         fire_cooldown += sf::milliseconds(200);
         is_firing = false;
@@ -158,14 +143,13 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
     proj->setPosition(getPosition());
     proj->setRotation(sprite.getRotation());
     proj->set_velocity(v);
-    //std::cout << proj->getPosition().x << ", " << proj->getPosition().y << std::endl;
     //node needs to be the air scene layer here
     cmanager.add_entity(proj.get(), static_cast<cmd_category::ID>(proj->get_category()));
     node.attach_child(std::move(proj));
 }
 sf::FloatRect monster::getBoundingRect() const
 {
-    sf::FloatRect to_return;//(getWorldTransform().transformRect(sprite.getGlobalBounds()));
+    sf::FloatRect to_return;
 
     //TODO figure out why these adjustments are needed here, because they shouldnt be
     to_return.left = getPosition().x - 1;

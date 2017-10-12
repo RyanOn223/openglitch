@@ -9,10 +9,8 @@ projectile::projectile(type pptype, const texture_manager& textures, float sp, i
     sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 	sprite.setScale(0.75f, 0.75f);
-	//scale(.75f, .75f);
 	speed = sp;
 	damage = dmg;
-	//std::cout << "projectile created with dmg:" << damage << std::endl;
 }
 unsigned int projectile::get_category() const
 {
@@ -40,17 +38,14 @@ int projectile::get_damage() const
 void projectile::update_current(sf::Time delta, command_queue& cmds)
 {
     last_position = getPosition();
-    //std::cout << getPosition().x << ", " << getPosition().y << std::endl;
     move(get_velocity() * delta.asSeconds());
 }
 void projectile::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {
     sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-	//std::cout << v.x << ", " << v.y << std::endl;
 	sf::RectangleShape collide_rect(v);
 	sf::FloatRect bounds = 	collide_rect.getLocalBounds();
 	collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	//collide_rect.setRotation(sprite.getRotation());
 	collide_rect.setPosition(getPosition());
 	collide_rect.setOutlineColor(sf::Color::Black);
 	collide_rect.setFillColor(sf::Color(0,0,0,0));
@@ -85,14 +80,10 @@ void projectile::check_node_collision(scene_node& node, std::set<scn_pair>& coll
         //using minmax ensures that a-b and b-a will always be in the same order
         collision_pairs.insert(std::minmax(static_cast<scene_node*>(this), &node));
     }
-    //projectiles should not have children
     assert(children.empty());
 }
 bool projectile::collision(const scene_node& lhs, const scene_node& rhs)
 {
-    //sf::Vector2f difference(getPosition() - last_position);
-    //sf::FloatRect tween;
-    //if (last_position.x == getPosition().x
     return lhs.getBoundingRect().intersects(rhs.getBoundingRect());
 }
 projectile::type projectile::get_type()

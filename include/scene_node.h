@@ -47,11 +47,5 @@ class scene_node : public sf::Drawable, public sf::Transformable,
 		void draw_children(sf::RenderTarget& target, sf::RenderStates states) const;
 
         virtual bool collision(const scene_node& lhs, const scene_node& rhs);
-
-        /* from the book, usage of draw():
-		 * sf::RenderWindow window(...);
-		 * SceneNode::Ptr node(...);
-		 * window.draw(*node); // note: no node->draw(window) here!
-		 */
 };
 #endif // SCENE_NODE_H
