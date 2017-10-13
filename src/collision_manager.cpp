@@ -1,10 +1,6 @@
 #include "collision_manager.h"
 
-collision_manager::collision_manager(monster* Player) : the_player(Player), shadow_manager()
-{
-    //ctor
-}
-collision_manager::collision_manager() : the_player(nullptr)
+collision_manager::collision_manager() : the_player(nullptr), the_cursor(nullptr)
 {
 
 }
@@ -20,7 +16,6 @@ void collision_manager::add_entity(entity* to_add, cmd_category::ID type)
         case cmd_category::enemies:
             if (mon_itr == monsters.end())
             {
-                std::cout << "info: added monster to collision manager\n";
                 monsters.push_back(static_cast<monster*>(to_add));
             }
             else std::cout << "error: attempted to add repeat monster to collision manager\n";
@@ -28,7 +23,6 @@ void collision_manager::add_entity(entity* to_add, cmd_category::ID type)
         case cmd_category::pickups:
             if (pik_itr == pickups.end())
             {
-                std::cout << "info: added pickup to collision manager\n";
                 pickups.push_back(static_cast<pickup*>(to_add));
             }
             else std::cout << "error: attempted to add repeat pickup to collision manager\n";
@@ -37,7 +31,6 @@ void collision_manager::add_entity(entity* to_add, cmd_category::ID type)
         case cmd_category::enemy_projectiles:
             if (bul_itr == bullets.end())
             {
-                std::cout << "info: added bullet to collision manager\n";
                 bullets.push_back(static_cast<projectile*>(to_add));
             }
             else std::cout << "error: attempted to add repeat bullet to collision manager\n";
@@ -45,14 +38,15 @@ void collision_manager::add_entity(entity* to_add, cmd_category::ID type)
         case cmd_category::walls:
             if (wal_itr == walls.end())
             {
-                std::cout << "info: added wall to collision manager\n";
                 walls.push_back(static_cast<wall*>(to_add));
             }
             else std::cout << "error: attempted to add repeat wall to collision manager\n";
             break;
         case cmd_category::the_player:
-            std::cout << "info: added player to collision manager\n";
             the_player = static_cast<monster*>(to_add);
+            break;
+        case cmd_category::mouse:
+            the_cursor = static_cast<cursor*>(to_add);
             break;
         default:
             //no other categories should be passed here (yet)
@@ -71,7 +65,6 @@ void collision_manager::rmv_entity(entity& to_remove, cmd_category::ID type)
             if (bul_itr != bullets.end())
             {
                 bullets.erase(bul_itr);
-                std::cout << "info: removed bullet from collision manager\n";
             }
             else std::cout << "error: attempted to remove bullet not in collision manager\n";
             break;
@@ -79,7 +72,6 @@ void collision_manager::rmv_entity(entity& to_remove, cmd_category::ID type)
             if (mon_itr != monsters.end())
             {
                 monsters.erase(mon_itr);
-                std::cout << "info: removed monster from collision manager\n";
             }
             break;
         case cmd_category::walls:
@@ -89,7 +81,6 @@ void collision_manager::rmv_entity(entity& to_remove, cmd_category::ID type)
             if (pik_itr != pickups.end())
             {
                 pickups.erase(pik_itr);
-                std::cout << "info: removed pickup from collision manager\n";
             }
             break;
         case cmd_category::the_player:
@@ -111,6 +102,7 @@ void collision_manager::check_collisions(command_queue& cmds)
     monster_bullet_collisions(cmds);
     monster_pickup_collisions(cmds);
     monster_monster_collisions(cmds);
+    cursor_collisions(cmds);
 }
 void collision_manager::wall_monster_collisions(command_queue& cmds)
 {
@@ -169,10 +161,16 @@ void collision_manager::monster_pickup_collisions(command_queue& cmds)
     {
         if (the_player->getBoundingRect().intersects(each_pickup->getBoundingRect()))
         {
-            each_pickup->apply(*the_player);
-            each_pickup->destroy();
-            rmv_entity(*each_pickup, cmd_category::pickups);
+            each_pickup->enable_outline();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+            {
+                each_pickup->apply(*the_player);
+                each_pickup->destroy();
+                rmv_entity(*each_pickup, cmd_category::pickups);
+            }
         }
+        //if its stupid and it works..
+        else (each_pickup->disable_outline());
     }
 }
 void collision_manager::monster_monster_collisions(command_queue& cmds)
@@ -196,7 +194,29 @@ void collision_manager::monster_monster_collisions(command_queue& cmds)
             }
         }
     }
-
+}
+void collision_manager::cursor_collisions(command_queue& cmds)
+{
+    for (monster* each_monster : monsters)
+    {
+        if (each_monster->getBoundingRect().intersects(the_cursor->getBoundingRect()))
+        {
+            each_monster->enable_outline();
+        }
+        else each_monster->disable_outline();
+    }
+    for (pickup* each_pickup : pickups)
+    {
+        if (each_pickup->getBoundingRect().intersects(the_cursor->getBoundingRect()))
+        {
+            each_pickup->enable_outline();
+        }
+    }
+    if (the_cursor->getBoundingRect().intersects(the_player->getBoundingRect()))
+    {
+        the_player->enable_outline();
+    }
+    else the_player->disable_outline();
 }
 void collision_manager::init_shadows(int screenX, int screenY)
 {

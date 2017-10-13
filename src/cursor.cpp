@@ -15,3 +15,12 @@ cursor::~cursor()
 {
     //dtor
 }
+sf::FloatRect cursor::getBoundingRect() const
+{
+    sf::FloatRect to_return;
+    to_return.top = getPosition().y + 1;
+    to_return.left = getPosition().x + 1;
+    to_return.width = 1;
+    to_return.height = 1;
+    return to_return;
+}

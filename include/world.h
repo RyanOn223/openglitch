@@ -46,6 +46,8 @@ class world : public sf::NonCopyable
                 float y;
         };
         cursor* get_cursor();
+        int get_player_hp();
+        monster* get_player();
         private:
         enum scn_layer
         {

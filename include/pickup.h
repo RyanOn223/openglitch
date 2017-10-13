@@ -10,6 +10,7 @@ class pickup : public entity
         {
             sm_health_pack,
             sm_ammo,
+            small_pistol,
             type_count,
         };
         pickup(pickup::type Type, const texture_manager& textures);
@@ -17,12 +18,14 @@ class pickup : public entity
         virtual sf::FloatRect getBoundingRect() const;
         void apply(monster& the_player) const;
         virtual ~pickup();
-
+        void enable_outline();
+        void disable_outline();
     protected:
         virtual void draw_current(sf::RenderTarget& target, sf::RenderStates states) const;
     private:
         pickup::type mtype;
         sf::Sprite sprite;
+        bool draw_outline;
 };
 
 #endif // PICKUP_H

@@ -17,11 +17,16 @@ class game
 		void update(sf::Time delta);
 		//draws things
 		void render();
+		void draw_health();
+		void draw_ammo();
 	private:
 		//the one and only window
 		sf::RenderWindow gwindow;
         sf::Font fps_font;
         sf::Text* fps_text;
+        sf::Text* hp_text;
+        sf::Text* ammo_text;
+        texture_manager ui_textures;
 		world game_world;
 		//global frame time
 		sf::Time time_per_frame;

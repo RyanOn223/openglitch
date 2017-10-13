@@ -6,7 +6,7 @@
 class player
 {
     public:
-        player();
+        player(monster*);
         virtual ~player();
         void handle_event(const sf::Event& event, command_queue& cmds);
         void handle_input(command_queue& cmds);
@@ -14,6 +14,7 @@ class player
 
     private:
         float player_speed;
+        monster* the_player;
 };
 
 #endif // PLAYER_H

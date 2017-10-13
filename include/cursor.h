@@ -8,6 +8,7 @@ class cursor : public entity
         cursor(texture_manager& textures);
         virtual ~cursor();
         void draw_current(sf::RenderTarget& window, sf::RenderStates states) const;
+        virtual sf::FloatRect getBoundingRect() const;
     protected:
 
     private:

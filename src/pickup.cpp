@@ -10,14 +10,18 @@ textures::ID to_texture_ID(pickup::type Type)
             return textures::sm_ammo;
         case pickup::type::sm_health_pack:
             return textures::sm_health_pack;
+        case pickup::type::small_pistol:
+            return textures::small_pistol;
     }
 }
+
 
 pickup::pickup(pickup::type Type, const texture_manager& textures) : mtype(Type), sprite(textures.get(to_texture_ID(mtype))), entity(1)
 {
     sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
     sprite.scale(0.6f, 0.6f);
+    draw_outline = false;
 }
 unsigned int pickup::get_category() const
 {
@@ -48,8 +52,27 @@ void pickup::draw_current(sf::RenderTarget& target, sf::RenderStates states) con
 	collide_rect.setOutlineThickness(.5f);
 	target.draw(sprite, states);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
+    if (draw_outline)
+    {
+        sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
+        sf::CircleShape outline_circle(std::max((v.x / sqrt(2)), (v.y / sqrt(2))));
+        outline_circle.setPosition(getPosition());
+        outline_circle.setFillColor(sf::Color(0,0,0,0));
+        outline_circle.setOutlineColor(sf::Color::White);
+        outline_circle.setOutlineThickness(0.15f);
+        outline_circle.setOrigin(outline_circle.getRadius(), outline_circle.getRadius());
+        target.draw(outline_circle);
+    }
 }
 pickup::~pickup()
 {
     //dtor
+}
+void pickup::enable_outline()
+{
+    draw_outline = true;
+}
+void pickup::disable_outline()
+{
+    draw_outline = false;
 }

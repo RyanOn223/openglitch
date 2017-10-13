@@ -74,6 +74,37 @@ class monster : public entity
             }
             int healthpoints;
         };
+        struct monster_aimer
+        {
+            monster_aimer(bool aim) : to_aim(aim) {}
+            void operator()(scene_node& node, sf::Time delta) const
+            {
+                monster& mon = static_cast<monster&>(node);
+                mon.is_aiming = to_aim;
+            }
+            bool to_aim;
+        };
+        struct monster_weapon_pickup
+        {
+            monster_weapon_pickup(weapon_type type) : wtype(type) {}
+            void operator()(scene_node& node) const
+            {
+                monster& mon = static_cast<monster&>(node);
+                mon.weapon = wtype;
+            }
+            weapon_type wtype;
+        };
+        struct monster_ammo_pickup
+        {
+            monster_ammo_pickup(bullet_type Btype, int amt) : btype(Btype), amount(amt) {}
+            void operator()(scene_node& node) const
+            {
+                monster& mon = static_cast<monster&>(node);
+                mon.ammo_held[btype] += amount;
+            }
+            bullet_type btype;
+            int amount;
+        };
         void fire_weapon();
         void create_bullets(scene_node& node, const texture_manager& textures) const;
         void create_projectile(scene_node& node, projectile::type ptype, float xoff, float yoff, const texture_manager& textures) const;
@@ -81,6 +112,13 @@ class monster : public entity
         virtual sf::FloatRect getBoundingRect() const;
         virtual bool is_marked_for_removal() const;
         bool hit_wall;
+        void enable_outline();
+        void disable_outline();
+        bool is_aiming;
+        weapon_type weapon;
+        bool has_auto_weapon();
+        bool has_ammo();
+        std::array<int, bullet_type::bullet_type_count> ammo_held{0};
 	private:
         collision_manager& cmanager;
         bool removal_mark;
@@ -91,5 +129,7 @@ class monster : public entity
 		void check_launch(sf::Time delta, command_queue& cmds);
 		sf::Time fire_cooldown;
 		command fire_command;
+		bool draw_outline;
+
 };
 #endif

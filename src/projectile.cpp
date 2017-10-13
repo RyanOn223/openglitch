@@ -70,22 +70,6 @@ bool projectile::is_marked_for_removal() const
 {
     return is_dead();
 }
-void projectile::check_node_collision(scene_node& node, std::set<scn_pair>& collision_pairs)
-{
-    if (this != &node &&
-        collision(*this, node) &&
-        !is_dead() &&
-        !node.is_dead())
-    {
-        //using minmax ensures that a-b and b-a will always be in the same order
-        collision_pairs.insert(std::minmax(static_cast<scene_node*>(this), &node));
-    }
-    assert(children.empty());
-}
-bool projectile::collision(const scene_node& lhs, const scene_node& rhs)
-{
-    return lhs.getBoundingRect().intersects(rhs.getBoundingRect());
-}
 projectile::type projectile::get_type()
 {
     return ptype;

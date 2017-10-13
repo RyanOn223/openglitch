@@ -6,21 +6,20 @@ v 0.0.1:
             -for monster-wall and maybe bullets
                                   in the future
         -basic collision optimizations          done!
-        -interpolate bullet collisions          not needed?
     entities
         -wall.h                                 done!
         -collision_manager.h                    done!
         -door.h
-    mechanics / required
-        -ammo and weapons
-        -ammo and hp display
-        -aiming
+    required / other
+        -ammo and weapons                       done!
+        -ammo and hp display                    done!
+        -aiming                                 done!
         -file loading
             -data tables
             -initial entity setup
                 -walls                          done!
                 -monsters
-                -pickups
+                -pickups                        done!
             -game settings
         -FOV                                    done(!!)
         -texture atlases

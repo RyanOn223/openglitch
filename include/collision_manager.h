@@ -7,11 +7,11 @@
 #include "pickup.h"
 #include "shadow.h"
 #include "command_queue.h"
+#include "cursor.h"
 class pickup;
 class collision_manager
 {
     public:
-        collision_manager(monster* Player);
         collision_manager();
         virtual ~collision_manager();
         void check_collisions(command_queue& cmds);
@@ -26,6 +26,7 @@ class collision_manager
         std::vector<wall*> walls;
         std::vector<monster*> monsters;
         monster* the_player;
+        cursor* the_cursor;
         std::vector<projectile*> bullets;
         std::vector<pickup*> pickups;
         ShadowHandler shadow_manager;
@@ -35,6 +36,7 @@ class collision_manager
         void monster_bullet_collisions(command_queue& cmds);
         void monster_pickup_collisions(command_queue& cmds);
         void monster_monster_collisions(command_queue& cmds);
+        void cursor_collisions(command_queue& cmds);
         std::vector<sf::Vector2f> get_obstacles();
 };
 #endif // COLLISION_MANAGER_H

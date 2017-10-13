@@ -28,6 +28,7 @@ void world::load_textures()
     textures.load(textures::sm_ammo,        "src/gfx/sm_ammo.png");
     textures.load(textures::sm_health_pack, "src/gfx/sm_health_pack.png");
     textures.load(textures::wall_tile,      "src/gfx/wall_tile.png");
+    textures.load(textures::small_pistol,   "src/gfx/small_pistol.png");
     fonts.load(fonts::pixel,                "src/pixel.ttf");
 }
 void world::build_scene()
@@ -64,6 +65,7 @@ void world::build_scene()
     std::unique_ptr<cursor> cur(new cursor(textures));
     the_cursor = cur.get();
     the_cursor->setPosition(spawn_position);
+    cmanager.add_entity(static_cast<entity*>(cur.get()), cmd_category::mouse);
     scene_layers[hud_layer]->attach_child(std::move(cur));
 
     load_pickups();
@@ -78,11 +80,8 @@ void world::load_walls()
     wall::type wtype;
     std::ifstream walls_file;
     walls_file.open("src/dat/walls.bb");
-    while (!walls_file.eof())
+    while (walls_file >> twall >> wallX >> wallY)
         {
-            walls_file >> twall;
-            walls_file >> wallX;
-            walls_file >> wallY;
             switch (twall)
             {
                 case 1:
@@ -105,11 +104,8 @@ void world::load_pickups()
     pickup::type ptype;
     std::ifstream pickups_file;
     pickups_file.open("src/dat/pickups.bb");
-    while (!pickups_file.eof())
+    while (pickups_file >> tpick >> pickX >> pickY)
     {
-        pickups_file >> tpick;
-        pickups_file >> pickX;
-        pickups_file >> pickY;
         switch (tpick)
         {
             case 1:
@@ -118,6 +114,9 @@ void world::load_pickups()
             case 2:
                 ptype = pickup::type::sm_ammo;
                 break;
+            case 3:
+                ptype = pickup::type::small_pistol;
+                break;
             default:
                 std::cout << "error: attempted to load unknown pickup type: " << tpick << std::endl;
                 break;
@@ -125,7 +124,7 @@ void world::load_pickups()
         std::unique_ptr<pickup> p(new pickup(ptype, textures));
         p->setPosition(pickX, pickY);
         cmanager.add_entity(static_cast<entity*>(p.get()), cmd_category::pickups);
-        scene_layers[walls_layer]->attach_child(std::move(p));
+        scene_layers[bg_layer]->attach_child(std::move(p));
     }
 }
 void world::draw()
@@ -134,14 +133,32 @@ void world::draw()
     wwindow.draw(scene_graph);
     cmanager.draw_shadows(&wwindow);
     wwindow.draw(*the_cursor);
+    if (the_player->is_aiming)
+    {
+        //draw the 'line' between the player and the reticle
+        sf::Vector2f line_center = (the_cursor->getPosition() - the_player->getPosition());
+        float length = sqrt(pow(line_center.x, 2) + pow(line_center.y, 2)) - 10;
+        line_center *= 0.5f;
+        sf::Vector2f v(length, 0.75f);
+        sf::RectangleShape line(v);
+        line.setOrigin(length / 2, 0.5);
+        line.setPosition(the_player->getPosition() + line_center);
+        line.setFillColor(sf::Color(255, 255, 255, 40));
+        line.setRotation(atan2(line_center.y, line_center.x) * 180.f/PI);
+        wwindow.draw(line);
+    }
 }
 void world::update(sf::Time delta)
 {
 
     //before any commands are applied, reset the player speed to 0
     the_player->set_velocity(0.f, 0.f);
-    //rotate towards the software cursor aka reticle
-    rotate_player();
+    //rotate towards the reticle if they are aiming
+    if (the_player->is_aiming)
+    {
+        rotate_player();
+        the_player->is_aiming = false;
+    }
     destroy_OOB_entities();
     //push all commands onto the queue
     while (!world_cmd_queue.is_empty())
@@ -156,8 +173,9 @@ void world::update(sf::Time delta)
     cmanager.update_shadows(world_view.getCenter());
     scene_graph.remove_wrecks();
     spawn_enemies();
-    update_cursor();
     scene_graph.update(delta, world_cmd_queue);
+    update_cursor();
+
 }
 command_queue& world::get_cmd_queue()
 {
@@ -289,4 +307,12 @@ void world::destroy_OOB_entities()
 cursor* world::get_cursor()
 {
     return the_cursor;
+}
+int world::get_player_hp()
+{
+    return the_player->get_hp();
+}
+monster* world::get_player()
+{
+    return the_player;
 }
