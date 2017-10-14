@@ -18,6 +18,7 @@ class pickup : public entity
         pickup(pickup::type Type, const texture_manager& textures);
         virtual unsigned int get_category() const;
         virtual sf::FloatRect getBoundingRect() const;
+        virtual void update_current(sf::Time delta, command_queue& cmds);
         void apply(monster& the_player) const;
         virtual ~pickup();
         void enable_outline();

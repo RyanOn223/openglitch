@@ -4,11 +4,13 @@ scene_node::scene_node()
 {
 	parent = nullptr;
 	category = 1;
+	draw_this = true;
 }
 scene_node::scene_node(unsigned int cat)
 {
     parent = nullptr;
     category = cat;
+    draw_this = true;
 }
 void scene_node::attach_child(scn_ptr child)
 {
@@ -95,7 +97,10 @@ sf::Transform scene_node::getWorldTransform() const
 }
 void scene_node::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {
+    if (draw_this)
+    {
 
+    }
 }
 unsigned int scene_node::get_category() const
 {

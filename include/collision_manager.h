@@ -20,6 +20,7 @@ class collision_manager
         void rmv_entity(entity&, cmd_category::ID type);
         void draw_shadows(sf::RenderWindow* window);
         void init_shadows(int screenx, int screeny);
+        void do_culling(sf::View& current_view);
     protected:
 
     private:

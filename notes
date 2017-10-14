@@ -5,6 +5,7 @@ v 0.0.1:
             -for monster-wall and maybe bullets
                                   in the future
         -basic collision optimizations          done!
+        -make straight blocks of walls contiguous
     entities
         -wall.h                                 done!
         -collision_manager.h                    done!

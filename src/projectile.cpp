@@ -43,20 +43,24 @@ void projectile::update_current(sf::Time delta, command_queue& cmds)
     move(get_velocity() * delta.asSeconds());
 
     turns_alive++;
-    if (sprite.getScale().x < 2.f) sprite.setScale(static_cast<float>(turns_alive) / 4.f, 1.f);
+    if (sprite.getScale().x < 1.f) sprite.setScale(static_cast<float>(turns_alive) / 4.f, 1.f);
+    draw_this = true;
 }
 void projectile::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-	sf::RectangleShape collide_rect(v);
-	sf::FloatRect bounds = 	collide_rect.getLocalBounds();
-	collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	collide_rect.setPosition(getPosition());
-	collide_rect.setOutlineColor(sf::Color::Black);
-	collide_rect.setFillColor(sf::Color(0,0,0,0));
-	collide_rect.setOutlineThickness(.5f);
-	target.draw(sprite, states);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
+    if (draw_this)
+    {
+        sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
+        sf::RectangleShape collide_rect(v);
+        sf::FloatRect bounds = 	collide_rect.getLocalBounds();
+        collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+        collide_rect.setPosition(getPosition());
+        collide_rect.setOutlineColor(sf::Color::Black);
+        collide_rect.setFillColor(sf::Color(0,0,0,0));
+        collide_rect.setOutlineThickness(.5f);
+        target.draw(sprite, states);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
+    }
 }
 projectile::~projectile()
 {

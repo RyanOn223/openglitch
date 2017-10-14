@@ -245,6 +245,14 @@ void game::draw_ammo()
     pweapon.setPosition(gwindow.getDefaultView().getSize().x - 200, 20);
     pweapon.setScale(6.f, 6.f);
     gwindow.draw(pweapon);
+    sf::Sprite opweapon(game_world.textures.get(weapons[game_world.get_player()->other_weapon].texture));
+    opweapon.setOrigin(pweapon.getLocalBounds().width / 2.f, pweapon.getLocalBounds().height / 2.f);
+    opweapon.setPosition(gwindow.getDefaultView().getSize().x - 275, 20);
+    opweapon.setScale(6.f, 6.f);
+    if ((weapons[game_world.get_player()->other_weapon].texture) != textures::player)
+    {
+        gwindow.draw(opweapon);
+    }
     ammo_text->setString(std::to_string(game_world.get_player()->ammo_held[weapons[game_world.get_player()->weapon].ammo_type]));
     gwindow.draw(*ammo_text);
 }

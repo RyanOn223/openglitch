@@ -32,7 +32,8 @@ class scene_node : public sf::Drawable, public sf::Transformable,
         virtual sf::FloatRect getBoundingRect() const;
         void remove_wrecks();
         std::vector<scn_ptr> children;
-
+        //skips drawing of this node, used for culling
+        bool draw_this;
 	private:
 		scene_node* parent;
 	private:

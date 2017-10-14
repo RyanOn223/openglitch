@@ -1,5 +1,16 @@
 #include "collision_manager.h"
 
+//black box routine, inaccurate but fast
+double fastpow(double a, double b) {
+    struct {
+        double d;
+        int x[2];
+    } u = { a };
+    u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
+    u.x[0] = 0;
+    return u.d;
+}
+
 collision_manager::collision_manager() : the_player(nullptr), the_cursor(nullptr)
 {
 
@@ -280,4 +291,66 @@ void collision_manager::update_shadows(sf::Vector2f view_center)
 void collision_manager::draw_shadows(sf::RenderWindow* window)
 {
     shadow_manager.draw(window);
+}
+void collision_manager::do_culling(sf::View& current_view)
+{
+    //O(n)
+    sf::Vector2f center = current_view.getCenter();
+    sf::Vector2f size = current_view.getSize() / 2.f;
+    for (projectile* bullet : bullets)
+    {
+        sf::FloatRect bounds = bullet->getBoundingRect();
+        if ((bounds.top > center.y + size.y) ||
+           (bounds.top + bounds.height < center.y - size.y))
+        {
+            bullet->draw_this = false;
+        }
+        else if ((bounds.left > center.x + size.x) ||
+                 (bounds.left + bounds.width < center.x - size.x))
+        {
+            bullet->draw_this = false;
+        }
+    }
+    for (wall* each_wall : walls)
+    {
+        sf::FloatRect bounds = each_wall->getBoundingRect();
+        if ((bounds.top > center.y + size.y) ||
+           (bounds.top + bounds.height < center.y - size.y))
+        {
+            each_wall->draw_this = false;
+        }
+        else if ((bounds.left > center.x + size.x) ||
+                 (bounds.left + bounds.width < center.x - size.x))
+        {
+            each_wall->draw_this = false;
+        }
+    }
+    for (pickup* each_pickup : pickups)
+    {
+        sf::FloatRect bounds = each_pickup->getBoundingRect();
+        if ((bounds.top > center.y + size.y) ||
+           (bounds.top + bounds.height < center.y - size.y))
+        {
+            each_pickup->draw_this = false;
+        }
+        else if ((bounds.left > center.x + size.x) ||
+                 (bounds.left + bounds.width < center.x - size.x))
+        {
+            each_pickup->draw_this = false;
+        }
+    }
+    for (monster* each_monster : monsters)
+    {
+        sf::FloatRect bounds = each_monster->getBoundingRect();
+        if ((bounds.top > center.y + size.y) ||
+           (bounds.top + bounds.height < center.y - size.y))
+        {
+            each_monster->draw_this = false;
+        }
+        else if ((bounds.left > center.x + size.x) ||
+                 (bounds.left + bounds.width < center.x - size.x))
+        {
+            each_monster->draw_this = false;
+        }
+    }
 }

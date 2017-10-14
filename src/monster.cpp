@@ -1,5 +1,4 @@
 #include "../include/monster.h"
-
 namespace
 {
     const std::vector<weapon_data> weapons = init_weapon_data();
@@ -46,30 +45,33 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
 void monster::draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
+    if (draw_this)
     {
-        sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-        sf::RectangleShape collide_rect(v);
-        sf::FloatRect bounds = 	collide_rect.getLocalBounds();
-        collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-        collide_rect.setPosition(getPosition());
-        collide_rect.setOutlineColor(sf::Color::Black);
-        collide_rect.setFillColor(sf::Color(0,0,0,0));
-        collide_rect.setOutlineThickness(.5f);
-        target.draw(collide_rect);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
+        {
+            sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
+            sf::RectangleShape collide_rect(v);
+            sf::FloatRect bounds = 	collide_rect.getLocalBounds();
+            collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+            collide_rect.setPosition(getPosition());
+            collide_rect.setOutlineColor(sf::Color::Black);
+            collide_rect.setFillColor(sf::Color(0,0,0,0));
+            collide_rect.setOutlineThickness(.5f);
+            target.draw(collide_rect);
+        }
+        if (draw_outline)
+        {
+            sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
+            sf::CircleShape outline_circle(std::max((v.x / sqrt(2)), (v.y / sqrt(2))));
+            outline_circle.setPosition(getPosition());
+            outline_circle.setFillColor(sf::Color(0,0,0,0));
+            outline_circle.setOutlineColor(sf::Color::White);
+            outline_circle.setOutlineThickness(0.25f);
+            outline_circle.setOrigin(outline_circle.getRadius(), outline_circle.getRadius());
+            target.draw(outline_circle);
+        }
+        target.draw(sprite, states);
     }
-    if (draw_outline)
-    {
-        sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-        sf::CircleShape outline_circle(std::max((v.x / sqrt(2)), (v.y / sqrt(2))));
-        outline_circle.setPosition(getPosition());
-        outline_circle.setFillColor(sf::Color(0,0,0,0));
-        outline_circle.setOutlineColor(sf::Color::White);
-        outline_circle.setOutlineThickness(0.25f);
-        outline_circle.setOrigin(outline_circle.getRadius(), outline_circle.getRadius());
-        target.draw(outline_circle);
-    }
-    target.draw(sprite, states);
 }
 unsigned int monster::get_category() const
 {
@@ -132,6 +134,7 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
         point_towards = (atan2(diff.y, diff.x) * 180/PI);
         sprite.setRotation(point_towards);
     }
+    draw_this = true;
 }
 void monster::fire_weapon()
 {

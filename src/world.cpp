@@ -139,6 +139,7 @@ void world::load_pickups()
 void world::draw()
 {
     wwindow.setView(world_view);
+    cmanager.do_culling(world_view);
     wwindow.draw(scene_graph);
     cmanager.draw_shadows(&wwindow);
     wwindow.draw(*the_cursor);

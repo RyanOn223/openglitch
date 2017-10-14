@@ -35,16 +35,16 @@ std::vector<weapon_data> init_weapon_data()
 {
     std::vector<weapon_data> data(weapon_type::weapon_type_count);
     data[weapon_type::small_pistol].ammo_type = bullet_type::pistol_bullet;
-    data[weapon_type::small_pistol].automatic = true;
-    data[weapon_type::small_pistol].spread = 10;
+    data[weapon_type::small_pistol].automatic = false;
+    data[weapon_type::small_pistol].spread = 9;
     data[weapon_type::small_pistol].reload_speed = 60;
     data[weapon_type::small_pistol].num_bullets = 1;
     data[weapon_type::small_pistol].texture = textures::small_pistol;
     data[weapon_type::basic_shotgun].ammo_type = bullet_type::shotgun_bullet;
-    data[weapon_type::basic_shotgun].automatic = false;
-    data[weapon_type::basic_shotgun].spread = 9;
-    data[weapon_type::basic_shotgun].reload_speed = 300;
-    data[weapon_type::basic_shotgun].num_bullets = 8;
+    data[weapon_type::basic_shotgun].automatic = true;
+    data[weapon_type::basic_shotgun].spread = 6;
+    data[weapon_type::basic_shotgun].reload_speed = 100;
+    data[weapon_type::basic_shotgun].num_bullets = 6;
     data[weapon_type::basic_shotgun].texture = textures::basic_shotgun;
     return data;
 }

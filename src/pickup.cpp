@@ -48,26 +48,29 @@ void pickup::apply(monster& the_player) const
 }
 void pickup::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-	sf::RectangleShape collide_rect(v);
-	sf::FloatRect bounds = 	collide_rect.getLocalBounds();
-	collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	collide_rect.setPosition(getPosition());
-	collide_rect.setOutlineColor(sf::Color::Black);
-	collide_rect.setFillColor(sf::Color(0,0,0,0));
-	collide_rect.setOutlineThickness(.5f);
-	target.draw(sprite, states);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
-    if (draw_outline)
+    if (draw_this)
     {
         sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-        sf::CircleShape outline_circle(std::max((v.x / sqrt(2)), (v.y / sqrt(2))));
-        outline_circle.setPosition(getPosition());
-        outline_circle.setFillColor(sf::Color(0,0,0,0));
-        outline_circle.setOutlineColor(sf::Color::White);
-        outline_circle.setOutlineThickness(0.15f);
-        outline_circle.setOrigin(outline_circle.getRadius(), outline_circle.getRadius());
-        target.draw(outline_circle);
+        sf::RectangleShape collide_rect(v);
+        sf::FloatRect bounds = 	collide_rect.getLocalBounds();
+        collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+        collide_rect.setPosition(getPosition());
+        collide_rect.setOutlineColor(sf::Color::Black);
+        collide_rect.setFillColor(sf::Color(0,0,0,0));
+        collide_rect.setOutlineThickness(.5f);
+        target.draw(sprite, states);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
+        if (draw_outline)
+        {
+            sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
+            sf::CircleShape outline_circle(std::max((v.x / sqrt(2)), (v.y / sqrt(2))));
+            outline_circle.setPosition(getPosition());
+            outline_circle.setFillColor(sf::Color(0,0,0,0));
+            outline_circle.setOutlineColor(sf::Color::White);
+            outline_circle.setOutlineThickness(0.15f);
+            outline_circle.setOrigin(outline_circle.getRadius(), outline_circle.getRadius());
+            target.draw(outline_circle);
+        }
     }
 }
 pickup::~pickup()
@@ -81,4 +84,9 @@ void pickup::enable_outline()
 void pickup::disable_outline()
 {
     draw_outline = false;
+}
+void pickup::update_current(sf::Time delta, command_queue& cmds)
+{
+    //because draw() is const, we reset this to true here so culling can be recalculed before the next draw()
+    draw_this = true;
 }
