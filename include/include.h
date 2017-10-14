@@ -25,9 +25,11 @@ namespace textures
               cursor,
               bullet,
               sm_ammo,
+              sh_ammo,
               sm_health_pack,
               health_texture,
               small_pistol,
+              basic_shotgun,
               };
 }
 namespace sounds
@@ -77,7 +79,7 @@ const float FPS = 60.f;
 const bool VSYNC = true;
 const bool LIMIT_FPS = true;
 const short int AA_LEVEL = 4;
-const float PSPEED = 30.f;
+const float PSPEED = 45.f;
 const float SENSITIVITY  = 2; //higher numbers are less sensitive
 const float UPPER_ZOOM_LIMIT = 0.3f;
 const float LOWER_ZOOM_LIMIT = 0.1f;

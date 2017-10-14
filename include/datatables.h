@@ -29,6 +29,8 @@ struct weapon_data
     float reload_speed;
     bool automatic;
     textures::ID texture;
+    //for shotguns etc
+    int num_bullets;
 };
 std::vector<monster_data> init_monster_data();
 std::vector<bullet_data> init_bullet_data();

@@ -6,7 +6,7 @@ class game
 {
 	public:
 
-		game(sf::ContextSettings settings);
+		game(sf::ContextSettings settings, sf::Clock& init_clock);
         ~game();
 		void run();
 		bool ispaused;
@@ -26,9 +26,7 @@ class game
         sf::Text* fps_text;
         sf::Text* hp_text;
         sf::Text* ammo_text;
-        texture_manager ui_textures;
 		world game_world;
-		//global frame time
 		sf::Time time_per_frame;
 		sf::Clock tick_clock;
 		sf::Clock dbg_clock;

@@ -1,6 +1,5 @@
 v 0.0.1:
     collisions
-        -SAT collision for rotated entities     scrapped
         -better monster-wall collision
             -directional collision detection
             -for monster-wall and maybe bullets
@@ -11,6 +10,7 @@ v 0.0.1:
         -collision_manager.h                    done!
         -door.h
     required / other
+        -basic object draw culling
         -ammo and weapons                       done!
         -ammo and hp display                    done!
         -aiming                                 done!
@@ -25,7 +25,7 @@ v 0.0.1:
         -texture atlases
         -particle system
         -animation
-
+        -AI
         future stuff:
         -game states
         -shaders

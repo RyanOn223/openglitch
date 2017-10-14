@@ -4,11 +4,13 @@ std::vector<bullet_data> data_table = init_bullet_data();
 projectile::projectile(type pptype, const texture_manager& textures, float sp, int dmg) :
     ptype(pptype),
     sprite(textures.get(textures::bullet)),
-    entity(1)
+    entity(1),
+    turns_alive(0)
 {
     sf::FloatRect bounds = 	sprite.getLocalBounds();
-	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	sprite.setScale(0.75f, 0.75f);
+    //disabled for bullets, to have a more logical collision box
+	//sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	sprite.setScale(0.1f, 0.75f);
 	speed = sp;
 	damage = dmg;
 }
@@ -39,6 +41,9 @@ void projectile::update_current(sf::Time delta, command_queue& cmds)
 {
     last_position = getPosition();
     move(get_velocity() * delta.asSeconds());
+
+    turns_alive++;
+    if (sprite.getScale().x < 2.f) sprite.setScale(static_cast<float>(turns_alive) / 4.f, 1.f);
 }
 void projectile::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {

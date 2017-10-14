@@ -35,6 +35,7 @@ class projectile : public entity
         sf::Vector2f target_direction;
         float speed;
         int damage;
+        int turns_alive;
 };
 
 #endif // PROJECTILE_H

@@ -31,6 +31,7 @@ void collision_manager::add_entity(entity* to_add, cmd_category::ID type)
         case cmd_category::enemy_projectiles:
             if (bul_itr == bullets.end())
             {
+                //std::cout << "info: added bullet id: " << to_add << std::endl;
                 bullets.push_back(static_cast<projectile*>(to_add));
             }
             else std::cout << "error: attempted to add repeat bullet to collision manager\n";
@@ -64,9 +65,10 @@ void collision_manager::rmv_entity(entity& to_remove, cmd_category::ID type)
         case cmd_category::enemy_projectiles:
             if (bul_itr != bullets.end())
             {
+                //std::cout << "info: erased bullet id: " << *bul_itr << std::endl;
                 bullets.erase(bul_itr);
             }
-            else std::cout << "error: attempted to remove bullet not in collision manager\n";
+            else std::cout << "error: attempted to remove bullet not in collision manager with id:" << *bul_itr <<std::endl;
             break;
         case cmd_category::enemies:
             if (mon_itr != monsters.end())
@@ -97,12 +99,14 @@ collision_manager::~collision_manager()
 }
 void collision_manager::check_collisions(command_queue& cmds)
 {
+    //hey, don't delete anything from the vectors in the inner loops in the functions
     wall_monster_collisions(cmds);
     wall_bullet_collisions(cmds);
     monster_bullet_collisions(cmds);
     monster_pickup_collisions(cmds);
     monster_monster_collisions(cmds);
     cursor_collisions(cmds);
+    //std::cout << bullets.size() + monsters.size() + pickups.size() + walls.size() << std::endl;
 }
 void collision_manager::wall_monster_collisions(command_queue& cmds)
 {
@@ -123,6 +127,7 @@ void collision_manager::wall_monster_collisions(command_queue& cmds)
 }
 void collision_manager::wall_bullet_collisions(command_queue& cmds)
 {
+    std::vector<projectile*> remove_bullet = {0};
     for (wall* each_wall : walls)
     {
         for (projectile* blt : bullets)
@@ -131,22 +136,37 @@ void collision_manager::wall_bullet_collisions(command_queue& cmds)
             {
                 blt->destroy();
                 //note that the cases for enemy and ally projectiles are the same
-                rmv_entity(*blt, cmd_category::ally_projectiles);
+                remove_bullet.push_back(blt);
+            }
+        }
+    }
+    for (projectile* each_remove : remove_bullet)
+    {
+        for (projectile* each_bullet : bullets)
+        {
+            if (each_remove == each_bullet)
+            {
+                rmv_entity(*each_remove, cmd_category::ally_projectiles);
             }
         }
     }
 }
 void collision_manager::monster_bullet_collisions(command_queue& cmds)
 {
-    for (projectile* each_bullet : bullets)
+    std::vector<projectile*> remove_bullet = {0};
+    for (monster* each_mstr : monsters)
     {
-        for (monster* each_mstr : monsters)
+        for (projectile* each_bullet : bullets)
         {
+            //std::cout << "attempting to collide bullet: " << each_bullet << std::endl;
             if (each_bullet->getBoundingRect().intersects(each_mstr->getBoundingRect()))
             {
+                //std::cout << "current bullets:\n";
+                //for (projectile* p_each : bullets) std::cout << p_each << std::endl;
+                //std::cout << std::endl;
                 each_mstr->damage(each_bullet->get_damage());
                 each_bullet->destroy();
-                rmv_entity(*each_bullet, cmd_category::ally_projectiles);
+                remove_bullet.push_back(each_bullet);
                 if (each_mstr->is_dead())
                 {
                     rmv_entity(*each_mstr, cmd_category::enemies);
@@ -154,9 +174,20 @@ void collision_manager::monster_bullet_collisions(command_queue& cmds)
             }
         }
     }
+    for (projectile* each_remove : remove_bullet)
+    {
+        for (projectile* each_bullet : bullets)
+        {
+            if (each_remove == each_bullet)
+            {
+                rmv_entity(*each_remove, cmd_category::ally_projectiles);
+            }
+        }
+    }
 }
 void collision_manager::monster_pickup_collisions(command_queue& cmds)
 {
+    std::vector<pickup*> remove_pickup = {0};
     for (pickup* each_pickup: pickups)
     {
         if (the_player->getBoundingRect().intersects(each_pickup->getBoundingRect()))
@@ -166,11 +197,21 @@ void collision_manager::monster_pickup_collisions(command_queue& cmds)
             {
                 each_pickup->apply(*the_player);
                 each_pickup->destroy();
-                rmv_entity(*each_pickup, cmd_category::pickups);
+                remove_pickup.push_back(each_pickup);
             }
         }
         //if its stupid and it works..
         else (each_pickup->disable_outline());
+    }
+    for (pickup* each_remove : remove_pickup)
+    {
+        for (pickup* each_pickup : pickups)
+        {
+            if (each_remove == each_pickup)
+            {
+                rmv_entity(*each_remove, cmd_category::pickups);
+            }
+        }
     }
 }
 void collision_manager::monster_monster_collisions(command_queue& cmds)

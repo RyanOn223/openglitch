@@ -90,6 +90,7 @@ class monster : public entity
             void operator()(scene_node& node) const
             {
                 monster& mon = static_cast<monster&>(node);
+                mon.other_weapon = mon.weapon;
                 mon.weapon = wtype;
             }
             weapon_type wtype;
@@ -105,6 +106,15 @@ class monster : public entity
             bullet_type btype;
             int amount;
         };
+        struct monster_weapon_swapper
+        {
+            monster_weapon_swapper() {}
+            void operator()(scene_node& node, sf::Time delta) const
+            {
+                monster& mon = static_cast<monster&>(node);
+                std::swap(mon.weapon, mon.other_weapon);
+            }
+        };
         void fire_weapon();
         void create_bullets(scene_node& node, const texture_manager& textures) const;
         void create_projectile(scene_node& node, projectile::type ptype, float xoff, float yoff, const texture_manager& textures) const;
@@ -116,9 +126,10 @@ class monster : public entity
         void disable_outline();
         bool is_aiming;
         weapon_type weapon;
+        weapon_type other_weapon;
         bool has_auto_weapon();
         bool has_ammo();
-        std::array<int, bullet_type::bullet_type_count> ammo_held{0};
+        std::array<int, bullet_type::bullet_type_count> ammo_held{{0}};
 	private:
         collision_manager& cmanager;
         bool removal_mark;

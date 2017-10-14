@@ -21,6 +21,16 @@ void player::handle_event(const sf::Event& event, command_queue& cmds)
             }
         }
     }
+    else if (event.type == sf::Event::KeyPressed)
+    {
+        if (event.key.code == sf::Keyboard::Key::Q)
+        {
+            command swap_command;
+            swap_command.ccategory = cmd_category::the_player;
+            swap_command.action = monster::monster_weapon_swapper();
+            cmds.push(swap_command);
+        }
+    }
 }
 player::~player()
 {

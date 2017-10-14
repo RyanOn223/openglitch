@@ -29,6 +29,9 @@ void world::load_textures()
     textures.load(textures::sm_health_pack, "src/gfx/sm_health_pack.png");
     textures.load(textures::wall_tile,      "src/gfx/wall_tile.png");
     textures.load(textures::small_pistol,   "src/gfx/small_pistol.png");
+    textures.load(textures::basic_shotgun,  "src/gfx/basic_shotgun.png");
+    textures.load(textures::sh_ammo,        "src/gfx/sh_ammo.png");
+    textures.load(textures::health_texture,  "src/gfx/health.png");
     fonts.load(fonts::pixel,                "src/pixel.ttf");
 }
 void world::build_scene()
@@ -116,6 +119,12 @@ void world::load_pickups()
                 break;
             case 3:
                 ptype = pickup::type::small_pistol;
+                break;
+            case 4:
+                ptype = pickup::type::basic_shotgun;
+                break;
+            case 5:
+                ptype = pickup::type::sh_ammo;
                 break;
             default:
                 std::cout << "error: attempted to load unknown pickup type: " << tpick << std::endl;
@@ -247,7 +256,7 @@ void world::spawn_enemies()
     while (!enemy_spawn_points.empty())
     {
         spawn_point spawn = enemy_spawn_points.back();
-        std::unique_ptr<monster> enemy(new monster(spawn.stype, textures, fonts, 65, cmanager));
+        std::unique_ptr<monster> enemy(new monster(spawn.stype, textures, fonts, 100, cmanager));
         enemy->setPosition(spawn.x, spawn.y);
         cmanager.add_entity(static_cast<entity*>(enemy.get()), cmd_category::enemies);
         scene_layers[mon_layer]->attach_child(std::move(enemy));

@@ -6,7 +6,7 @@ namespace
     const std::vector<bullet_data> bullets = init_bullet_data();
 }
 
-game::game(sf::ContextSettings settings) :
+game::game(sf::ContextSettings settings, sf::Clock& init_clock) :
                 gwindow(sf::VideoMode(1024 , 768), "openglitch", sf::Style::Default, settings),
                 game_world(gwindow),
                 the_player(game_world.get_player())
@@ -14,7 +14,7 @@ game::game(sf::ContextSettings settings) :
     srand(0);
     ispaused = false;
     tick_clock.restart();
-    dbg_clock.restart();
+    //dbg_clock.restart();
 	//set some window preferences
 	gwindow.setVerticalSyncEnabled(VSYNC);
 	if (LIMIT_FPS == true) gwindow.setFramerateLimit(static_cast<unsigned int>(FPS));
@@ -45,10 +45,8 @@ game::game(sf::ContextSettings settings) :
     ammo_text->setColor(sf::Color::Green);
     ammo_text->setOrigin(hp_text->getLocalBounds().width / 2.f, hp_text->getLocalBounds().height);// / 2.f);
     ammo_text->setPosition(gwindow.getDefaultView().getSize().x - 150, -15);
-    ui_textures.load(textures::health_texture, "src/gfx/health.png");
-    ui_textures.load(textures::small_pistol, "src/gfx/small_pistol.png");
 	//print some console information
-	std::cout << "Time spent initializing = " << dbg_clock.restart().asMicroseconds() << " µs\n";
+	std::cout << "Time spent initializing = " << init_clock.restart().asMilliseconds() << " ms\n";
 	std::cout << "Successfully initialized game\n" << "FPS limited(soft): " <<
 		LIMIT_FPS << std::endl << "FPS limit: " << FPS << std::endl;
 	std::cout << "Vsync = " << VSYNC << std::endl;
@@ -231,7 +229,7 @@ void game::render()
 void game::draw_health()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) gwindow.draw(*fps_text);
-    sf::Sprite phealth(ui_textures.get(textures::health_texture));
+    sf::Sprite phealth(game_world.textures.get(textures::health_texture));
     phealth.setOrigin(phealth.getLocalBounds().width / 2.f, phealth.getLocalBounds().height / 2.f);
     phealth.setPosition(gwindow.getDefaultView().getSize().x - 100, 20);
     phealth.setScale(3.f,3.f);
@@ -242,7 +240,7 @@ void game::draw_health()
 }
 void game::draw_ammo()
 {
-    sf::Sprite pweapon(ui_textures.get(weapons[game_world.get_player()->weapon].texture));
+    sf::Sprite pweapon(game_world.textures.get(weapons[game_world.get_player()->weapon].texture));
     pweapon.setOrigin(pweapon.getLocalBounds().width / 2.f, pweapon.getLocalBounds().height / 2.f);
     pweapon.setPosition(gwindow.getDefaultView().getSize().x - 200, 20);
     pweapon.setScale(6.f, 6.f);

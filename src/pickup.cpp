@@ -12,6 +12,12 @@ textures::ID to_texture_ID(pickup::type Type)
             return textures::sm_health_pack;
         case pickup::type::small_pistol:
             return textures::small_pistol;
+        case pickup::type::basic_shotgun:
+            return textures::basic_shotgun;
+        case pickup::type::sh_ammo:
+            return textures::sh_ammo;
+        default:
+            assert(false);
     }
 }
 

@@ -163,7 +163,13 @@ void monster::create_bullets(scene_node& node, const texture_manager& textures) 
     projectile::type btype;
     if (is_ally()) btype = projectile::type::ally_bullet;
     else btype = projectile::type::enemy_bullet;
-    if (weapon != weapon_type::none) create_projectile(node, btype, .0f, .0f, textures);
+    if (weapon != weapon_type::none)
+    {
+        for (int x = 0; x < weapons[weapon].num_bullets; x++)
+        {
+            create_projectile(node, btype, .0f, .0f, textures);
+        }
+    }
     if (btype == projectile::type::enemy_bullet) std::cout << "created enemy bullet\n";
 }
 bool monster::is_ally() const
@@ -180,7 +186,7 @@ bool monster::is_ally() const
 void monster::create_projectile(scene_node& node, projectile::type ptype, float xoff, float yoff, const texture_manager& textures) const
 {
     //create the new projectile and calculate its offset
-    std::unique_ptr<projectile> proj(new projectile(ptype, textures, bullets[weapons[weapon].ammo_type].speed,
+    std::unique_ptr<projectile> proj(new projectile(ptype, textures, bullets[weapons[weapon].ammo_type].speed + (static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 0.5f) * 10,
                                                                      bullets[weapons[weapon].ammo_type].damage));
     sf::Vector2f offset(xoff * sprite.getGlobalBounds().width, yoff * sprite.getGlobalBounds().height);
     //determine the velocity vector of the projectile based upon the rotation of this monster. i.e shoot this out the front
@@ -191,9 +197,12 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
     theta += spread / weapons[weapon].spread;
     sf::Vector2f v(hyp * cos(theta), hyp * sin(theta));
     proj->setPosition(getPosition());
-    proj->setRotation(sprite.getRotation());
+    proj->setRotation(sprite.getRotation() - 180.f);
     proj->set_velocity(v);
+
+
     //node needs to be the air scene layer here
+    //std::cout << "info: created bullet with id: " << proj.get() << std::endl;
     cmanager.add_entity(proj.get(), static_cast<cmd_category::ID>(proj->get_category()));
     node.attach_child(std::move(proj));
 

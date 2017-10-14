@@ -48,6 +48,7 @@ class world : public sf::NonCopyable
         cursor* get_cursor();
         int get_player_hp();
         monster* get_player();
+        texture_manager textures;
         private:
         enum scn_layer
         {
@@ -75,7 +76,6 @@ class world : public sf::NonCopyable
          collision_manager cmanager;
          sf::RenderWindow& wwindow;
          sf::View world_view;
-         texture_manager textures;
          resource_manager<sf::Font, fonts::ID> fonts;
          resource_manager<sf::Sound, sounds::ID> sounds;
          scene_node scene_graph;
