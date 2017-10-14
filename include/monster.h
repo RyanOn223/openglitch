@@ -26,7 +26,6 @@ class monster : public entity
                          const texture_manager& textures,
                          const resource_manager<sf::Font,
                          fonts::ID>& fonts,
-                         int hp,
                          collision_manager& cmanager);
 		virtual void draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const;

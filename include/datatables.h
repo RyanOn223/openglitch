@@ -9,6 +9,7 @@ struct monster_data
     int healthpoints;
     float speed;
     textures::ID texture;
+    sf::IntRect texture_rect;
 };
 struct bullet_data
 {
@@ -18,6 +19,7 @@ struct bullet_data
 struct pickup_data
 {
     textures::ID texture;
+    sf::IntRect texture_rect;
     std::function<void(scene_node&)> action;
 };
 struct weapon_data
@@ -29,6 +31,7 @@ struct weapon_data
     float reload_speed;
     bool automatic;
     textures::ID texture;
+    sf::IntRect texture_rect;
     //for shotguns etc
     int num_bullets;
 };

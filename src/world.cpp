@@ -20,19 +20,10 @@ world::world(sf::RenderWindow& mwindow) :
 }
 void world::load_textures()
 {
-    textures.load(textures::player,         "src/gfx/player.png");
-    textures.load(textures::floor,          "src/gfx/floor.png");
-    textures.load(textures::cursor,         "src/gfx/cursor.png");
-    textures.load(textures::small_mutant,   "src/gfx/small_mutant.png");
-    textures.load(textures::bullet,         "src/gfx/bullet.png");
-    textures.load(textures::sm_ammo,        "src/gfx/sm_ammo.png");
-    textures.load(textures::sm_health_pack, "src/gfx/sm_health_pack.png");
-    textures.load(textures::wall_tile,      "src/gfx/wall_tile.png");
-    textures.load(textures::small_pistol,   "src/gfx/small_pistol.png");
-    textures.load(textures::basic_shotgun,  "src/gfx/basic_shotgun.png");
-    textures.load(textures::sh_ammo,        "src/gfx/sh_ammo.png");
-    textures.load(textures::health_texture,  "src/gfx/health.png");
-    fonts.load(fonts::pixel,                "src/pixel.ttf");
+    textures.load(textures::entities, "src/gfx/entities.png");
+    textures.load(textures::walls,    "src/gfx/walls.png");
+    textures.load(textures::floors,   "src/gfx/floors.png");
+    fonts.load(fonts::pixel,          "src/pixel.ttf");
 }
 void world::build_scene()
 {
@@ -47,7 +38,7 @@ void world::build_scene()
     }
     //load our one floor texture, set it to repeat mode, and set
     //the texture size to the whole bounds. this will be temporary
-    sf::Texture& texture = textures.get(textures::floor);
+    sf::Texture& texture = textures.get(textures::floors);
     sf::IntRect texture_rect(world_bounds);
     texture.setRepeated(true);
     //create a new sprite node with this texture and settings
@@ -59,7 +50,7 @@ void world::build_scene()
 
 
     //here we create and attach the player and the cursor
-    std::unique_ptr<monster> t(new monster(monster::type::player, textures, fonts, 100, cmanager));
+    std::unique_ptr<monster> t(new monster(monster::type::player, textures, fonts, cmanager));
     the_player = t.get();
     the_player->setPosition(spawn_position);
     cmanager.add_entity(static_cast<entity*>(t.get()), cmd_category::the_player);
@@ -257,7 +248,7 @@ void world::spawn_enemies()
     while (!enemy_spawn_points.empty())
     {
         spawn_point spawn = enemy_spawn_points.back();
-        std::unique_ptr<monster> enemy(new monster(spawn.stype, textures, fonts, 100, cmanager));
+        std::unique_ptr<monster> enemy(new monster(spawn.stype, textures, fonts, cmanager));
         enemy->setPosition(spawn.x, spawn.y);
         cmanager.add_entity(static_cast<entity*>(enemy.get()), cmd_category::enemies);
         scene_layers[mon_layer]->attach_child(std::move(enemy));

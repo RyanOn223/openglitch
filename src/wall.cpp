@@ -1,13 +1,6 @@
 #include "wall.h"
-textures::ID to_texture_ID(wall::type ttype)
-{
-    switch (ttype)
-    {
-        default: return textures::wall_tile;
-    }
-}
 wall::wall(type wtype, const texture_manager& textures) : wall_type(wtype),
-            sprite(textures.get(to_texture_ID(wtype))),
+            sprite(textures.get(textures::walls), sf::IntRect(0,0,10,10)),
             entity(1)
 {
     sf::FloatRect bounds = 	sprite.getLocalBounds();

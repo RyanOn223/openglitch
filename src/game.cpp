@@ -229,7 +229,7 @@ void game::render()
 void game::draw_health()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) gwindow.draw(*fps_text);
-    sf::Sprite phealth(game_world.textures.get(textures::health_texture));
+    sf::Sprite phealth(game_world.textures.get(textures::entities), sf::IntRect(0,10,9,8));
     phealth.setOrigin(phealth.getLocalBounds().width / 2.f, phealth.getLocalBounds().height / 2.f);
     phealth.setPosition(gwindow.getDefaultView().getSize().x - 100, 20);
     phealth.setScale(3.f,3.f);
@@ -240,16 +240,16 @@ void game::draw_health()
 }
 void game::draw_ammo()
 {
-    sf::Sprite pweapon(game_world.textures.get(weapons[game_world.get_player()->weapon].texture));
+    sf::Sprite pweapon(game_world.textures.get(weapons[game_world.get_player()->weapon].texture), weapons[game_world.get_player()->weapon].texture_rect);
     pweapon.setOrigin(pweapon.getLocalBounds().width / 2.f, pweapon.getLocalBounds().height / 2.f);
     pweapon.setPosition(gwindow.getDefaultView().getSize().x - 200, 20);
     pweapon.setScale(6.f, 6.f);
     gwindow.draw(pweapon);
-    sf::Sprite opweapon(game_world.textures.get(weapons[game_world.get_player()->other_weapon].texture));
+    sf::Sprite opweapon(game_world.textures.get(weapons[game_world.get_player()->other_weapon].texture), weapons[game_world.get_player()->other_weapon].texture_rect);
     opweapon.setOrigin(pweapon.getLocalBounds().width / 2.f, pweapon.getLocalBounds().height / 2.f);
     opweapon.setPosition(gwindow.getDefaultView().getSize().x - 275, 20);
     opweapon.setScale(6.f, 6.f);
-    if ((weapons[game_world.get_player()->other_weapon].texture) != textures::player)
+    //if ((weapons[game_world.get_player()->other_weapon]) != weapon_data())
     {
         gwindow.draw(opweapon);
     }

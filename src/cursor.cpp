@@ -1,7 +1,7 @@
 #include "cursor.h"
 
 cursor::cursor(texture_manager& textures)
-    : sprite(textures.get(textures::cursor)), entity(1)
+    : sprite(textures.get(textures::entities), sf::IntRect(0,7,3,3)), entity(1)
 {
     scale(0.5f, 0.5f);
     sf::FloatRect bounds = 	sprite.getLocalBounds();

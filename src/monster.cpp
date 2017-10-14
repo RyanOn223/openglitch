@@ -3,24 +3,15 @@ namespace
 {
     const std::vector<weapon_data> weapons = init_weapon_data();
     const std::vector<bullet_data> bullets = init_bullet_data();
+    const std::vector<monster_data> monsters = init_monster_data();
 }
 //this function is declared in the global scope of monster.cpp and
 //not shown in the class interface
-textures::ID to_texture_ID(monster::type Type)
-{
-    //to do: abstract this to allow loading from a file
-	switch (Type)
-	{
-		case monster::small_mutant:
-			return textures::small_mutant;
-		case monster::large_mutant:
-			return textures::large_mutant;
-        case monster::player:
-            return textures::player;
-	}
-}
-monster::monster(monster::type mtype, const texture_manager& textures, const resource_manager<sf::Font, fonts::ID>& fonts, int hp, collision_manager& manager) :
-				 monster_type(mtype), sprite(textures.get(to_texture_ID(monster_type))), entity(hp), cmanager(manager)
+monster::monster(monster::type mtype, const texture_manager& textures, const resource_manager<sf::Font, fonts::ID>& fonts, collision_manager& manager) :
+				 monster_type(mtype),
+				 sprite(textures.get(monsters[mtype].texture), monsters[mtype].texture_rect),
+				 entity(monsters[mtype].healthpoints),
+				 cmanager(manager)
 {
     fire_command.ccategory = cmd_category::air_layer;
     fire_command.action = [this, &textures] (scene_node& node, sf::Time)
@@ -218,8 +209,8 @@ sf::FloatRect monster::getBoundingRect() const
     //TODO figure out why these adjustments are needed here, because they shouldnt be
     to_return.left = getPosition().x - 1;
     to_return.top = getPosition().y - 1;
-    to_return.width = sprite.getTexture()->getSize().x - 1;
-    to_return.height = sprite.getTexture()->getSize().y - 1;
+    to_return.width = sprite.getGlobalBounds().width;
+    to_return.height = sprite.getGlobalBounds().height;
     return to_return;
 }
 bool monster::is_marked_for_removal() const

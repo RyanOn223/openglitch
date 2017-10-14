@@ -2,27 +2,12 @@
 
 std::vector<pickup_data> table = init_pickup_data();
 
-textures::ID to_texture_ID(pickup::type Type)
-{
-    switch (Type)
-    {
-        case pickup::type::sm_ammo:
-            return textures::sm_ammo;
-        case pickup::type::sm_health_pack:
-            return textures::sm_health_pack;
-        case pickup::type::small_pistol:
-            return textures::small_pistol;
-        case pickup::type::basic_shotgun:
-            return textures::basic_shotgun;
-        case pickup::type::sh_ammo:
-            return textures::sh_ammo;
-        default:
-            assert(false);
-    }
-}
 
 
-pickup::pickup(pickup::type Type, const texture_manager& textures) : mtype(Type), sprite(textures.get(to_texture_ID(mtype))), entity(1)
+pickup::pickup(pickup::type Type, const texture_manager& textures) :
+            mtype(Type),
+            sprite(textures.get(table[mtype].texture), table[mtype].texture_rect),
+            entity(1)
 {
     sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
@@ -38,8 +23,8 @@ sf::FloatRect pickup::getBoundingRect() const
     sf::FloatRect to_return;
     to_return.left = getPosition().x - 1;
     to_return.top = getPosition().y - 1;
-    to_return.width = sprite.getTexture()->getSize().x - 1;
-    to_return.height = sprite.getTexture()->getSize().y - 1;
+    to_return.width = sprite.getGlobalBounds().width;
+    to_return.height = sprite.getGlobalBounds().height;
     return to_return;
 }
 void pickup::apply(monster& the_player) const

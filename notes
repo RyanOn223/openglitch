@@ -11,7 +11,7 @@ v 0.0.1:
         -collision_manager.h                    done!
         -door.h
     required / other
-        -basic object draw culling
+        -basic object draw culling              done!
         -ammo and weapons                       done!
         -ammo and hp display                    done!
         -aiming                                 done!
@@ -22,10 +22,11 @@ v 0.0.1:
                 -monsters
                 -pickups                        done!
             -game settings
-        -FOV                                    done(!!)
-        -texture atlases
+        -FOV                                    done!
+        -texture atlases                        done!
         -particle system
         -animation
+        -editor/generator
         -AI
         future stuff:
         -game states

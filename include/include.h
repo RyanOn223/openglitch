@@ -17,19 +17,11 @@
 
 namespace textures
 {
-	enum ID { player,
-              small_mutant,
-              large_mutant,
-              floor,
-              wall_tile,
-              cursor,
-              bullet,
-              sm_ammo,
-              sh_ammo,
-              sm_health_pack,
-              health_texture,
-              small_pistol,
-              basic_shotgun,
+	enum ID { entities,
+              walls,
+              explosions,
+              particles,
+              floors,
               };
 }
 namespace sounds

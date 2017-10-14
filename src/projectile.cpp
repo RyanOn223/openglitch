@@ -3,14 +3,11 @@
 std::vector<bullet_data> data_table = init_bullet_data();
 projectile::projectile(type pptype, const texture_manager& textures, float sp, int dmg) :
     ptype(pptype),
-    sprite(textures.get(textures::bullet)),
+    sprite(textures.get(textures::entities), sf::IntRect(0,0,10,1)),
     entity(1),
     turns_alive(0)
-{
-    sf::FloatRect bounds = 	sprite.getLocalBounds();
-    //disabled for bullets, to have a more logical collision box
-	//sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	sprite.setScale(0.1f, 0.75f);
+{;
+	sprite.setScale(0.005f, 0.1f);
 	speed = sp;
 	damage = dmg;
 }
