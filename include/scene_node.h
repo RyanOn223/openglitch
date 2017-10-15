@@ -24,6 +24,7 @@ class scene_node : public sf::Drawable, public sf::Transformable,
         void on_command(const command& cmd, sf::Time delta);
         void print();
         sf::Transform getWorldTransform() const;
+        sf::Vector2f getWorldPosition() const;
         virtual void check_node_collision(scene_node& node, std::set<scn_pair>& collision_pairs);
         void check_scene_collision(scene_node& scene_graph, std::set<scn_pair>& collision_pairs);
         virtual bool is_dead() const;

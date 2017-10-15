@@ -15,21 +15,11 @@
 #include "pickup.h"
 #include "wall.h"
 #include "collision_manager.h"
+#include "emitter_node.h"
+#include "particle_node.h"
 class world : public sf::NonCopyable
 {
     public:
-        template <typename GameObject, typename Function>
-        std::function<void(scene_node&, sf::Time)>
-        derived_action(Function fn)
-        {
-            return [=] (scene_node& node, sf::Time dt)
-            {
-                // Check if cast is safe
-                assert(dynamic_cast<GameObject*>(&node) != nullptr);
-                // Downcast node and invoke function on it
-                fn(static_cast<GameObject&>(node), dt);
-            };
-        }
         explicit world(sf::RenderWindow& window);
         virtual ~world();
         void update(sf::Time delta);

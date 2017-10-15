@@ -35,8 +35,14 @@ struct weapon_data
     //for shotguns etc
     int num_bullets;
 };
+struct particle_data
+{
+    sf::Color color;
+    sf::Time lifetime;
+};
 std::vector<monster_data> init_monster_data();
 std::vector<bullet_data> init_bullet_data();
 std::vector<pickup_data> init_pickup_data();
 std::vector<weapon_data> init_weapon_data();
+std::vector<particle_data> init_particle_data();
 #endif // DATATABLES_H

@@ -55,8 +55,15 @@ std::vector<weapon_data> init_weapon_data()
     data[weapon_type::basic_shotgun].automatic = false;
     data[weapon_type::basic_shotgun].spread = 6;
     data[weapon_type::basic_shotgun].reload_speed = 100;
-    data[weapon_type::basic_shotgun].num_bullets = 6;
+    data[weapon_type::basic_shotgun].num_bullets = 7;
     data[weapon_type::basic_shotgun].texture = textures::entities;
     data[weapon_type::basic_shotgun].texture_rect = sf::IntRect(15, 4, 10, 4);
+    return data;
+}
+std::vector<particle_data> init_particle_data()
+{
+    std::vector<particle_data> data(particle::particle_type_count);
+    data[particle::type::smoke].color = sf::Color::White;
+    data[particle::type::smoke].lifetime = sf::seconds(0.5);\
     return data;
 }

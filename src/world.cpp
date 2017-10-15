@@ -23,6 +23,7 @@ void world::load_textures()
     textures.load(textures::entities, "src/gfx/entities.png");
     textures.load(textures::walls,    "src/gfx/walls.png");
     textures.load(textures::floors,   "src/gfx/floors.png");
+    textures.load(textures::particles,"src/gfx/particles.png");
     fonts.load(fonts::pixel,          "src/pixel.ttf");
 }
 void world::build_scene()
@@ -61,6 +62,11 @@ void world::build_scene()
     the_cursor->setPosition(spawn_position);
     cmanager.add_entity(static_cast<entity*>(cur.get()), cmd_category::mouse);
     scene_layers[hud_layer]->attach_child(std::move(cur));
+
+
+    std::unique_ptr<particle_node> smoke_node(new particle_node(particle::type::smoke, textures));
+    scene_layers[bg_layer]->attach_child(std::move(smoke_node));
+
 
     load_pickups();
     load_walls();

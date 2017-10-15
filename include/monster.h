@@ -8,6 +8,7 @@
 #include "text_node.h"
 #include "projectile.h"
 #include "collision_manager.h"
+#include "emitter_node.h"
 class collision_manager;
 class monster : public entity
 {

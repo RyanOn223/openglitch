@@ -178,3 +178,7 @@ void scene_node::remove_wrecks()
 
     std::for_each(children.begin(), children.end(), std::mem_fn(&scene_node::remove_wrecks));
 }
+sf::Vector2f scene_node::getWorldPosition() const
+{
+    return getWorldTransform() * sf::Vector2f();
+}

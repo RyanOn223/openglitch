@@ -299,14 +299,15 @@ void collision_manager::do_culling(sf::View& current_view)
     sf::Vector2f size = current_view.getSize() / 2.f;
     for (projectile* bullet : bullets)
     {
+        //bullets aren't culled till they are 20 pixels off screen
         sf::FloatRect bounds = bullet->getBoundingRect();
-        if ((bounds.top > center.y + size.y) ||
-           (bounds.top + bounds.height < center.y - size.y))
+        if ((bounds.top > center.y + size.y + 20) ||
+           (bounds.top + bounds.height < center.y - size.y - 20))
         {
             bullet->draw_this = false;
         }
-        else if ((bounds.left > center.x + size.x) ||
-                 (bounds.left + bounds.width < center.x - size.x))
+        else if ((bounds.left > center.x + size.x +20) ||
+                 (bounds.left + bounds.width < center.x - size.x - 20))
         {
             bullet->draw_this = false;
         }

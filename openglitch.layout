@@ -2,134 +2,9 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="include/text_node.h" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/monster.cpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="96" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/resource_manager.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="49" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/cursor.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="82" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/command.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="257" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="441" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/cursor.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="62" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/world.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3615" topLine="66" />
-		</Cursor>
-	</File>
-	<File name="src/projectile.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2733" topLine="57" />
-		</Cursor>
-	</File>
-	<File name="include/resource_manager.h" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1217" topLine="27" />
-		</Cursor>
-	</File>
-	<File name="src/game.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="158" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/text_node.cpp" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="254" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/texture_manager.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="105" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/datatables.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="356" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/monster.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1807" topLine="30" />
-		</Cursor>
-	</File>
-	<File name="include/include.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1414" topLine="29" />
-		</Cursor>
-	</File>
-	<File name="src/command.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="15" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/game.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="92" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/pickup.cpp" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="821" topLine="18" />
-		</Cursor>
-	</File>
-	<File name="include/entity.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="79" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/datatables.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="872" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/monster.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2529" topLine="48" />
-		</Cursor>
-	</File>
-	<File name="include/projectile.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1160" topLine="2" />
-		</Cursor>
-	</File>
-	<File name="src/command_queue.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="224" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/pickup.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="428" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/world.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1372" topLine="34" />
-		</Cursor>
-	</File>
-	<File name="src/sprite_node.cpp" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="246" topLine="0" />
+			<Cursor1 position="4744" topLine="123" />
 		</Cursor>
 	</File>
 	<File name="include/sprite_node.h" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -137,14 +12,139 @@
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="notes" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1101" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="include/cursor.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="82" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/player.cpp" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1733" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="src/texture_manager.cpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="434" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="notes" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/sprite_node.cpp" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="242" topLine="0" />
+			<Cursor1 position="246" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/world.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="415" topLine="28" />
+		</Cursor>
+	</File>
+	<File name="include/pickup.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="576" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="src/wall.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="168" topLine="36" />
+		</Cursor>
+	</File>
+	<File name="include/wall.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="563" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/resource_manager.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="49" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/command_queue.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="184" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/scene_node.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="953" topLine="13" />
+		</Cursor>
+	</File>
+	<File name="src/command_queue.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="224" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/command.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="257" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/monster.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="17" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/particle_node.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1798" topLine="44" />
+		</Cursor>
+	</File>
+	<File name="src/cursor.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="129" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="include/collision_manager.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1417" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="src/projectile.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1101" topLine="34" />
+		</Cursor>
+	</File>
+	<File name="include/include.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="453" topLine="39" />
+		</Cursor>
+	</File>
+	<File name="include/texture_manager.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="105" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/command.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="15" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/game.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="929" topLine="31" />
+		</Cursor>
+	</File>
+	<File name="include/game.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="92" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/world.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2823" topLine="51" />
+		</Cursor>
+	</File>
+	<File name="src/scene_node.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5225" topLine="7" />
+		</Cursor>
+	</File>
+	<File name="include/projectile.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1146" topLine="2" />
 		</Cursor>
 	</File>
 	<File name="include/player.h" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -152,44 +152,69 @@
 			<Cursor1 position="274" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="tinyxml/tinyxml.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/text_node.h" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="13252" topLine="432" />
+			<Cursor1 position="96" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/scene_node.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/text_node.cpp" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1320" topLine="17" />
+			<Cursor1 position="254" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/entity.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/particle_node.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="729" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/entity.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="79" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/pickup.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1797" topLine="37" />
+		</Cursor>
+	</File>
+	<File name="src/collision_manager.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10308" topLine="292" />
+		</Cursor>
+	</File>
+	<File name="src/emitter_node.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="938" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="0" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="419" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/entity.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1275" topLine="22" />
 		</Cursor>
 	</File>
-	<File name="src/player.cpp" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/datatables.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1733" topLine="23" />
+			<Cursor1 position="3534" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/wall.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/emitter_node.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="563" topLine="0" />
+			<Cursor1 position="140" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/wall.cpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/resource_manager.h" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="480" topLine="18" />
+			<Cursor1 position="1217" topLine="27" />
 		</Cursor>
 	</File>
-	<File name="include/command_queue.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/datatables.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="306" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/scene_node.cpp" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4571" topLine="0" />
+			<Cursor1 position="770" topLine="8" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

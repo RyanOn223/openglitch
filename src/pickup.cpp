@@ -47,8 +47,8 @@ void pickup::draw_current(sf::RenderTarget& target, sf::RenderStates states) con
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
         if (draw_outline)
         {
-            sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-            sf::CircleShape outline_circle(std::max((v.x / sqrt(2)), (v.y / sqrt(2))));
+            sf::Vector2f v2(getBoundingRect().width, getBoundingRect().height);
+            sf::CircleShape outline_circle(std::max((v2.x / sqrt(2)), (v2.y / sqrt(2))));
             outline_circle.setPosition(getPosition());
             outline_circle.setFillColor(sf::Color(0,0,0,0));
             outline_circle.setOutlineColor(sf::Color::White);

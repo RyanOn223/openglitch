@@ -7,7 +7,7 @@ projectile::projectile(type pptype, const texture_manager& textures, float sp, i
     entity(1),
     turns_alive(0)
 {;
-	sprite.setScale(0.005f, 0.1f);
+	sprite.scale(0.3f, 0.5f);
 	speed = sp;
 	damage = dmg;
 }
@@ -40,7 +40,11 @@ void projectile::update_current(sf::Time delta, command_queue& cmds)
     move(get_velocity() * delta.asSeconds());
 
     turns_alive++;
-    if (sprite.getScale().x < 1.f) sprite.setScale(static_cast<float>(turns_alive) / 4.f, 1.f);
+    if (sprite.getScale().x < 1.f)
+    {
+        float n = 1 - ((20 - turns_alive) / 20);
+        sprite.scale(1 + n, 1);
+    }
     draw_this = true;
 }
 void projectile::draw_current(sf::RenderTarget& target, sf::RenderStates states) const

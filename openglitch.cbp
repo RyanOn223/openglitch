@@ -10,27 +10,24 @@
 				<Option output="bin/Debug/openglitch" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="clang" />
+				<Option compiler="gcc" />
 				<Option projectCompilerOptionsRelation="1" />
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
-					<Add option="-fsanitize=address" />
-					<Add option="-fno-omit-frame-pointer" />
-					<Add option="-fsanitize=undefined-trap -fsanitize-undefined-trap-on-error" />
+					<Add option="-march=native" />
+					<Add option="-ffast-math" />
+					<Add option="-O3" />
 					<Add option="-Wnon-virtual-dtor" />
+					<Add option="-Wshadow" />
+					<Add option="-Wunreachable-code" />
 					<Add option="-pedantic" />
-					<Add option="-Wno-c++98-compat -Wno-c++98-compat-pedantic" />
-					<Add option="-Wno-padded" />
-					<Add option="-Weverything" />
-					<Add option="-Wall" />
-					<Add option="-Wno-switch" />
+					<Add option="-Wfatal-errors" />
 					<Add option="-std=c++14" />
 					<Add option="-m64" />
 					<Add option="-g" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
-					<Add option="-fsanitize=address" />
 					<Add option="-m64" />
 					<Add library="sfml-graphics" />
 					<Add library="sfml-window" />
@@ -50,19 +47,23 @@
 			<Add option="-m64" />
 		</Linker>
 		<Unit filename="cb.bmp" />
+		<Unit filename="include/collision_manager.h" />
 		<Unit filename="include/command.h" />
 		<Unit filename="include/command_queue.h" />
 		<Unit filename="include/cursor.h" />
 		<Unit filename="include/datatables.h" />
+		<Unit filename="include/emitter_node.h" />
 		<Unit filename="include/entity.h" />
 		<Unit filename="include/game.h" />
 		<Unit filename="include/include.h" />
 		<Unit filename="include/monster.h" />
+		<Unit filename="include/particle_node.h" />
 		<Unit filename="include/pickup.h" />
 		<Unit filename="include/player.h" />
 		<Unit filename="include/projectile.h" />
 		<Unit filename="include/resource_manager.h" />
 		<Unit filename="include/scene_node.h" />
+		<Unit filename="include/shadow.h" />
 		<Unit filename="include/sprite_node.h" />
 		<Unit filename="include/text_node.h" />
 		<Unit filename="include/texture_manager.h" />
@@ -70,10 +71,12 @@
 		<Unit filename="include/world.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="notes" />
+		<Unit filename="src/collision_manager.cpp" />
 		<Unit filename="src/command.cpp" />
 		<Unit filename="src/command_queue.cpp" />
 		<Unit filename="src/cursor.cpp" />
 		<Unit filename="src/datatables.cpp" />
+		<Unit filename="src/emitter_node.cpp" />
 		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/gfx/cursor.png" />
@@ -83,23 +86,19 @@
 		<Unit filename="src/gfx/sm_health_pack.png" />
 		<Unit filename="src/gfx/small_mutant.png" />
 		<Unit filename="src/monster.cpp" />
+		<Unit filename="src/particle_node.cpp" />
 		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pixel.ttf" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/projectile.cpp" />
 		<Unit filename="src/resource_manager.cpp" />
 		<Unit filename="src/scene_node.cpp" />
+		<Unit filename="src/shadow.cpp" />
 		<Unit filename="src/sprite_node.cpp" />
 		<Unit filename="src/text_node.cpp" />
 		<Unit filename="src/texture_manager.cpp" />
 		<Unit filename="src/wall.cpp" />
 		<Unit filename="src/world.cpp" />
-		<Unit filename="tinyxml/tinystr.cpp" />
-		<Unit filename="tinyxml/tinystr.h" />
-		<Unit filename="tinyxml/tinyxml.cpp" />
-		<Unit filename="tinyxml/tinyxml.h" />
-		<Unit filename="tinyxml/tinyxmlerror.cpp" />
-		<Unit filename="tinyxml/tinyxmlparser.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

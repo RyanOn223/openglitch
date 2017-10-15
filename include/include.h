@@ -14,7 +14,8 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-
+#include <cstdint>
+class scene_node;
 namespace textures
 {
 	enum ID { entities,
@@ -50,6 +51,7 @@ namespace cmd_category
         pickups =            1 << 6,
         walls =              1 << 7,
         mouse =              1 << 8,
+        particle_sys =       1 << 9,
     };
 }
 enum bullet_type
@@ -65,6 +67,31 @@ enum weapon_type
     basic_shotgun,
     weapon_type_count,
 };
+struct particle
+{
+    enum type
+    {
+        propellant,
+        smoke,
+        fire,
+        particle_type_count,
+    };
+    sf::Vector2f position;
+    sf::Color color;
+    sf::Time lifetime;
+};
+template <typename GameObject, typename Function>
+        std::function<void(scene_node&, sf::Time)>
+        derived_action(Function fn)
+        {
+            return [=] (scene_node& node, sf::Time dt)
+            {
+                // Check if cast is safe
+                assert(dynamic_cast<GameObject*>(&node) != nullptr);
+                // Downcast node and invoke function on it
+                fn(static_cast<GameObject&>(node), dt);
+            };
+        }
 //define some critical game values. later, these should be loaded from a file
 const float PI = 3.14159265359f;
 const float FPS = 60.f;

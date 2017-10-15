@@ -6,7 +6,7 @@
 	"include.h"
 	"world.h"
 
-1508020946 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
+1508032564 /home/destrovel/cppwork/openglitch/openglitch/include/include.h
 	"/usr/local/./include/SFML/Window.hpp"
 	"/usr/local/./include/SFML/Graphics.hpp"
 	"/usr/local/./include/SFML/System.hpp"
@@ -21,6 +21,7 @@
 	<fstream>
 	<sstream>
 	<algorithm>
+	<cstdint>
 
 1486553356 /usr/local/include/SFML/Window.hpp
 	<SFML/System.hpp>
@@ -101,7 +102,7 @@
 	<SFML/Audio/SoundSource.hpp>
 	<SFML/Audio/SoundStream.hpp>
 
-1508009483 /home/destrovel/cppwork/openglitch/openglitch/include/scene_node.h
+1508032945 /home/destrovel/cppwork/openglitch/openglitch/include/scene_node.h
 	"include.h"
 	"command_queue.h"
 
@@ -115,7 +116,7 @@
 	"include.h"
 	"scene_node.h"
 
-1508020173 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
+1508040230 /home/destrovel/cppwork/openglitch/openglitch/include/monster.h
 	"include.h"
 	"entity.h"
 	"resource_manager.h"
@@ -124,19 +125,20 @@
 	"text_node.h"
 	"projectile.h"
 	"collision_manager.h"
+	"emitter_node.h"
 
 1507669555 source:/home/destrovel/cppwork/openglitch/openglitch/src/entity.cpp
 	"../include/entity.h"
 
-1508021852 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
+1508023517 source:/home/destrovel/cppwork/openglitch/openglitch/src/game.cpp
 	"../include/game.h"
 
-1508021925 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
+1508096265 source:/home/destrovel/cppwork/openglitch/openglitch/src/monster.cpp
 	"../include/monster.h"
 
 1507772094 source:/home/destrovel/cppwork/openglitch/openglitch/src/resource_manager.cpp
 
-1508009483 source:/home/destrovel/cppwork/openglitch/openglitch/src/scene_node.cpp
+1508032945 source:/home/destrovel/cppwork/openglitch/openglitch/src/scene_node.cpp
 	"../include/scene_node.h"
 
 1506821569 source:/home/destrovel/cppwork/openglitch/openglitch/src/texture_manager.cpp
@@ -148,7 +150,7 @@
 1506457799 source:/home/destrovel/cppwork/openglitch/openglitch/src/sprite_node.cpp
 	"sprite_node.h"
 
-1508010588 /home/destrovel/cppwork/openglitch/openglitch/include/world.h
+1508033295 /home/destrovel/cppwork/openglitch/openglitch/include/world.h
 	"include.h"
 	"texture_manager.h"
 	"resource_manager.h"
@@ -163,8 +165,10 @@
 	"pickup.h"
 	"wall.h"
 	"collision_manager.h"
+	"emitter_node.h"
+	"particle_node.h"
 
-1508021035 source:/home/destrovel/cppwork/openglitch/openglitch/src/world.cpp
+1508096179 source:/home/destrovel/cppwork/openglitch/openglitch/src/world.cpp
 	"world.h"
 
 1507952351 source:/home/destrovel/cppwork/openglitch/openglitch/src/player.cpp
@@ -198,19 +202,19 @@
 	"scene_node.h"
 	"resource_manager.h"
 
-1508018985 /home/destrovel/cppwork/openglitch/openglitch/include/datatables.h
+1508033622 /home/destrovel/cppwork/openglitch/openglitch/include/datatables.h
 	"include.h"
 	"monster.h"
 	"projectile.h"
 	"pickup.h"
 
-1508020307 source:/home/destrovel/cppwork/openglitch/openglitch/src/datatables.cpp
+1508097213 source:/home/destrovel/cppwork/openglitch/openglitch/src/datatables.cpp
 	"datatables.h"
 
 1507772094 source:/home/destrovel/cppwork/openglitch/openglitch/src/text_node.cpp
 	"text_node.h"
 
-1508022203 source:/home/destrovel/cppwork/openglitch/openglitch/src/projectile.cpp
+1508097450 source:/home/destrovel/cppwork/openglitch/openglitch/src/projectile.cpp
 	"projectile.h"
 	"datatables.h"
 
@@ -224,7 +228,7 @@
 	"monster.h"
 	"datatables.h"
 
-1508021823 source:/home/destrovel/cppwork/openglitch/openglitch/src/pickup.cpp
+1508023330 source:/home/destrovel/cppwork/openglitch/openglitch/src/pickup.cpp
 	"pickup.h"
 
 1507398255 /home/destrovel/cppwork/openglitch/openglitch/include/math.h
@@ -267,7 +271,7 @@
 	"entity.h"
 	"texture_manager.h"
 
-1508020173 source:/home/destrovel/cppwork/openglitch/openglitch/src/wall.cpp
+1508097614 source:/home/destrovel/cppwork/openglitch/openglitch/src/wall.cpp
 	"wall.h"
 
 1508014703 /home/destrovel/cppwork/openglitch/openglitch/include/collision_manager.h
@@ -291,6 +295,21 @@
 	<fstream>
 	<iostream>
 
-1508014703 source:/home/destrovel/cppwork/openglitch/openglitch/src/collision_manager.cpp
+1508097614 source:/home/destrovel/cppwork/openglitch/openglitch/src/collision_manager.cpp
 	"collision_manager.h"
+
+1508097336 source:/home/destrovel/cppwork/openglitch/openglitch/src/particle_node.cpp
+	"particle_node.h"
+
+1508044712 /home/destrovel/cppwork/openglitch/openglitch/include/particle_node.h
+	"include.h"
+	"scene_node.h"
+	"datatables.h"
+
+1508040687 /home/destrovel/cppwork/openglitch/openglitch/include/emitter_node.h
+	"include.h"
+	"particle_node.h"
+
+1508097336 source:/home/destrovel/cppwork/openglitch/openglitch/src/emitter_node.cpp
+	"emitter_node.h"
 
