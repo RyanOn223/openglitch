@@ -11,8 +11,10 @@ class pickup : public entity
             sm_health_pack,
             sm_ammo,
             sh_ammo,
+            rk_ammo,
             small_pistol,
             basic_shotgun,
+            rpg1,
             type_count,
         };
         pickup(pickup::type Type, const texture_manager& textures);

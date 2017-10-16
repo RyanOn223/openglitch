@@ -9,6 +9,7 @@
 #include "projectile.h"
 #include "collision_manager.h"
 #include "emitter_node.h"
+#include <random>
 class collision_manager;
 class monster : public entity
 {
@@ -141,6 +142,7 @@ class monster : public entity
 		sf::Time fire_cooldown;
 		command fire_command;
 		bool draw_outline;
+		std::mt19937_64* generator;
 
 };
 #endif

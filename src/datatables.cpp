@@ -16,9 +16,17 @@ std::vector<bullet_data> init_bullet_data()
 {
     std::vector<bullet_data> data(bullet_type::bullet_type_count);
     data[bullet_type::pistol_bullet].damage = 10;
-    data[bullet_type::pistol_bullet].speed = 400.f;
+    data[bullet_type::pistol_bullet].speed = 500.f;
+    data[bullet_type::pistol_bullet].has_emitter = false;
+    data[bullet_type::pistol_bullet].ptype = particle::type::none;
     data[bullet_type::shotgun_bullet].damage = 3;
-    data[bullet_type::shotgun_bullet].speed = 300.f;
+    data[bullet_type::shotgun_bullet].speed = 350.f;
+    data[bullet_type::shotgun_bullet].has_emitter = false;
+    data[bullet_type::shotgun_bullet].ptype = particle::type::none;
+    data[bullet_type::rocket_shell].damage = 100;
+    data[bullet_type::rocket_shell].speed = 200.f;
+    data[bullet_type::rocket_shell].has_emitter = true;
+    data[bullet_type::rocket_shell].ptype = particle::type::propellant;
     return data;
 }
 std::vector<pickup_data> init_pickup_data()
@@ -30,6 +38,9 @@ std::vector<pickup_data> init_pickup_data()
     data[pickup::type::sh_ammo].texture = textures::entities;
     data[pickup::type::sh_ammo].texture_rect = sf::IntRect(10,5,5,5);
     data[pickup::type::sh_ammo].action = monster::monster_ammo_pickup(shotgun_bullet, 16);
+    data[pickup::type::rk_ammo].texture = textures::entities;
+    data[pickup::type::rk_ammo].texture_rect = sf::IntRect(10,15,5,5);
+    data[pickup::type::rk_ammo].action = monster::monster_ammo_pickup(rocket_shell, 40);
     data[pickup::type::sm_health_pack].texture = textures::entities;
     data[pickup::type::sm_health_pack].texture_rect = sf::IntRect(10,0,5,5);
     data[pickup::type::sm_health_pack].action = monster::monster_healer(25);
@@ -39,6 +50,9 @@ std::vector<pickup_data> init_pickup_data()
     data[pickup::type::basic_shotgun].texture = textures::entities;
     data[pickup::type::basic_shotgun].texture_rect = sf::IntRect(15, 4, 10, 4);
     data[pickup::type::basic_shotgun].action = monster::monster_weapon_pickup(weapon_type::basic_shotgun);
+    data[pickup::type::rpg1].texture = textures::entities;
+    data[pickup::type::rpg1].texture_rect = sf::IntRect(15, 8, 11, 4);
+    data[pickup::type::rpg1].action = monster::monster_weapon_pickup(weapon_type::rpg1);
     return data;
 }
 std::vector<weapon_data> init_weapon_data()
@@ -55,15 +69,26 @@ std::vector<weapon_data> init_weapon_data()
     data[weapon_type::basic_shotgun].automatic = false;
     data[weapon_type::basic_shotgun].spread = 6;
     data[weapon_type::basic_shotgun].reload_speed = 100;
-    data[weapon_type::basic_shotgun].num_bullets = 7;
+    data[weapon_type::basic_shotgun].num_bullets = 6;
     data[weapon_type::basic_shotgun].texture = textures::entities;
     data[weapon_type::basic_shotgun].texture_rect = sf::IntRect(15, 4, 10, 4);
+    data[weapon_type::rpg1].ammo_type = bullet_type::rocket_shell;
+    data[weapon_type::rpg1].automatic = false;
+    data[weapon_type::rpg1].spread = 8.5;
+    data[weapon_type::rpg1].reload_speed = 500;
+    data[weapon_type::rpg1].num_bullets = 1;
+    data[weapon_type::rpg1].texture = textures::entities;
+    data[weapon_type::rpg1].texture_rect = sf::IntRect(15, 8, 11, 4);
     return data;
 }
 std::vector<particle_data> init_particle_data()
 {
     std::vector<particle_data> data(particle::particle_type_count);
     data[particle::type::smoke].color = sf::Color::White;
-    data[particle::type::smoke].lifetime = sf::seconds(0.5);\
+    data[particle::type::smoke].lifetime = sf::milliseconds(400);
+    data[particle::type::fire].lifetime = sf::milliseconds(400);
+    data[particle::type::fire].color = sf::Color::Red;
+    data[particle::type::propellant].color = sf::Color(255, 255, 50);
+    data[particle::type::propellant].lifetime = sf::milliseconds(180);
     return data;
 }

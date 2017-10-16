@@ -32,6 +32,7 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
 	draw_outline = false;
 	is_aiming = false;
 	weapon = weapon_type::none;
+	generator = new(std::mt19937_64);
 }
 void monster::draw_current(sf::RenderTarget& target,
 								  sf::RenderStates  states) const
@@ -186,17 +187,27 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
     //determine the velocity vector of the projectile based upon the rotation of this monster. i.e shoot this out the front
     float hyp = proj->get_max_speed();
     float theta = sprite.getRotation() * PI/180.f;
-    float spread = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
-    spread -= 0.5f;
-    theta += spread / weapons[weapon].spread;
+    std::normal_distribution<float> dis(0.f, 1.f);
+    float spread = dis(*generator) / 4;
+    theta += (spread / weapons[weapon].spread);
     sf::Vector2f v(hyp * cos(theta), hyp * sin(theta));
-    proj->setPosition(getPosition());
+    proj->setPosition(getPosition() + (v * 0.02f));
     proj->setRotation(sprite.getRotation() - 180.f);
     proj->set_velocity(v);
 
-
-    //node needs to be the air scene layer here
-    //std::cout << "info: created bullet with id: " << proj.get() << std::endl;
+    //hardcode rocket flare for now
+    if (weapons[weapon].ammo_type == rocket_shell)
+    {
+        std::unique_ptr<emitter_node> smoke(new emitter_node(particle::type::smoke));
+        std::unique_ptr<emitter_node> flame(new emitter_node(particle::type::propellant));
+        smoke->setPosition(0,0);
+        smoke->setRotation(proj->getRotation());
+        flame->setPosition(0,0);
+        flame->setRotation(proj->getRotation());
+        proj->attach_child(std::move(smoke));
+        proj->attach_child(std::move(flame));
+    }
+    //node needs to be the air scene layer her
     cmanager.add_entity(proj.get(), static_cast<cmd_category::ID>(proj->get_category()));
     node.attach_child(std::move(proj));
 
@@ -209,8 +220,10 @@ sf::FloatRect monster::getBoundingRect() const
     //TODO figure out why these adjustments are needed here, because they shouldnt be
     to_return.left = getPosition().x - 1;
     to_return.top = getPosition().y - 1;
-    to_return.width = sprite.getGlobalBounds().width;
-    to_return.height = sprite.getGlobalBounds().height;
+    //this will break if you scale anything
+    sf::IntRect rect(monsters[monster_type].texture_rect);
+    to_return.width = rect.width;
+    to_return.height = rect.height;
     return to_return;
 }
 bool monster::is_marked_for_removal() const
@@ -219,7 +232,7 @@ bool monster::is_marked_for_removal() const
 }
 monster::~monster()
 {
-
+    delete generator;
 }
 void monster::enable_outline()
 {

@@ -58,6 +58,7 @@ enum bullet_type
 {
     pistol_bullet,
     shotgun_bullet,
+    rocket_shell,
     bullet_type_count,
 };
 enum weapon_type
@@ -65,12 +66,14 @@ enum weapon_type
     none,
     small_pistol,
     basic_shotgun,
+    rpg1,
     weapon_type_count,
 };
 struct particle
 {
     enum type
     {
+        none,
         propellant,
         smoke,
         fire,
@@ -94,11 +97,11 @@ template <typename GameObject, typename Function>
         }
 //define some critical game values. later, these should be loaded from a file
 const float PI = 3.14159265359f;
-const float FPS = 60.f;
+const float FPS = 120.f;
 const bool VSYNC = true;
-const bool LIMIT_FPS = true;
-const short int AA_LEVEL = 4;
-const float PSPEED = 45.f;
+const bool LIMIT_FPS = false;
+const short int AA_LEVEL = 0;
+const float PSPEED = 20.f;
 const float SENSITIVITY  = 2; //higher numbers are less sensitive
 const float UPPER_ZOOM_LIMIT = 0.3f;
 const float LOWER_ZOOM_LIMIT = 0.1f;
@@ -107,6 +110,6 @@ const float CURS_SCALE = 2.4f;
 //debug text is updated DEBUG_DRAW_UPS times per second
 const int DEBUG_DRAW_UPS = 6;
 //0 for couple update-draw logic
-//1 for decoupled update-draw logic, which should be better but isn't at anything other than 60fps
-const int UPDATE_METHOD = 0;
+//1 for decoupled update-draw logic, which should be better but is still buggy
+const int UPDATE_METHOD = 1;
 #endif

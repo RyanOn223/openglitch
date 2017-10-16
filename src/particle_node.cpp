@@ -11,6 +11,7 @@ particle_node::particle_node(particle::type type, const texture_manager& texture
         particles(),
         needs_vertex_update(true)
 {
+
 }
 void particle_node::draw_current(sf::RenderTarget& target, sf::RenderStates states) const
 {
@@ -25,7 +26,7 @@ void particle_node::draw_current(sf::RenderTarget& target, sf::RenderStates stat
 void particle_node::compute_vertices() const
 {
     sf::Vector2f size(texture.getSize());
-    sf::Vector2f half = size / 2.f;
+    sf::Vector2f half = size / 3.5f;
     vertex_array.clear();
 
     for (const particle& each_p : particles)

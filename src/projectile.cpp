@@ -42,8 +42,8 @@ void projectile::update_current(sf::Time delta, command_queue& cmds)
     turns_alive++;
     if (sprite.getScale().x < 1.f)
     {
-        float n = 1 - ((20 - turns_alive) / 20);
-        sprite.scale(1 + n, 1);
+        float factor = turns_alive / 10.f;
+        sprite.scale(1 + factor, 1);
     }
     draw_this = true;
 }

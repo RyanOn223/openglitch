@@ -65,7 +65,9 @@ void world::build_scene()
 
 
     std::unique_ptr<particle_node> smoke_node(new particle_node(particle::type::smoke, textures));
-    scene_layers[bg_layer]->attach_child(std::move(smoke_node));
+    scene_layers[air_layer]->attach_child(std::move(smoke_node));
+    std::unique_ptr<particle_node> propellant_node(new particle_node(particle::type::propellant, textures));
+    scene_layers[air_layer]->attach_child(std::move(propellant_node));
 
 
     load_pickups();
@@ -122,6 +124,12 @@ void world::load_pickups()
                 break;
             case 5:
                 ptype = pickup::type::sh_ammo;
+                break;
+            case 6:
+                ptype = pickup::type::rk_ammo;
+                break;
+            case 7:
+                ptype = pickup::type::rpg1;
                 break;
             default:
                 std::cout << "error: attempted to load unknown pickup type: " << tpick << std::endl;

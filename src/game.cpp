@@ -50,6 +50,8 @@ game::game(sf::ContextSettings settings, sf::Clock& init_clock) :
 	std::cout << "Successfully initialized game\n" << "FPS limited(soft): " <<
 		LIMIT_FPS << std::endl << "FPS limit: " << FPS << std::endl;
 	std::cout << "Vsync = " << VSYNC << std::endl;
+	if (UPDATE_METHOD == 0) std::cout << "Update method: non-deterministic\n";
+	else std::cout << "Update method: deterministic\n";
 	std::cout << "Anti-aliasing level: " << AA_LEVEL << "x\n\nRunning game...\n\n";
 }
 void game::run()
@@ -63,13 +65,15 @@ void game::run()
 	{
         if (UPDATE_METHOD == 1)
         {
-            delta = sf::microseconds(16666);
+            //delta = sf::microseconds(16666);
             sf::Time fps_time = fps_clock.restart();
             if (turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
                 fps_text->setString("fps:\t" + std::to_string(1000000.f/fps_time.asMicroseconds()).substr(0, 5));
 
             dbg_clock.restart();
             process_events();
+            accumulator += tick_clock.restart();
+
             sf::Time ev_time = dbg_clock.restart();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
             {
@@ -79,31 +83,34 @@ void game::run()
             sf::Vector2f pos;
             sf::Clock update_clock;
             sf::Time up_time = sf::Time::Zero;
-            //dont ever take two steps in a row. this leads to visual lag that our render method cant fix
-            //this may have unknown reprecussions down the line
-            //if (accumulator > sf::milliseconds(32)) accumulator = sf::milliseconds(32);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
             {
                 fps_text->setString(fps_text->getString() + "\naccum:\t" + (std::to_string(accumulator.asMicroseconds()/1000.f).substr(0, 5)));
             }
             if (!ispaused)
             {
+                bool first_update = true;
                 while (accumulator > delta)
                 {
                     accumulator -= delta;
+                    process_events();
                     update(delta);
+
                     up_time = update_clock.restart();
                     sf::Time ups_time = ups_clock.restart();
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0 && first_update)
                     {
-                        fps_text->setString(fps_text->getString() + "\nupdate:\t" + (std::to_string(up_time.asMicroseconds()/1000.f).substr(0, 5)));
-                        fps_text->setString(fps_text->getString() + "\nups:\t" + (std::to_string(1000000.f/ups_time.asMicroseconds()).substr(0, 5)));
+                        fps_text->setString(fps_text->getString() + "\nupdate:\t" + (std::to_string((up_time.asMicroseconds()/1000.f)).substr(0, 5)));
+                        fps_text->setString(fps_text->getString() + "\nups:\t" + (std::to_string(1000000.f/ups_time.asMicroseconds() * static_cast<int>(1 + accumulator / delta)).substr(0, 5)));
                     }
+                    first_update = false;
                 }
             }
             sf::Clock render_clock;
             render_clock.restart();
+
             render();
+
             sf::Time rnd_time = render_clock.restart();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
             {
@@ -113,7 +120,7 @@ void game::run()
             }
 
 
-            accumulator += tick_clock.restart();
+
 
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)

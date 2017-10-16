@@ -15,6 +15,8 @@ struct bullet_data
 {
     int damage;
     float speed;
+    bool has_emitter;
+    particle::type ptype;
 };
 struct pickup_data
 {
