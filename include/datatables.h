@@ -10,6 +10,7 @@ struct monster_data
     float speed;
     textures::ID texture;
     sf::IntRect texture_rect;
+    animation::type walk_animation;
 };
 struct bullet_data
 {
@@ -42,9 +43,19 @@ struct particle_data
     sf::Color color;
     sf::Time lifetime;
 };
+struct animation_data
+{
+    textures::ID texture;
+    sf::IntRect texture_rect;
+    sf::Vector2i frame_size;
+    std::size_t num_frames;
+    sf::Time duration;
+    bool repeat;
+};
 std::vector<monster_data> init_monster_data();
 std::vector<bullet_data> init_bullet_data();
 std::vector<pickup_data> init_pickup_data();
 std::vector<weapon_data> init_weapon_data();
 std::vector<particle_data> init_particle_data();
+std::vector<animation_data> init_animation_data();
 #endif // DATATABLES_H

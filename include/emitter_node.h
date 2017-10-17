@@ -10,9 +10,11 @@ class emitter_node : public scene_node
         explicit emitter_node(particle::type type);
         virtual ~emitter_node();
         virtual void update_current(sf::Time delta, command_queue& cmds);
+        virtual bool is_marked_for_removal() const;
     protected:
 
     private:
+        bool removal_mark;
         sf::Time accumulator;
         particle::type etype;
         particle_node* particle_system;

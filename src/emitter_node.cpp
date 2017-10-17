@@ -1,6 +1,6 @@
 #include "emitter_node.h"
 
-emitter_node::emitter_node(particle::type ptype) : etype(ptype), accumulator(sf::Time::Zero)
+emitter_node::emitter_node(particle::type ptype) : etype(ptype), accumulator(sf::Time::Zero), removal_mark(false)
 {
     particle_system = nullptr;
 }
@@ -11,6 +11,7 @@ emitter_node::~emitter_node()
 }
 void emitter_node::update_current(sf::Time delta, command_queue& cmds)
 {
+    if (parent->is_dead()) removal_mark = true;
     if (particle_system)
     {
         emit_particles(delta);
@@ -41,4 +42,8 @@ void emitter_node::emit_particles(sf::Time delta)
         accumulator -= interval;
         if (particle_system) particle_system->add_particle(getWorldPosition());
     }
+}
+bool emitter_node::is_marked_for_removal() const
+{
+    return removal_mark;
 }

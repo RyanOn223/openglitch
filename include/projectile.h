@@ -1,6 +1,6 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
-
+#include "animation.h"
 #include "entity.h"
 #include "command_queue.h"
 #include "texture_manager.h"
@@ -23,6 +23,7 @@ class projectile : public entity
         virtual sf::FloatRect getBoundingRect() const;
         virtual bool is_marked_for_removal() const;
         projectile::type get_type();
+        bool show_explosion;
     protected:
 
     private:
@@ -36,6 +37,7 @@ class projectile : public entity
         float speed;
         int damage;
         int turns_alive;
+        animation explosion;
 };
 
 #endif // PROJECTILE_H

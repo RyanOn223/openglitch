@@ -136,6 +136,7 @@ class monster : public entity
         bool removal_mark;
 		type monster_type;
 		sf::Sprite sprite;
+		animation walk_animation;
 		text_node* health_text;
 		bool is_firing;
 		void check_launch(sf::Time delta, command_queue& cmds);

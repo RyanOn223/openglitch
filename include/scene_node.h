@@ -35,8 +35,7 @@ class scene_node : public sf::Drawable, public sf::Transformable,
         std::vector<scn_ptr> children;
         //skips drawing of this node, used for culling
         bool draw_this;
-	private:
-		scene_node* parent;
+        scene_node* parent;
 	private:
         unsigned int category;
 		//draw function, called by the window due to the wonders of SFML, which is why it can be private

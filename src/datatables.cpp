@@ -6,10 +6,12 @@ std::vector<monster_data> init_monster_data()
     data[monster::type::player].speed = PSPEED;
     data[monster::type::player].texture = textures::entities;
     data[monster::type::player].texture_rect = sf::IntRect(32, 0, 4, 4);
+    data[monster::type::player].walk_animation = animation::type::player_walk;
     data[monster::type::small_mutant].healthpoints = 65;
     data[monster::type::small_mutant].speed = 30;
     data[monster::type::small_mutant].texture = textures::entities;
     data[monster::type::small_mutant].texture_rect = sf::IntRect(26,0,5,7);
+    data[monster::type::small_mutant].walk_animation = animation::type::none;
     return data;
 }
 std::vector<bullet_data> init_bullet_data()
@@ -34,7 +36,7 @@ std::vector<pickup_data> init_pickup_data()
     std::vector<pickup_data> data(pickup::type::type_count);
     data[pickup::type::sm_ammo].texture = textures::entities;
     data[pickup::type::sm_ammo].texture_rect = sf::IntRect(10,10,5,5);
-    data[pickup::type::sm_ammo].action = monster::monster_ammo_pickup(pistol_bullet, 32);
+    data[pickup::type::sm_ammo].action = monster::monster_ammo_pickup(pistol_bullet, 320);
     data[pickup::type::sh_ammo].texture = textures::entities;
     data[pickup::type::sh_ammo].texture_rect = sf::IntRect(10,5,5,5);
     data[pickup::type::sh_ammo].action = monster::monster_ammo_pickup(shotgun_bullet, 16);
@@ -59,7 +61,7 @@ std::vector<weapon_data> init_weapon_data()
 {
     std::vector<weapon_data> data(weapon_type::weapon_type_count);
     data[weapon_type::small_pistol].ammo_type = bullet_type::pistol_bullet;
-    data[weapon_type::small_pistol].automatic = false;
+    data[weapon_type::small_pistol].automatic = true;
     data[weapon_type::small_pistol].spread = 9;
     data[weapon_type::small_pistol].reload_speed = 60;
     data[weapon_type::small_pistol].num_bullets = 1;
@@ -90,5 +92,22 @@ std::vector<particle_data> init_particle_data()
     data[particle::type::fire].color = sf::Color::Red;
     data[particle::type::propellant].color = sf::Color(255, 255, 50);
     data[particle::type::propellant].lifetime = sf::milliseconds(180);
+    return data;
+}
+std::vector<animation_data> init_animation_data()
+{
+    std::vector<animation_data> data(animation::type::animation_type_count);
+    data[animation::type::explosion].duration = sf::seconds(1);
+    data[animation::type::explosion].frame_size = sf::Vector2i(256, 256);
+    data[animation::type::explosion].num_frames = 16;
+    data[animation::type::explosion].repeat = false;
+    data[animation::type::explosion].texture = textures::explosions;
+    data[animation::type::explosion].texture_rect = sf::IntRect(0,0, 256 * 4, 256 * 4);
+    data[animation::type::player_walk].texture = textures::player_walk;
+    data[animation::type::player_walk].texture_rect = sf::IntRect(0, 0, 64, 16);
+    data[animation::type::player_walk].duration = sf::milliseconds(800);
+    data[animation::type::player_walk].frame_size = sf::Vector2i(16, 16);
+    data[animation::type::player_walk].num_frames = 4;
+    data[animation::type::player_walk].repeat = true;
     return data;
 }

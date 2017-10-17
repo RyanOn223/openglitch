@@ -24,6 +24,8 @@ void world::load_textures()
     textures.load(textures::walls,    "src/gfx/walls.png");
     textures.load(textures::floors,   "src/gfx/floors.png");
     textures.load(textures::particles,"src/gfx/particles.png");
+    textures.load(textures::explosions, "src/gfx/explosions.png");
+    textures.load(textures::player_walk, "src/gfx/player_walk.png");
     fonts.load(fonts::pixel,          "src/pixel.ttf");
 }
 void world::build_scene()
@@ -314,7 +316,7 @@ void world::destroy_OOB_entities()
         if (!world_bounds.intersects(e.getBoundingRect()))
         {
             e.destroy();
-            cmanager.rmv_entity(e, cmd_category::ally_projectiles);
+            //cmanager.rmv_entity(e, cmd_category::ally_projectiles);
         }
     });
     world_cmd_queue.push(destroy_command);

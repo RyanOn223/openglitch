@@ -39,5 +39,6 @@ class collision_manager
         void monster_monster_collisions(command_queue& cmds);
         void cursor_collisions(command_queue& cmds);
         std::vector<sf::Vector2f> get_obstacles();
+        void remove_dead_objects();
 };
 #endif // COLLISION_MANAGER_H

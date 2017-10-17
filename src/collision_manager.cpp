@@ -79,7 +79,10 @@ void collision_manager::rmv_entity(entity& to_remove, cmd_category::ID type)
                 //std::cout << "info: erased bullet id: " << *bul_itr << std::endl;
                 bullets.erase(bul_itr);
             }
-            else std::cout << "error: attempted to remove bullet not in collision manager with id:" << *bul_itr <<std::endl;
+            else
+            {
+                std::cout << "error: attempted to remove bullet not in collision manager with id:" << *bul_itr <<std::endl;
+            }
             break;
         case cmd_category::enemies:
             if (mon_itr != monsters.end())
@@ -111,6 +114,7 @@ collision_manager::~collision_manager()
 void collision_manager::check_collisions(command_queue& cmds)
 {
     //hey, don't delete anything from the vectors in the inner loops in the functions
+    remove_dead_objects();
     wall_monster_collisions(cmds);
     wall_bullet_collisions(cmds);
     monster_bullet_collisions(cmds);
@@ -118,6 +122,24 @@ void collision_manager::check_collisions(command_queue& cmds)
     monster_monster_collisions(cmds);
     cursor_collisions(cmds);
     //std::cout << bullets.size() + monsters.size() + pickups.size() + walls.size() << std::endl;
+}
+void collision_manager::remove_dead_objects()
+{
+    std::vector<projectile*> remove_bullet = {0};
+    for (projectile* each_bullet : bullets)
+    {
+        if (each_bullet->is_marked_for_removal()) remove_bullet.push_back(each_bullet);
+    }
+    for (projectile* each_remove : remove_bullet)
+    {
+        for (projectile* each_bullet : bullets)
+        {
+            if (each_remove == each_bullet)
+            {
+                rmv_entity(*each_remove, cmd_category::ally_projectiles);
+            }
+        }
+    }
 }
 void collision_manager::wall_monster_collisions(command_queue& cmds)
 {

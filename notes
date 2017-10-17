@@ -27,6 +27,8 @@ v 0.0.1:
         -AI
 
         future stuff:
+        -melee
+        -box2d
         -game states
         -shaders
 

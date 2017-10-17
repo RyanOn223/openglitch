@@ -4,6 +4,7 @@ namespace
     const std::vector<weapon_data> weapons = init_weapon_data();
     const std::vector<bullet_data> bullets = init_bullet_data();
     const std::vector<monster_data> monsters = init_monster_data();
+    const std::vector<animation_data> animations = init_animation_data();
 }
 //this function is declared in the global scope of monster.cpp and
 //not shown in the class interface
@@ -11,7 +12,9 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
 				 monster_type(mtype),
 				 sprite(textures.get(monsters[mtype].texture), monsters[mtype].texture_rect),
 				 entity(monsters[mtype].healthpoints),
-				 cmanager(manager)
+				 cmanager(manager),
+				 walk_animation(textures, monsters[mtype].walk_animation)
+
 {
     fire_command.ccategory = cmd_category::air_layer;
     fire_command.action = [this, &textures] (scene_node& node, sf::Time)
@@ -62,7 +65,8 @@ void monster::draw_current(sf::RenderTarget& target,
             outline_circle.setOrigin(outline_circle.getRadius(), outline_circle.getRadius());
             target.draw(outline_circle);
         }
-        target.draw(sprite, states);
+        if (is_aiming || get_velocity() == sf::Vector2f(0.f,0.f)) target.draw(sprite, states);
+        else target.draw(walk_animation, states);
     }
 }
 unsigned int monster::get_category() const
@@ -112,6 +116,7 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
     if (get_hp() <= 0) removal_mark = true;
     if (!is_aiming)
     {
+        //calculate velocity vector and point towards it
         sf::Vector2f point;
         float point_towards;
         if (get_velocity() != sf::Vector2f(0.f, 0.f))
@@ -124,7 +129,10 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
         }
         sf::Vector2f diff(point - getPosition());
         point_towards = (atan2(diff.y, diff.x) * 180/PI);
+        walk_animation.setRotation(point_towards);
         sprite.setRotation(point_towards);
+        //update walking animation
+        if (get_velocity() != sf::Vector2f(0,0)) walk_animation.update(delta);
     }
     draw_this = true;
 }
@@ -206,6 +214,7 @@ void monster::create_projectile(scene_node& node, projectile::type ptype, float 
         flame->setRotation(proj->getRotation());
         proj->attach_child(std::move(smoke));
         proj->attach_child(std::move(flame));
+        proj->show_explosion = true;
     }
     //node needs to be the air scene layer her
     cmanager.add_entity(proj.get(), static_cast<cmd_category::ID>(proj->get_category()));

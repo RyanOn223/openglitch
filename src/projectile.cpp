@@ -5,8 +5,11 @@ projectile::projectile(type pptype, const texture_manager& textures, float sp, i
     ptype(pptype),
     sprite(textures.get(textures::entities), sf::IntRect(0,0,10,1)),
     entity(1),
-    turns_alive(0)
-{;
+    turns_alive(0),
+    show_explosion(false),
+    explosion(textures, animation::type::explosion)
+{
+    explosion.scale(0.4f, 0.4f);
 	sprite.scale(0.3f, 0.5f);
 	speed = sp;
 	damage = dmg;
@@ -36,6 +39,12 @@ int projectile::get_damage() const
 }
 void projectile::update_current(sf::Time delta, command_queue& cmds)
 {
+    if (is_dead())
+    {
+        explosion.update(delta);
+        //this prevents dead aircraft from doing any further logic
+        return;
+    }
     last_position = getPosition();
     move(get_velocity() * delta.asSeconds());
 
@@ -51,16 +60,25 @@ void projectile::draw_current(sf::RenderTarget& target, sf::RenderStates states)
 {
     if (draw_this)
     {
-        sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
-        sf::RectangleShape collide_rect(v);
-        sf::FloatRect bounds = 	collide_rect.getLocalBounds();
-        collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-        collide_rect.setPosition(getPosition());
-        collide_rect.setOutlineColor(sf::Color::Black);
-        collide_rect.setFillColor(sf::Color(0,0,0,0));
-        collide_rect.setOutlineThickness(.5f);
-        target.draw(sprite, states);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) target.draw(collide_rect);
+        if (is_dead() && show_explosion)
+        {
+            target.draw(explosion, states);
+        }
+        else target.draw(sprite, states);
+
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
+        {
+            sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
+            sf::RectangleShape collide_rect(v);
+            sf::FloatRect bounds = 	collide_rect.getLocalBounds();
+            collide_rect.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+            collide_rect.setPosition(getPosition());
+            collide_rect.setOutlineColor(sf::Color::Black);
+            collide_rect.setFillColor(sf::Color(0,0,0,0));
+            collide_rect.setOutlineThickness(.5f);
+            target.draw(collide_rect);
+        }
     }
 }
 projectile::~projectile()
@@ -78,7 +96,7 @@ sf::FloatRect projectile::getBoundingRect() const
 }
 bool projectile::is_marked_for_removal() const
 {
-    return is_dead();
+    return is_dead() && (explosion.is_finished() || !show_explosion);
 }
 projectile::type projectile::get_type()
 {
