@@ -1,14 +1,8 @@
 #include "collision_manager.h"
 
-//black box routine, inaccurate but fast
-double fastpow(double a, double b) {
-    struct {
-        double d;
-        int x[2];
-    } u = { a };
-    u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
-    u.x[0] = 0;
-    return u.d;
+namespace
+{
+    std::vector<monster_data> mon_data = init_monster_data();
 }
 
 collision_manager::collision_manager() : the_player(nullptr), the_cursor(nullptr)
@@ -121,6 +115,7 @@ void collision_manager::check_collisions(command_queue& cmds)
     monster_pickup_collisions(cmds);
     monster_monster_collisions(cmds);
     cursor_collisions(cmds);
+    do_ai();
     //std::cout << bullets.size() + monsters.size() + pickups.size() + walls.size() << std::endl;
 }
 void collision_manager::remove_dead_objects()
@@ -254,6 +249,7 @@ void collision_manager::monster_monster_collisions(command_queue& cmds)
         if (the_player->getBoundingRect().intersects(each_lhs->getBoundingRect()))
         {
             the_player->hit_wall = true;
+            the_player->damage(mon_data[each_lhs->get_type()].melee_damage);
             each_lhs->hit_wall = true;
         }
         for (monster* each_rhs : monsters)
@@ -374,6 +370,73 @@ void collision_manager::do_culling(sf::View& current_view)
                  (bounds.left + bounds.width < center.x - size.x))
         {
             each_monster->draw_this = false;
+        }
+    }
+}
+void collision_manager::do_ai()
+{
+    float distance_squared;
+    for (monster* each_monster : monsters)
+    {
+        sf::Vector2f diff = each_monster->getPosition() - the_player->getPosition();
+        distance_squared = pow(diff.x, 2) + pow(diff.y, 2);
+        switch (each_monster->get_type())
+        {
+            case monster::type::player: break;
+            case monster::type::small_mutant:
+                //std::cout << distance_squared << std::endl;
+                switch (each_monster->current_ai_state)
+                {
+                    case ai_state::sleep_state:
+                        if (distance_squared < 20000.f)
+                        {
+                            //create a 1 pixel wide line, stretch it from the player to the monster, and perform SAT test upon it and the walls
+                            //this is a very expensive operation
+                            float length = pow(distance_squared, 0.5f);
+                            diff *= 0.5f;
+                            sf::Vector2f v(length, .5f);
+                            sf::RectangleShape line(v);
+                            line.setPosition(the_player->getPosition());
+                            line.setRotation(atan2(diff.y, diff.x) * 180.f/PI);
+                            bool los_found = true;
+                            for (wall* each_wall : walls)
+                            {
+                                if (special_collisions.BoundingBoxTest(line, *each_wall) == true)
+                                {
+                                    los_found = false;
+                                    //break;
+                                }
+                            }
+                            if (los_found == true)
+                            {
+                                each_monster->current_ai_state = ai_state::attack_state;
+                            }
+                        }
+                        else
+                        {
+                            each_monster->set_velocity(0,0);
+                            return;
+                        }
+                        break;
+                    case ai_state::attack_state:
+                        if (distance_squared > 20000.f)
+                            each_monster->current_ai_state = ai_state::sleep_state;
+                        else
+                        {
+                            float r = mon_data[each_monster->get_type()].speed;
+                            float theta = atan2(diff.y, diff.x) - PI;
+                            sf::Vector2f v(r * cos(theta), r * sin(theta));
+                            each_monster->set_velocity(v);
+                        }
+                        break;
+                    case ai_state::patrol_state:
+                    default:
+                        assert(false);
+                }
+                break;
+            case monster::type::large_mutant:
+            default:
+                assert(false);
         }
     }
 }

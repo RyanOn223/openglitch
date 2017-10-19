@@ -22,6 +22,8 @@ unsigned int projectile::get_category() const
             return cmd_category::ally_projectiles;
         case enemy_bullet:
             return cmd_category::enemy_projectiles;
+        default:
+            assert(false);
     }
 }
 sf::FloatRect projectile::get_bounding_rect() const

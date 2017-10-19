@@ -13,7 +13,8 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
 				 sprite(textures.get(monsters[mtype].texture), monsters[mtype].texture_rect),
 				 entity(monsters[mtype].healthpoints),
 				 cmanager(manager),
-				 walk_animation(textures, monsters[mtype].walk_animation)
+				 walk_animation(textures, monsters[mtype].walk_animation),
+				 current_ai_state(ai_state::sleep_state)
 
 {
     fire_command.ccategory = cmd_category::air_layer;
@@ -21,14 +22,14 @@ monster::monster(monster::type mtype, const texture_manager& textures, const res
         {
             create_bullets(node, textures);
         };
-	//set the sprites origin to the center of the local bounds of its bounding rectangle.
-	//aka move its reference point from the top left corner to the center of the sprite
 	sf::FloatRect bounds = 	sprite.getLocalBounds();
 	sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 	fire_cooldown = sf::Time::Zero;
+
 	std::unique_ptr<text_node> tx(new text_node(fonts, ""));
 	health_text = tx.get();
 	attach_child(std::move(tx));
+
 	is_firing = false;
 	removal_mark = false;
 	hit_wall = false;
@@ -44,6 +45,7 @@ void monster::draw_current(sf::RenderTarget& target,
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P))
         {
+            //draw debug rect
             sf::Vector2f v(getBoundingRect().width, getBoundingRect().height);
             sf::RectangleShape collide_rect(v);
             sf::FloatRect bounds = 	collide_rect.getLocalBounds();
@@ -65,7 +67,9 @@ void monster::draw_current(sf::RenderTarget& target,
             outline_circle.setOrigin(outline_circle.getRadius(), outline_circle.getRadius());
             target.draw(outline_circle);
         }
-        if (is_aiming || get_velocity() == sf::Vector2f(0.f,0.f)) target.draw(sprite, states);
+        //if we're sitting still or aiming, use the standard sprite
+        if (walk_animation.get_type() == animation::type::none || is_aiming || get_velocity() == sf::Vector2f(0.f,0.f)) target.draw(sprite, states);
+        //otherwise show the walking animation
         else target.draw(walk_animation, states);
     }
 }
@@ -91,29 +95,32 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
 
 
 
-    if ((get_velocity().x != 0.f && get_velocity().y == 0.f) ||
-        (get_velocity().x == 0.f && get_velocity().y != 0.f) ||
-        (get_velocity().x != 0.f && get_velocity().y != 0.f))
+    if (get_velocity() != sf::Vector2f(0.f, 0.f));
         {
             last_velocity = get_velocity();
         }
+
     if (hit_wall)
     {
         setPosition(last_position);
     }
+
     last_position = getPosition();
+
     if (is_aiming)
     {
         sf::Vector2f v(get_velocity());
         v = v * 0.5f;
         set_velocity(v);
     }
+
     if (!hit_wall) move(get_velocity() * delta.asSeconds());
     else hit_wall = false;
 
     check_launch(delta, cmds);
 
     if (get_hp() <= 0) removal_mark = true;
+
     if (!is_aiming)
     {
         //calculate velocity vector and point towards it
@@ -134,6 +141,7 @@ void monster::update_current(sf::Time delta, command_queue& cmds)
         //update walking animation
         if (get_velocity() != sf::Vector2f(0,0)) walk_animation.update(delta);
     }
+    //sets flag for object culler to use
     draw_this = true;
 }
 void monster::fire_weapon()
@@ -184,6 +192,8 @@ bool monster::is_ally() const
         return false;
         case monster::type::player:
         return true;
+        default:
+            assert(false);
     }
 }
 void monster::create_projectile(scene_node& node, projectile::type ptype, float xoff, float yoff, const texture_manager& textures) const
@@ -257,7 +267,10 @@ bool monster::has_auto_weapon()
 }
 bool monster::has_ammo()
 {
-    //std::cout << ammo_held[weapons[weapon].ammo_type] << std::endl;
     return ammo_held[weapons[weapon].ammo_type] > 0;
 
+}
+monster::type monster::get_type() const
+{
+    return monster_type;
 }

@@ -30,7 +30,8 @@ int main(int argc, char **argv)
 	build_room(walls, sf::Vector2i(180, 180), sf::Vector2i(220, 220));
 	build_room(walls, sf::Vector2i(190, 120), sf::Vector2i(210, 180));
 	build_room(walls, sf::Vector2i(140, 150), sf::Vector2i(190, 165));
-	build_room(walls, sf::Vector2i(210, 160), sf::Vector2i(250, 170)); 
+	build_room(walls, sf::Vector2i(210, 160), sf::Vector2i(250, 170));
+	build_room(walls, sf::Vector2i(230, 160), sf::Vector2i(240, 140)); 
 	//create_opening(walls, sf::Vector2i(195, 180), sf::Vector2i(205, 180));
 	//create_opening(walls, sf::Vector2i(190, 165), sf::Vector2i(190, 160));
 	for (int x = 0; x < maxX; x++)

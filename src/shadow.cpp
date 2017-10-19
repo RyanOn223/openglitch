@@ -104,7 +104,7 @@ void ShadowHandler::update(Vector2f sightCenter
             (obstacles[minIndex] - sightCenter)
             , direction2 = normalize
             (obstacles[maxIndex] - sightCenter);
-        float move = 2.5;
+        float move = 3.2f;
         Vector2f startPoint1 = obstacles[minIndex]
             + (move * direction1)
             , startPoint2 = obstacles[maxIndex]

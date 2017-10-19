@@ -34,7 +34,11 @@ void entity::accelerate(sf::Vector2f v)
 void entity::damage(int hp)
 {
     //std::cout << "took damage: " << hp << std::endl;
-    if (hitpoints > 0) hitpoints -= hp;
+    if (hitpoints > 0 && damage_clock.getElapsedTime() > sf::milliseconds(400))
+    {
+        hitpoints -= hp;
+        damage_clock.restart();
+    }
 }
 void entity::repair(int hp)
 {

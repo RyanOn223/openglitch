@@ -8,12 +8,14 @@
 #include "shadow.h"
 #include "command_queue.h"
 #include "cursor.h"
+#include "special_collisions.h"
 class pickup;
 class collision_manager
 {
     public:
         collision_manager();
         virtual ~collision_manager();
+        void do_ai();
         void check_collisions(command_queue& cmds);
         void update_shadows(sf::Vector2f view_center);
         void add_entity(entity*, cmd_category::ID type);
@@ -31,6 +33,7 @@ class collision_manager
         std::vector<projectile*> bullets;
         std::vector<pickup*> pickups;
         ShadowHandler shadow_manager;
+        Collision special_collisions;
     private:
         void wall_monster_collisions(command_queue& cmds);
         void wall_bullet_collisions(command_queue& cmds);

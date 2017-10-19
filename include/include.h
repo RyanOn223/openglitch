@@ -24,6 +24,7 @@ namespace textures
               particles,
               floors,
               player_walk,
+              small_mutant_walk,
               };
 }
 namespace sounds
@@ -70,6 +71,13 @@ enum weapon_type
     rpg1,
     weapon_type_count,
 };
+enum ai_state
+{
+    sleep_state,
+    patrol_state,
+    attack_state,
+    state_num,
+};
 struct particle
 {
     enum type
@@ -100,8 +108,8 @@ template <typename GameObject, typename Function>
 const float PI = 3.14159265359f;
 const float FPS = 60.f;
 const bool VSYNC = true;
-const bool LIMIT_FPS = true;
-const short int AA_LEVEL = 8;
+const bool LIMIT_FPS = false;
+const short int AA_LEVEL = 0;
 const float PSPEED = 38.f;
 const float SENSITIVITY  = 2; //higher numbers are less sensitive
 const float UPPER_ZOOM_LIMIT = 0.3f;

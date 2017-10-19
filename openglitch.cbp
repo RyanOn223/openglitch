@@ -20,11 +20,12 @@
 					<Add option="-Wnon-virtual-dtor" />
 					<Add option="-Wshadow" />
 					<Add option="-Wunreachable-code" />
+					<Add option="-Wswitch-default" />
+					<Add option="-Wmain" />
 					<Add option="-pedantic" />
 					<Add option="-Wfatal-errors" />
 					<Add option="-std=c++14" />
 					<Add option="-m64" />
-					<Add option="-g" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
@@ -47,6 +48,7 @@
 			<Add option="-m64" />
 		</Linker>
 		<Unit filename="cb.bmp" />
+		<Unit filename="include/animation.h" />
 		<Unit filename="include/collision_manager.h" />
 		<Unit filename="include/command.h" />
 		<Unit filename="include/command_queue.h" />
@@ -71,10 +73,13 @@
 		<Unit filename="include/world.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="notes" />
+		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/collision_manager.cpp" />
 		<Unit filename="src/command.cpp" />
 		<Unit filename="src/command_queue.cpp" />
 		<Unit filename="src/cursor.cpp" />
+		<Unit filename="src/dat/pickups.bb" />
+		<Unit filename="src/dat/walls.bb" />
 		<Unit filename="src/datatables.cpp" />
 		<Unit filename="src/emitter_node.cpp" />
 		<Unit filename="src/entity.cpp" />

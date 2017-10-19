@@ -1,7 +1,6 @@
 v 0.0.1:
     collisions
-        -better monster-wall collision
-            -directional collision detection    possibly fixed with method 1
+        -directional collision detection        postponed
         -basic collision optimizations          done!
     entities
         -wall.h                                 done!
@@ -22,12 +21,11 @@ v 0.0.1:
         -FOV                                    done!
         -texture atlases                        done!
         -particle system                        done!
-        -animation
-        -editor/generator
-        -AI
-
+        -animation                              done!
+        -editor/generator                       begun
+        -AI                                     done!
+        -melee                                  done!
         future stuff:
-        -melee
         -box2d
         -game states
         -shaders

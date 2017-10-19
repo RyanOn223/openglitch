@@ -11,15 +11,12 @@ game::game(sf::ContextSettings settings, sf::Clock& init_clock) :
                 game_world(gwindow),
                 the_player(game_world.get_player())
 {
-    srand(0);
     ispaused = false;
     tick_clock.restart();
-    //dbg_clock.restart();
 	//set some window preferences
 	gwindow.setVerticalSyncEnabled(VSYNC);
 	if (LIMIT_FPS == true) gwindow.setFramerateLimit(static_cast<unsigned int>(FPS));
 
-	//set some values
 	time_per_frame = sf::seconds(1.f/FPS);
 	turn_no = 0;
 
@@ -31,21 +28,23 @@ game::game(sf::ContextSettings settings, sf::Clock& init_clock) :
     fps_text->setCharacterSize(25);
     fps_text->setColor(sf::Color::Yellow);
     fps_text->setPosition(0.f, 0.f);
+
     sf::Text* t2(new sf::Text);
     hp_text = t2;
     hp_text->setFont(fps_font);
     hp_text->setCharacterSize(45);
     hp_text->setColor(sf::Color::White);
-    hp_text->setOrigin(hp_text->getLocalBounds().width / 2.f, hp_text->getLocalBounds().height);// / 2.f);
+    hp_text->setOrigin(hp_text->getLocalBounds().width / 2.f, hp_text->getLocalBounds().height);
     hp_text->setPosition(gwindow.getDefaultView().getSize().x - 75, -15);
+
     sf::Text* t3(new sf::Text);
     ammo_text = t3;
     ammo_text->setFont(fps_font);
     ammo_text->setCharacterSize(45);
     ammo_text->setColor(sf::Color::Green);
-    ammo_text->setOrigin(hp_text->getLocalBounds().width / 2.f, hp_text->getLocalBounds().height);// / 2.f);
+    ammo_text->setOrigin(hp_text->getLocalBounds().width / 2.f, hp_text->getLocalBounds().height);
     ammo_text->setPosition(gwindow.getDefaultView().getSize().x - 150, -15);
-	//print some console information
+
 	std::cout << "Time spent initializing = " << init_clock.restart().asMilliseconds() << " ms\n";
 	std::cout << "Successfully initialized game\n" << "FPS limited(soft): " <<
 		LIMIT_FPS << std::endl << "FPS limit: " << FPS << std::endl;
@@ -65,7 +64,6 @@ void game::run()
 	{
         if (UPDATE_METHOD == 1)
         {
-            //delta = sf::microseconds(16666);
             sf::Time fps_time = fps_clock.restart();
             if (turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
                 fps_text->setString("fps:\t" + std::to_string(1000000.f/fps_time.asMicroseconds()).substr(0, 5));
@@ -147,27 +145,14 @@ void game::run()
             sf::Vector2f pos;
             sf::Clock update_clock;
             sf::Time up_time = sf::Time::Zero;
-            //dont ever take two steps in a row. this leads to visual lag that our render method cant fix
-            //this may have unknown reprecussions down the line
-            //if (accumulator > sf::milliseconds(32)) accumulator = sf::milliseconds(32);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
-            {
-                //fps_text->setString(fps_text->getString() + "\naccum:\t" + (std::to_string(accumulator.asMicroseconds()/1000.f).substr(0, 5)));
-            }
             if (!ispaused)
             {
-                //while (accumulator > delta)
-                //{
-                    //accumulator -= delta;
                 update(tick_clock.restart());
                 up_time = update_clock.restart();
-                    //sf::Time ups_time = ups_clock.restart();
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)
                 {
                     fps_text->setString(fps_text->getString() + "\nupdate:\t" + (std::to_string(up_time.asMicroseconds()/1000.f).substr(0, 5)));
-                    //fps_text->setString(fps_text->getString() + "\nups:\t" + (std::to_string(1000000.f/ups_time.asMicroseconds()).substr(0, 5)));
                 }
-                //}
             }
             sf::Clock render_clock;
             render_clock.restart();
@@ -184,7 +169,6 @@ void game::run()
             }
 
 
-            //accumulator += tick_clock.restart();
 
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P) && turn_no % (static_cast<int>(FPS)/DEBUG_DRAW_UPS) == 0)

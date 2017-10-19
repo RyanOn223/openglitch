@@ -123,3 +123,7 @@ void animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
     states.transform *= getTransform();
     target.draw(sprite, states);
 }
+animation::type animation::get_type() const
+{
+    return atype;
+}

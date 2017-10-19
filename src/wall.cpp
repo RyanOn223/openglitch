@@ -59,3 +59,7 @@ wall::~wall()
 {
     //dtor
 }
+const sf::Sprite& wall::get_sprite() const
+{
+    return sprite;
+}

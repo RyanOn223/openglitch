@@ -11,6 +11,7 @@ struct monster_data
     textures::ID texture;
     sf::IntRect texture_rect;
     animation::type walk_animation;
+    int melee_damage;
 };
 struct bullet_data
 {

@@ -10,6 +10,7 @@ class animation : public sf::Drawable, public sf::Transformable
         {
             explosion,
             player_walk,
+            small_mutant_walk,
             none,
             animation_type_count
         };
@@ -27,6 +28,7 @@ class animation : public sf::Drawable, public sf::Transformable
         bool is_repeat() const;
         void restart();
         bool is_finished() const;
+        animation::type get_type() const;
         //this will be used in the context of other sfml functions
         sf::FloatRect getLocalBounds() const;
         sf::FloatRect getGlobalBounds() const;

@@ -26,6 +26,7 @@ void world::load_textures()
     textures.load(textures::particles,"src/gfx/particles.png");
     textures.load(textures::explosions, "src/gfx/explosions.png");
     textures.load(textures::player_walk, "src/gfx/player_walk.png");
+    textures.load(textures::small_mutant_walk, "src/gfx/small_mutant_walk.png");
     fonts.load(fonts::pixel,          "src/pixel.ttf");
 }
 void world::build_scene()
@@ -274,7 +275,7 @@ void world::spawn_enemies()
 void world::add_enemies()
 {
     //coordinates are interpreted relative to the player
-    add_enemy(monster::type::small_mutant, 50, 50);
+    add_enemy(monster::type::small_mutant, 90, -180);
 }
 void world::add_enemy(monster::type mtype, float x, float y)
 {

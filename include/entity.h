@@ -22,6 +22,7 @@ class entity : public scene_node
 		sf::Vector2f last_velocity;
 		sf::Vector2f last_position;
 	private:
+        sf::Clock damage_clock;
         int hitpoints;
 		sf::Vector2f velocity;
 		virtual void update_current(sf::Time delta, command_queue& cmds);

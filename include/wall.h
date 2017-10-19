@@ -16,6 +16,7 @@ class wall : public entity
         virtual unsigned int get_category() const;
         virtual ~wall();
         virtual sf::FloatRect getBoundingRect() const;
+        const sf::Sprite& get_sprite() const;
     protected:
 
     private:

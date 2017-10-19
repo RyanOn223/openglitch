@@ -131,19 +131,26 @@ class monster : public entity
         bool has_auto_weapon();
         bool has_ammo();
         std::array<int, bullet_type::bullet_type_count> ammo_held{{0}};
+        monster::type get_type() const;
+        ai_state current_ai_state;
 	private:
+        //monsters get a reference to the collision manager because they create bullets
         collision_manager& cmanager;
-        bool removal_mark;
+
 		type monster_type;
 		sf::Sprite sprite;
 		animation walk_animation;
 		text_node* health_text;
+
+		bool removal_mark;
 		bool is_firing;
-		void check_launch(sf::Time delta, command_queue& cmds);
+		bool draw_outline;
+
 		sf::Time fire_cooldown;
 		command fire_command;
-		bool draw_outline;
-		std::mt19937_64* generator;
 
+		std::mt19937_64* generator;
+    private:
+        void check_launch(sf::Time delta, command_queue& cmds);
 };
 #endif
